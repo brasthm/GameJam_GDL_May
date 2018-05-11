@@ -3,6 +3,7 @@
 
 #include "BlueScreen/BlueScreen.hpp"
 #include "RedScreen/RedScreen.hpp"
+#include "Pacman/Pacman.hpp"
 #include "../utilities.hpp"
 
 std::vector<std::unique_ptr<instanciator_base<Game, sf::RenderWindow&>>> init_game_list();

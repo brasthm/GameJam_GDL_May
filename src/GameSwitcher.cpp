@@ -25,8 +25,10 @@ std::unique_ptr<Screen> GameSwitcher::execute()
         }
         else
         {
-            currentGame_->computeFrame(frameClock.getElapsedTime());
+			window_.clear();
+            currentGame_->computeFrame(frameClock.restart());
             currentGame_->drawState();
+			window_.display();
         }
         
         sf::sleep(sf::milliseconds(10));

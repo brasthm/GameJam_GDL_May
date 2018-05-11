@@ -1,6 +1,8 @@
 #ifndef UTILITIES_HPP
 #define UTILITIES_HPP
 
+#include <memory>
+
 
 template<typename Base, typename... Args>
 struct instanciator_base 
