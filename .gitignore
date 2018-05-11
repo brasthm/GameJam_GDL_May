@@ -261,3 +261,11 @@ __pycache__/
 *.pyc
 
 GDL_May/
+
+# CLion
+.idea
+cmake-build-debug
+
+# CMake
+CMakeLists.txt
+cmake_modules
