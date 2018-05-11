@@ -269,3 +269,5 @@ cmake-build-debug
 # CMake
 CMakeLists.txt
 cmake_modules
+GDL_May/
+visual/
