@@ -33,6 +33,8 @@ std::unique_ptr<Screen> GameSwitcher::execute()
         
         sf::sleep(sf::milliseconds(10));
     }
+    
+    return std::unique_ptr<Screen>(nullptr);
 }
 
 std::unique_ptr<Game> GameSwitcher::randomGame()
