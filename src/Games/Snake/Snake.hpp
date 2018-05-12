@@ -14,18 +14,24 @@ class Snake : public Game
 
         void computeFrame(const sf::Time& elapsedTime) override;
         void drawState() const override;
+        
+        void randomApple();
+        void randomSnake(size_t bodyPartMin = 1, size_t bodyPartMax = 10);
 
     private:
         std::vector<BodyPart> snake_;
         orientation_t currentOrientation_;
         orientation_t savedOrientation_;
         sf::Sprite sprites_[3][4];
+        sf::Sprite appleSprite_;
         std::vector<sf::Texture> textures_;
         sf::Time cycleProgression_;
         
         const sf::Time cycleTime = sf::milliseconds(100);
         
         bool lose = false;
+        sf::Vector2f applePos_;
+        bool appleAte = false;
 };
 
 

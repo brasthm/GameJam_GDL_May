@@ -1,6 +1,9 @@
 #include "Snake.hpp"
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Window/Keyboard.hpp>
+#include <random>
+#include <iostream>
+#include <SFML/Audio.hpp>
 
 
 Snake::Snake(sf::RenderWindow& window) : Game{window}
@@ -8,9 +11,8 @@ Snake::Snake(sf::RenderWindow& window) : Game{window}
     snake_.emplace_back(BodyPart::HEAD, sf::Vector2f{400, 280}, RIGHT);
     snake_.emplace_back(BodyPart::BODY, sf::Vector2f{360, 280}, RIGHT);
     snake_.emplace_back(BodyPart::TAIL, sf::Vector2f{320, 280}, RIGHT);
-    savedOrientation_ = currentOrientation_ = RIGHT;
     
-    textures_.resize(10);
+    textures_.resize(11);
     textures_[0].loadFromFile("../../img/snake/bodyH.png");
     sprites_[BodyPart::BODY][RIGHT].setTexture(textures_[0]);
     sprites_[BodyPart::BODY][LEFT].setTexture(textures_[0]);
@@ -34,6 +36,13 @@ Snake::Snake(sf::RenderWindow& window) : Game{window}
     textures_[9].loadFromFile("../../img/snake/tailRight.png");
     sprites_[BodyPart::TAIL][RIGHT].setTexture(textures_[9]);
     
+    textures_[10].loadFromFile("../../img/snake/apple.png");
+    appleSprite_.setTexture(textures_[10]);
+    
+    randomSnake(3, 50);
+    savedOrientation_ = currentOrientation_ = snake_.front().orientation();
+
+    randomApple();
 }
 
 
@@ -48,11 +57,19 @@ void Snake::computeFrame(const sf::Time& elapsedTime)
     {
         cycleProgression_ = sf::Time::Zero;
         savedOrientation_ = currentOrientation_;
-        for(auto it = snake_.rbegin(); it+1 != snake_.rend(); ++it)
+        
+        if(appleAte)
+        {
+            auto rit = snake_.rbegin()+1;
+            snake_.insert(rit.base(), *rit);
+            randomApple();
+        }
+        for(auto it = snake_.rbegin() + (appleAte?2:0); it+1 != snake_.rend(); ++it)
         {
             it->move((it+1)->orientation());
             it->orientation((it+1)->orientation());
         }
+        appleAte = false;
         snake_.front().move(savedOrientation_);
         snake_.front().orientation(savedOrientation_);
         
@@ -69,6 +86,13 @@ void Snake::computeFrame(const sf::Time& elapsedTime)
         currentOrientation_ = DOWN;
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && savedOrientation_ != LEFT && savedOrientation_ != RIGHT)
         currentOrientation_ = RIGHT;
+    
+    if(applePos_ == snake_.front().nextPosition())
+        appleAte = true;
+    
+    for(auto it = snake_.begin()+1; it != snake_.end(); ++it)
+        if(snake_.front().nextPosition() == it->nextPosition())
+            lose = true;
 }
 
 void Snake::drawState() const
@@ -77,6 +101,10 @@ void Snake::drawState() const
     sf::RectangleShape rect(window_.mapPixelToCoords({(int)size.x, (int)size.y}));
     rect.setFillColor(lose ? sf::Color::Red : sf::Color::Blue);
     window_.draw(rect);
+    
+    auto appleSprite = appleSprite_;
+    appleSprite.setPosition(applePos_);
+    window_.draw(appleSprite);
     
     if(!lose)
     {
@@ -88,3 +116,95 @@ void Snake::drawState() const
         }
     }
 }
+
+void Snake::randomApple()
+{
+    static std::random_device rd;
+    static std::default_random_engine gen(rd());
+    std::uniform_int_distribution<int> xDistrib(0, 19);
+    std::uniform_int_distribution<int> yDistrib(0, 14);
+    bool valid;
+    do
+    {
+        applePos_.x = 40 * xDistrib(gen);
+        applePos_.y = 40 * yDistrib(gen);
+        valid = true;
+        
+        for(auto& part : snake_)
+            if(applePos_ == part.nextPosition())
+                valid = false;
+        if(applePos_ == snake_.back().lastPosition())
+            valid = false;
+    } while(!valid);
+}
+
+void Snake::randomSnake(size_t bodyPartMin, size_t bodyPartMax)
+{
+    static std::random_device rd;
+    static std::default_random_engine gen(rd());
+    
+    std::uniform_int_distribution<int> xDistrib(0, 19);
+    std::uniform_int_distribution<int> yDistrib(0, 14);
+    std::uniform_int_distribution<int> uniformDir(0, 3);
+    std::uniform_int_distribution<int> biasedDir(0,1);
+    std::uniform_int_distribution<size_t> bodyParts(bodyPartMin, bodyPartMax);
+    
+    bool valid;
+
+    do
+    {
+        valid = true;
+        
+        snake_.clear();
+        snake_.emplace_back(BodyPart::HEAD, sf::Vector2f{xDistrib(gen)*40, yDistrib(gen)*40}, orientation_t(uniformDir(gen)));
+        
+        size_t partNumber = bodyParts(gen);
+        size_t step = 0;
+        while(snake_.size() <= partNumber+1 && valid)
+        {            
+            auto ori = snake_.back().orientation();
+            orientation_t next_ori = orientation_t((ori + biasedDir(gen)+biasedDir(gen)-1 + 4) % 4);
+            auto pos = snake_.back().position() + sf::Vector2f{(ori%2) * (ori-2) * 40, ((ori+1)%2) * (1-ori) * 40};
+            
+            bool overlap = false;
+            for(auto& part : snake_)
+                if(part.position() == pos)
+                {
+                    overlap = true;
+                    break;
+                }
+            
+            if(pos.x < 0 || pos.y < 0 || pos.x >= 800 || pos.y >= 600 || overlap)
+            {
+                snake_.pop_back();
+                if(snake_.empty())
+                    valid = false;
+            }
+            else
+            {
+                snake_.emplace_back(BodyPart::BODY, pos, next_ori);
+            }
+            
+            if(++step > 5*partNumber)
+                valid = false;
+            
+        }
+        for(int i = 1; i < 5 && valid; i++)
+        {
+            auto ori = snake_.front().orientation();
+            auto pos = snake_.front().position() + sf::Vector2f{(ori%2) * (2-ori) * 40, ((ori+1)%2) * (ori-1) * 40} * (float)i;
+            bool overlap = false;
+            for(auto& part : snake_)
+                if(part.position() == pos)
+                {
+                    overlap = true;
+                    break;
+                }
+            if(pos.x < 0 || pos.y < 0 || pos.x >= 800 || pos.y >= 600 || overlap)
+                valid = false;
+        }
+    } while(!valid);
+    
+    snake_.back().type(BodyPart::TAIL);
+}
+
