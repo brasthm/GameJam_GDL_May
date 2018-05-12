@@ -25,10 +25,10 @@ std::unique_ptr<Screen> GameSwitcher::execute()
         }
         else
         {
-			window_.clear();
+            window_.clear();
             currentGame_->computeFrame(frameClock.restart());
             currentGame_->drawState();
-			window_.display();
+            window_.display();
         }
         
         sf::sleep(sf::milliseconds(10));

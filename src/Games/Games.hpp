@@ -3,6 +3,7 @@
 
 #include "BlueScreen/BlueScreen.hpp"
 #include "RedScreen/RedScreen.hpp"
+#include "Snake/Snake.hpp"
 #include "Pacman/Pacman.hpp"
 #include "../utilities.hpp"
 #include "boxhead/boxhead.hpp"
