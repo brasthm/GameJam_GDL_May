@@ -73,3 +73,13 @@ void Map::draw(sf::RenderWindow &window) const
 		std::cerr << std::endl;
 	}
 }
+
+const bool Map::isBlank(float x, float y)
+{
+	int i = x / tileWidth_, j = y / tileHeight_; 
+
+	if (i < 0 || i >= nbMaxWidth_ || j < 0 || j >= nbMaxHeight_)
+		return true;
+
+	return map_[j][i] == 0;
+}

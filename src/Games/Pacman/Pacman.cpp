@@ -32,52 +32,43 @@ Pacman::Pacman(sf::RenderWindow & window) : Game{ window }
 	pacman_.setTexture(DOWN, "../../img/pacman/pacman1_down.png");
 	pacman_.setTexture(DOWN, "../../img/pacman/pacman2_down.png");
 
+	pacman_.updateMap(&map_);
+	pacman_.setDelay(200, 200, 200);
+	pacman_.setTileSize(40, 40);
 	pacman_.setPosition(40, 40);
-	pacman_.setDelay(200);
 
-	maxSpeed_ = 200;
-	speedX_ = maxSpeed_;
-	speedY_ = 0;
+	
+
 }
 
 void Pacman::computeFrame(const sf::Time & elapsedTime)
 {
 	if (keyboard_.isKeyPressed(sf::Keyboard::Up))
 	{
-		speedX_ = 0;
-		speedY_ = -maxSpeed_;
 		pacman_.changeDirection(UP);
 	}
 	else if (keyboard_.isKeyPressed(sf::Keyboard::Down))
 	{
-		speedX_ = 0;
-		speedY_ = maxSpeed_;
 		pacman_.changeDirection(DOWN);
 	}
 	else if (keyboard_.isKeyPressed(sf::Keyboard::Left))
 	{
-		speedX_ = -maxSpeed_;
-		speedY_ = 0;
 		pacman_.changeDirection(LEFT);
 	}
 	else if (keyboard_.isKeyPressed(sf::Keyboard::Right))
 	{
-		speedX_ = maxSpeed_;
-		speedY_ = 0;
 		pacman_.changeDirection(RIGHT);
 	}
 
-
-	pacman_.move(speedX_ * elapsedTime.asSeconds(), speedY_ * elapsedTime.asSeconds());
 	pacman_.update();
 
 	if (pacman_.isOOB())
 	{
 		orientation_t dir = pacman_.getDirection();
-		if (dir == UP) pacman_.move(0, 600);
-		if (dir == DOWN) pacman_.move(0, -600);
-		if (dir == LEFT) pacman_.move(800, 0);
-		if (dir == RIGHT) pacman_.move(-800, 0);
+		if (dir == UP) pacman_.setPosition(pacman_.getPosition().x, 0);
+		if (dir == DOWN) pacman_.setPosition(pacman_.getPosition().x, 600 - map_.getTileHeight());
+		if (dir == LEFT) pacman_.setPosition(800 - map_.getTileWidth(), pacman_.getPosition().y);
+		if (dir == RIGHT) pacman_.setPosition(0, pacman_.getPosition().y);
 	}
 }
 
