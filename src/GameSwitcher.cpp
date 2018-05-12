@@ -17,7 +17,7 @@ std::unique_ptr<Screen> GameSwitcher::execute()
                 return std::move(*next);
         }
         
-        if(gameClock.getElapsedTime() > sf::seconds(3)) 
+        if(gameClock.getElapsedTime() > sf::seconds(30)) 
         {
             gameClock.restart();
             currentGame_ = std::move(randomGame());
