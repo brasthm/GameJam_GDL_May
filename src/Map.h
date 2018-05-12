@@ -29,8 +29,8 @@ class Map
 		const sf::Vector2i getTile(float x, float y) { return { (int) (x / tileWidth_), (int) (y / tileHeight_ )}; };
 		const sf::Vector2f getPosition(int i, int j) { return { (float)(i*tileWidth_), float(j*tileHeight_) }; };
 
-		size_t getTileWidth() { return tileWidth_; };
-		size_t getTileHeight() { return tileHeight_; };
+		size_t getTileWidth() const { return tileWidth_; };
+		size_t getTileHeight() const { return tileHeight_; };
 		
 };
 

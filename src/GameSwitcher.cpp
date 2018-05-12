@@ -20,7 +20,7 @@ std::unique_ptr<Screen> GameSwitcher::execute()
         if(gameClock.getElapsedTime() > sf::seconds(3)) 
         {
             gameClock.restart();
-			//HACK PG désactivation temporaire
+			//HACK désactivation temporaire
             //currentGame_ = std::move(randomGame());
             frameClock.restart();
         }

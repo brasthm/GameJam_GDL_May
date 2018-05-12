@@ -1,23 +1,41 @@
 #ifndef PACMAN_HPP
 #define PACMAN_HPP
 
+
 #include "../Game.hpp"
 #include "../../Map.h"
 #include "../../Sprite.h"
 #include "../../DirectionalSprite.h"
+
+#include <random>
 
 class Pacman : public Game
 {
 	private:
 		Map map_;
 		DirectionalSprite pacman_;
-		std::vector<Sprite> gum_;
+		std::vector<sf::Vector2i> gums_;
+		std::vector<sf::Vector2i> megaGums_;
+
+		std::vector<Sprite> ghosts_;
+
+		sf::Texture gum_, megaGum_;
+
+		Sprite fruit_;
+		bool fruitAlive_ = true;
+		std::vector<bool> ghostAlive_;
 
 		sf::Keyboard keyboard_;
-		float speedX_, speedY_, maxSpeed_;
+		sf::Time invincible_;
+		bool isInvincible = false;
 
 		void fillGum();
+		void collision();
+		void ia();
+		orientation_t getDirection(sf::Vector2i source, sf::Vector2i destination);
 	public :
+		Map getMap() { return map_; };
+		
 		explicit Pacman(sf::RenderWindow& window);
 
 		void computeFrame(const sf::Time& elapsedTime) override;

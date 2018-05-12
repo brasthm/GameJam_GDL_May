@@ -22,7 +22,7 @@ class Sprite
 		size_t nb_textures_ = 0, current_ = 0;
 		size_t tileWidth_, tileHeight_;
 
-		bool auto_;
+		bool auto_, iaReady_ = true;
 		orientation_t direction_, nextDirection_;
 		float speed_;
 
@@ -50,6 +50,7 @@ class Sprite
 		void changeDirection(orientation_t dir);
 
 		void applyTexture();
+		void applyTexture(size_t n);
 
 		void updateMap(Map *m) { map_ = m; };
 
@@ -60,8 +61,12 @@ class Sprite
 		sf::Vector2f getPrevPosition() const { return prevPosition_; };
 		sf::Vector2f getNextPosition() const { return nextPosition_; };
 		sf::Clock getClock() const { return clockMoveAnim_; };
+		sf::Vector2i getBackTile(float x, float y);
+		
+		orientation_t getDirection() { return direction_; };
 
 		const bool isOOB();
+		bool isIAReady() { return iaReady_; };
 };
 
 
