@@ -37,6 +37,8 @@ void Sprite::setTexture(std::string path)
 		std::cerr << "Loading failed : " << path << " doesn't exist" << std::endl;
 	else
 		nb_textures_++;
+	
+		
 }
 
 void Sprite::move(float deltaX, float deltaY)
@@ -111,6 +113,11 @@ void Sprite::setTileSize(size_t w, size_t h)
 void Sprite::changeDirection(orientation_t dir)
 {
 	nextDirection_ = dir;
+}
+
+void Sprite::applyTexture()
+{
+	sprite_.setTexture(textures_.back());
 }
 
 orientation_t Sprite::update()

@@ -1,5 +1,25 @@
 #include "Pacman.hpp"
 
+void Pacman::fillGum()
+{
+	
+	for (size_t i = 0; i < 800 / map_.getTileWidth(); i++)
+	{
+		for (size_t j = 0; j < 600 / map_.getTileHeight(); j++)
+		{
+			if (map_.getValue(i, j) == 0)
+			{
+				gum_.emplace_back();
+				gum_.back().setTexture("../../img/pacman/gum.png");
+				gum_.back().setPos(i * map_.getTileWidth(), j * map_.getTileHeight());
+			}
+		}
+	}
+
+	for(size_t i = 0; i < gum_.size(); i++)
+		gum_[i].applyTexture();
+}
+
 Pacman::Pacman(sf::RenderWindow & window) : Game{ window }
 {
 	map_.setTileSize(40, 40);
@@ -37,8 +57,8 @@ Pacman::Pacman(sf::RenderWindow & window) : Game{ window }
 	pacman_.setTileSize(40, 40);
 	pacman_.setPosition(40, 40);
 
-	
 
+	fillGum();
 }
 
 void Pacman::computeFrame(const sf::Time & elapsedTime)
@@ -75,5 +95,10 @@ void Pacman::computeFrame(const sf::Time & elapsedTime)
 void Pacman::drawState() const 
 {
 	map_.draw(window_);
+	
+	for (size_t i = 0; i < gum_.size(); i++)
+		window_.draw(gum_[i].getSprite());
+
 	window_.draw(pacman_.getSprite());
 }
+

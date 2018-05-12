@@ -11,8 +11,12 @@ class Pacman : public Game
 	private:
 		Map map_;
 		DirectionalSprite pacman_;
+		std::vector<Sprite> gum_;
+
 		sf::Keyboard keyboard_;
 		float speedX_, speedY_, maxSpeed_;
+
+		void fillGum();
 	public :
 		explicit Pacman(sf::RenderWindow& window);
 

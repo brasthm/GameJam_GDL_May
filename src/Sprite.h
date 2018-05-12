@@ -5,7 +5,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include <vector>
+#include <list>
 #include <string>
 
 enum orientation_t { UP, DOWN, LEFT, RIGHT };
@@ -38,7 +38,7 @@ class Sprite
 
 		void move(float deltaX, float deltaY);
 		void setPosition(float deltaX, float deltaY);
-		void Sprite::setPos(float deltaX, float deltaY);
+		void setPos(float deltaX, float deltaY);
 		void setPrevPosition(float deltaX, float deltaY);
 		void setNextPosition(float deltaX, float deltaY);
 		void setClcok(sf::Clock);
@@ -48,6 +48,8 @@ class Sprite
 		void setTileSize(size_t w, size_t h);
 
 		void changeDirection(orientation_t dir);
+
+		void applyTexture();
 
 		void updateMap(Map *m) { map_ = m; };
 
