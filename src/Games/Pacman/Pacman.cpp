@@ -34,35 +34,15 @@ void Pacman::collision()
 
 void Pacman::ia()
 {
+	static std::random_device rd;
+	static std::default_random_engine gen(rd());
+	std::uniform_int_distribution<int> uniform(0, 3);
+
+
 	if (fantomeRouge_.isIAReady())
-	{
-		sf::Vector2i pacmanPosition = map_.getTile(pacman_.getPosition().x + 20, pacman_.getPosition().y + 20);
-		sf::Vector2i fantomeRougePosition = map_.getTile(fantomeRouge_.getPosition().x + 20, fantomeRouge_.getPosition().y + 20);
-		data_.length_function([this](sf::Vector2i a, sf::Vector2i b) // On fourni la fonction qui donne la distance entre deux noeuds
-																	 // Elle prend en paramètre deux variables du type spécifié comme noeuds et retourne le type spécifié comme distance
-		{
-			sf::Vector2f pos = this->fantomeRouge_.getPosition();
-			if (a == this->getMap().getTile(pos.x, pos.y) && b == this->fantomeRouge_.getBackTile(pos.x, pos.y))
-				return std::numeric_limits<double>::infinity();
-
-			if (a.x == b.x && abs(a.y - b.y) == 1
-				|| a.x == b.x && abs(a.y - b.y) == 1)
-				// Dans notre cas, les cases adjacentes sont espacées de 1
-				return 1.0;
-			else
-				// Les autres sont inaccessibles directement
-				return std::numeric_limits<double>::infinity(); 
-		})
-			.start_node(fantomeRougePosition);
-
-		Dijkstra_solver<sf::Vector2i, double, std::vector<sf::Vector2i>> solver(data_);
-		solver.solve();
-
-		sf::Vector2i nextPos = solver.path_to(pacmanPosition).front();
-
-		fantomeRouge_.changeDirection(getDirection(fantomeRougePosition, nextPos));
-	}
-
+		fantomeRouge_.changeDirection((orientation_t)uniform(rd));
+	
+	
 }
 
 orientation_t Pacman::getDirection(sf::Vector2i source, sf::Vector2i destination)
@@ -122,12 +102,6 @@ Pacman::Pacman(sf::RenderWindow & window) : Game{ window }
 	static std::default_random_engine gen(rd());
 	std::uniform_int_distribution<int> uniform(0, gums_.size() - 1), uniform2(0, 2);
 
-	data_.set(noeuds_)
-	   	.near_value(0) // La valeur qui représente la proximité
-	   	.far_value(std::numeric_limits<double>::infinity()) // La valeur qui représente l'éloignement
-	   	.combinaison_op(std::plus<double>()) // La fonction pour avoir la distance entre deux noeuds à partir des distances entre un noeud A et un noeud B et entre le noeud B et un noeud C
-	   	.shorter_than_op(std::less<double>()); // La fonction qui compare deux distance et dit la quelle est la meilleure
-
 	switch (uniform2(gen))
 	{
 		case 0:
@@ -148,6 +122,12 @@ Pacman::Pacman(sf::RenderWindow & window) : Game{ window }
 	fruit_.setPos(gums_[n].x * map_.getTileWidth(), gums_[n].y* map_.getTileHeight());
 	gums_.erase(gums_.begin() + n);
 
+	fantomeRouge_.setTexture("../../img/pacman/red_ghost.png");
+	fantomeRouge_.updateMap(&map_);
+	fantomeRouge_.setDelay(200, 200, 200);
+	fantomeRouge_.setTileSize(40, 40);
+	fantomeRouge_.setPosition(40, 40 * 3);
+	fantomeRouge_.applyTexture();
 	
 }
 

@@ -7,6 +7,17 @@
 #include <bitset>
 #include <list>
 #include <algorithm>
+#include <SFML/System.hpp>
+
+struct VectorComparator
+{
+	bool operator()(const sf::Vector2i a, const sf::Vector2i b) const
+	{
+		if (a.x == b.x) return a.y < b.y;
+		else return a.x < b.x;
+	}
+};
+
 
 
 template<typename Node, typename Distance, typename ContainerT = std::set<Node>>
@@ -53,9 +64,9 @@ public:
 
 protected:
 	bool is_solved = false;
-	std::map<Node, Distance> dist;
+	std::map<Node, Distance, VectorComparator> dist;
 	const Dijkstra_data<Node, Distance, ContainerT> data;
-	std::map<Node, Node> previous;
+	std::map<Node, Node, VectorComparator> previous;
 	ContainerT Q;
 };
 

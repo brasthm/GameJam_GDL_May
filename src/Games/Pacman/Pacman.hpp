@@ -1,11 +1,11 @@
 #ifndef PACMAN_HPP
 #define PACMAN_HPP
 
+
 #include "../Game.hpp"
 #include "../../Map.h"
 #include "../../Sprite.h"
 #include "../../DirectionalSprite.h"
-#include "../../Dijkstra.hpp"
 
 #include <random>
 
@@ -16,7 +16,6 @@ class Pacman : public Game
 		DirectionalSprite pacman_;
 		std::vector<sf::Vector2i> gums_;
 		std::vector<sf::Vector2i> noeuds_;
-		Dijkstra_data<sf::Vector2i, double, std::vector<sf::Vector2i>> data_;
 
 		sf::Texture gum_;
 
