@@ -16,7 +16,7 @@ void Monkey::position(sf::Vector2f pos)
 
 bool Monkey::receive(const Banana& banana) const
 {
-    return (banana.position().y > pos_.y - 60) && (sq(banana.position().x - pos_.x) + sq(banana.position().y - pos_.y + 128) < sq(120));
+    return (banana.position().y > pos_.y - 60) && (sq(banana.position().x - pos_.x) + sq(banana.position().y - pos_.y + 128) < sq(120)) && banana.position().x >= pos_.x - 80 && banana.position().x <= pos_.x + 80;
 }
 
 void Monkey::setTextures(const sf::Texture& hap, const sf::Texture& unhap)

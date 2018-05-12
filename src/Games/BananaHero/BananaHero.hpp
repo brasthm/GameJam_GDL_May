@@ -16,10 +16,11 @@ class BananaHero : public Game
     private:
         std::vector<Banana> bananas_;
         Monkey monkey_;
-        static constexpr float monkeySpeed = 200;
+        static constexpr float monkeySpeed = 1000;
         std::vector<sf::Texture> textures_;
         sf::Time spawnDelay_;
         sf::Time spawnProgression_;
+        float x;
 };
 
 

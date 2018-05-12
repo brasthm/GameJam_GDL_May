@@ -11,7 +11,7 @@ class Banana
     public:
         enum type_t { NORMAL, DOUBLE, ROTTEN, DOUBLEROTTEN };
     
-        explicit Banana(type_t type);
+        explicit Banana(type_t type, float x);
         
         type_t type() const { return type_; }
         
@@ -22,8 +22,8 @@ class Banana
     private:
         type_t type_;
         sf::Vector2f pos_;
-        static constexpr float normalSpeed = 100;
-        static constexpr float doubleSpeed = 150;
+        static constexpr float normalSpeed = 300;
+        static constexpr float doubleSpeed = 400;
 };
 
 

@@ -1,5 +1,5 @@
 #include <SFML/Window/Keyboard.hpp>
-#include <iostream>
+#include <SFML/Graphics/RectangleShape.hpp>
 #include "BananaHero.hpp"
 #include "../../utilities.hpp"
 
@@ -17,7 +17,9 @@ BananaHero::BananaHero(sf::RenderWindow& window) : Game(window)
     
     spawnDelay_ = sf::milliseconds(random(200, 1000));
     
-    monkey_.position({400, 520});
+    monkey_.position({400, 500});
+    
+    x = 400;
 }
 
 void BananaHero::computeFrame(const sf::Time& elapsedTime)
@@ -36,9 +38,12 @@ void BananaHero::computeFrame(const sf::Time& elapsedTime)
             else
                 type = Banana::NORMAL;
         }
-        bananas_.emplace_back(type);
+        if(random(1, 50) == 1)
+            x += random(-500, 500);
+        x = std::clamp(x + random(-100, 100), 40.f, 760.f);
+        bananas_.emplace_back(type, x);
         spawnProgression_ = sf::Time::Zero;
-        spawnDelay_ = sf::milliseconds(random(200, 1000));
+        spawnDelay_ = sf::milliseconds(random(100, 400));
     }
     
     float nextX = monkey_.position().x;
@@ -54,7 +59,6 @@ void BananaHero::computeFrame(const sf::Time& elapsedTime)
         bananas_[i].update(elapsedTime);
         
         if(monkey_.receive(bananas_[i])) {
-            std::cerr << "Banane" << std::endl;
             switch(bananas_[i].type())
             {
                 case Banana::NORMAL:
@@ -82,7 +86,6 @@ void BananaHero::computeFrame(const sf::Time& elapsedTime)
         } 
         else if(bananas_[i].position().y > 640)
         {
-            std::cerr << "Banane ratée" << std::endl;
             if(bananas_[i].type() == Banana::NORMAL || bananas_[i].type() == Banana::DOUBLE)
                 ; // TODO Banane normale ou double pas attrapée : des points en moins
             bananas_.erase(bananas_.begin()+i);
@@ -93,6 +96,11 @@ void BananaHero::computeFrame(const sf::Time& elapsedTime)
 
 void BananaHero::drawState() const
 {
+    auto size = window_.getSize();
+    sf::RectangleShape rect(window_.mapPixelToCoords({(int) size.x, (int)size.y}));
+    rect.setFillColor(sf::Color::Blue);
+    window_.draw(rect);
+    
     for(auto& banana : bananas_)
     {
         sf::Sprite sprite;

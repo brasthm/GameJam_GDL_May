@@ -2,13 +2,9 @@
 #include "Banana.hpp"
 
 
-Banana::Banana(Banana::type_t type) : type_{type}
+Banana::Banana(Banana::type_t type, float x) : type_{type}
 {
-    static std::random_device rd;
-    static std::default_random_engine gen(rd());
-    std::uniform_int_distribution<int> xDistrib(40, 760);
-    
-    pos_.x = xDistrib(gen);
+    pos_.x = x;
     pos_.y = -40;
 }
 
