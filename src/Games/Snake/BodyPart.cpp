@@ -2,6 +2,8 @@
 #include "BodyPart.hpp"
 
 
+const sf::Time BodyPart::movementTime = sf::milliseconds(100);
+
 BodyPart::BodyPart(BodyPart::type_t t, sf::Vector2f pos, orientation_t ori) :
     type_{t},
     position_{pos}, lastPosition_{pos}, nextPosition_{pos},

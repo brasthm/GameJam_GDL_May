@@ -36,7 +36,7 @@ class BodyPart
         sf::Time movementProgression_;
         
         static constexpr float tileSize = 40;
-        const sf::Time movementTime = sf::milliseconds(100);
+        static const sf::Time movementTime;
 };
 
 #endif //BODYPART_HPP
