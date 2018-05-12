@@ -10,6 +10,7 @@ std::vector<std::unique_ptr<instanciator_base<Game, sf::RenderWindow&>>> init_ga
 
 	gl.emplace_back(new instanciator<Game, Pacman, sf::RenderWindow&>);
 	//gl.emplace_back(new instanciator<Game, Snake, sf::RenderWindow&>);
+    //gl.emplace_back(new instanciator<Game, BananaHero, sf::RenderWindow&>);
 
     return gl;
 };
