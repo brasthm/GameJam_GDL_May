@@ -120,6 +120,11 @@ void Sprite::applyTexture()
 	sprite_.setTexture(textures_.back());
 }
 
+void Sprite::applyTexture(size_t n)
+{
+	if(n <nb_textures_) sprite_.setTexture(textures_[n]);
+}
+
 orientation_t Sprite::update()
 {
 	sf::Time elapsed = clock_.getElapsedTime();

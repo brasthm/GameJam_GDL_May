@@ -15,15 +15,19 @@ class Pacman : public Game
 		Map map_;
 		DirectionalSprite pacman_;
 		std::vector<sf::Vector2i> gums_;
+		std::vector<sf::Vector2i> megaGums_;
 
 		std::vector<Sprite> ghosts_;
 
-		sf::Texture gum_;
+		sf::Texture gum_, megaGum_;
 
 		Sprite fruit_;
 		bool fruitAlive_ = true;
+		std::vector<bool> ghostAlive_;
 
 		sf::Keyboard keyboard_;
+		sf::Time invincible_;
+		bool isInvincible = false;
 
 		void fillGum();
 		void collision();
@@ -32,7 +36,6 @@ class Pacman : public Game
 	public :
 		Map getMap() { return map_; };
 		
-
 		explicit Pacman(sf::RenderWindow& window);
 
 		void computeFrame(const sf::Time& elapsedTime) override;

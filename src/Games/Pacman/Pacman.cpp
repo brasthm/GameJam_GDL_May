@@ -10,11 +10,16 @@ void Pacman::fillGum()
 			if (map_.getValue(i, j) == 0)
 			{
 				if (!(j == 5 && i == 0) && !(j == 5 && i == 1) && !(j == 9 && i == 0) && !(j == 9 && i == 1) && 
-					!(j == 5 && i == 18) && !(j == 5 && i == 19) && !(j == 9 && i == 18) && !(j == 9 && i == 19))
+					!(j == 5 && i == 18) && !(j == 5 && i == 19) && !(j == 9 && i == 18) && !(j == 9 && i == 19) &&
+					!(j == 1 && i == 1) && !(j == 13 && i == 1) && !(j == 1 && i == 18) && !(j == 13 && i == 18))
 					gums_.emplace_back(i, j);
 			}
 		}
 	}
+	megaGums_.emplace_back(1, 1);
+	megaGums_.emplace_back(1, 13);
+	megaGums_.emplace_back(18, 1);
+	megaGums_.emplace_back(18, 13);
 }
 
 void Pacman::collision()
@@ -28,14 +33,36 @@ void Pacman::collision()
 		}
 	}
 
+	for (size_t i = 0; i < megaGums_.size(); i++)
+	{
+		if (map_.getTile(pacman_.getPosition().x + 20, pacman_.getPosition().y + 20) == megaGums_[i])
+		{
+			megaGums_.erase(megaGums_.begin() + i);
+			i--;
+
+			isInvincible = true;
+			invincible_ = sf::seconds(0);
+
+			for (size_t i = 0; i < ghosts_.size(); i++)
+			{
+				ghosts_[i].setDelay(100000);
+				ghosts_[i].applyTexture(1);
+			}
+				
+		}
+	}
+
 	if (fruitAlive_ && map_.getTile(pacman_.getPosition().x + 20, pacman_.getPosition().y + 20) == (map_.getTile(fruit_.getPosition().x + 20, fruit_.getPosition().y + 20)))
 		fruitAlive_ = false;
 
 	for (size_t i = 0; i < ghosts_.size(); i++)
 	{
-		if (map_.getTile(pacman_.getPosition().x + 20, pacman_.getPosition().y + 20) == (map_.getTile(ghosts_[i].getPosition().x + 20, ghosts_[i].getPosition().y + 20)))
+		if (ghostAlive_[i] && map_.getTile(pacman_.getPosition().x + 20, pacman_.getPosition().y + 20) == (map_.getTile(ghosts_[i].getPosition().x + 20, ghosts_[i].getPosition().y + 20)))
 		{
-			std::cerr << "dead" << std::endl;
+			if (!isInvincible)
+				std::cerr << "dead" << std::endl;
+			else
+				ghostAlive_[i] = false;
 		}
 	}
 
@@ -82,6 +109,7 @@ orientation_t Pacman::getDirection(sf::Vector2i source, sf::Vector2i destination
 
 Pacman::Pacman(sf::RenderWindow & window) : Game{ window }
 {
+	invincible_ = sf::seconds(0);
 	map_.setTileSize(40, 40);
 
 	map_.addTexture("blank");
@@ -118,6 +146,7 @@ Pacman::Pacman(sf::RenderWindow & window) : Game{ window }
 	pacman_.setPosition(40, 40);
 
 	gum_.loadFromFile("../../img/pacman/gum.png");
+	megaGum_.loadFromFile("../../img/pacman/mega_gum.png");
 	fillGum();
 
 	static std::random_device rd;
@@ -131,39 +160,44 @@ Pacman::Pacman(sf::RenderWindow & window) : Game{ window }
 	n = uniform(gen);
 	ghosts_.emplace_back();
 	ghosts_.back().setTexture("../../img/pacman/red_ghost.png");
+	ghosts_.back().setTexture("../../img/pacman/rip_ghost.png");
 	ghosts_.back().updateMap(&map_);
-	ghosts_.back().setDelay(200, 200, 200);
+	ghosts_.back().setDelay(100000, 200, 200);
 	ghosts_.back().setTileSize(40, 40);
 	ghosts_.back().setPosition(40 * gums_[n].x, 40 * gums_[n].y);
-	ghosts_.back().applyTexture();
 
 	n = uniform(gen);
 	ghosts_.emplace_back();
 	ghosts_.back().setTexture("../../img/pacman/orange_ghost.png");
+	ghosts_.back().setTexture("../../img/pacman/rip_ghost.png");
 	ghosts_.back().updateMap(&map_);
-	ghosts_.back().setDelay(200, 200, 200);
+	ghosts_.back().setDelay(100000, 200, 200);
 	ghosts_.back().setTileSize(40, 40);
 	ghosts_.back().setPosition(40 * gums_[n].x, 40 * gums_[n].y);
-	ghosts_.back().applyTexture();
 
 	n = uniform(gen);
 	ghosts_.emplace_back();
 	ghosts_.back().setTexture("../../img/pacman/blue_ghost.png");
+	ghosts_.back().setTexture("../../img/pacman/rip_ghost.png");
 	ghosts_.back().updateMap(&map_);
-	ghosts_.back().setDelay(200, 200, 200);
+	ghosts_.back().setDelay(100000, 200, 200);
 	ghosts_.back().setTileSize(40, 40);
 	ghosts_.back().setPosition(40 * gums_[n].x, 40 * gums_[n].y);
-	ghosts_.back().applyTexture();
 
 	n = uniform(gen);
 	ghosts_.emplace_back();
 	ghosts_.back().setTexture("../../img/pacman/pink_ghost.png");
+	ghosts_.back().setTexture("../../img/pacman/rip_ghost.png");
 	ghosts_.back().updateMap(&map_);
-	ghosts_.back().setDelay(200, 200, 200);
+	ghosts_.back().setDelay(100000, 200, 200);
 	ghosts_.back().setTileSize(40, 40);
 	ghosts_.back().setPosition(40 * gums_[n].x, 40 * gums_[n].y);
-	ghosts_.back().applyTexture();
 
+	for (size_t i = 0; i < ghosts_.size(); i++)
+	{
+		ghostAlive_.emplace_back(true);
+		ghosts_[i].applyTexture(0);
+	}
 
 	switch (uniform2(gen))
 	{
@@ -183,11 +217,29 @@ Pacman::Pacman(sf::RenderWindow & window) : Game{ window }
 	n = uniform(gen);
 
 	fruit_.setPos(gums_[n].x * map_.getTileWidth(), gums_[n].y* map_.getTileHeight());
-	gums_.erase(gums_.begin() + n);	
+	gums_.erase(gums_.begin() + n);
 }
 
 void Pacman::computeFrame(const sf::Time & elapsedTime)
 {
+	if (isInvincible) invincible_ += elapsedTime;
+
+	if (invincible_ > sf::seconds(2))
+		for (size_t i = 0; i < ghosts_.size(); i++)
+			ghosts_[i].setDelay(200);
+
+	if (invincible_ > sf::seconds(4))
+	{
+		isInvincible = false;
+		invincible_ = sf::seconds(0);
+
+		for (size_t i = 0; i < ghosts_.size(); i++)
+			ghosts_[i].setDelay(100000);
+
+		for (size_t i = 0; i < ghosts_.size(); i++)
+			ghosts_[i].applyTexture(0);
+	}
+
 	if (keyboard_.isKeyPressed(sf::Keyboard::Up))
 	{
 		pacman_.changeDirection(UP);
@@ -210,7 +262,8 @@ void Pacman::computeFrame(const sf::Time & elapsedTime)
 	pacman_.update();
 
 	for (size_t i = 0; i < ghosts_.size(); i++)
-		ghosts_[i].update();
+		if (ghostAlive_[i])
+			ghosts_[i].update();
 
 	if (pacman_.isOOB())
 	{
@@ -249,11 +302,22 @@ void Pacman::drawState() const
 		window_.draw(temp);
 	}
 
+
+	for (size_t i = 0; i < megaGums_.size(); i++)
+	{
+		sf::Sprite temp;
+
+		temp.setTexture(megaGum_);
+		temp.setPosition(megaGums_[i].x * map_.getTileWidth(), megaGums_[i].y * map_.getTileHeight());
+		window_.draw(temp);
+	}
+
 	if(fruitAlive_)
 		window_.draw(fruit_.getSprite());
 
 	for (size_t i = 0; i < ghosts_.size(); i++)
-		window_.draw(ghosts_[i].getSprite());
+		if(ghostAlive_[i])
+			window_.draw(ghosts_[i].getSprite());
 
 	window_.draw(pacman_.getSprite());
 }

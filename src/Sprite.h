@@ -50,6 +50,7 @@ class Sprite
 		void changeDirection(orientation_t dir);
 
 		void applyTexture();
+		void applyTexture(size_t n);
 
 		void updateMap(Map *m) { map_ = m; };
 
