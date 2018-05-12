@@ -8,7 +8,7 @@
 #include <vector>
 #include <string>
 
-enum orientation_t { UP, DOWN, LEFT, RIGHT };
+enum orientation_t { UP, RIGHT, DOWN, LEFT };
 
 
 class Sprite
@@ -38,7 +38,7 @@ class Sprite
 
 		void move(float deltaX, float deltaY);
 		void setPosition(float deltaX, float deltaY);
-		void Sprite::setPos(float deltaX, float deltaY);
+		void setPos(float deltaX, float deltaY);
 		void setPrevPosition(float deltaX, float deltaY);
 		void setNextPosition(float deltaX, float deltaY);
 		void setClcok(sf::Clock);

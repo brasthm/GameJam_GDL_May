@@ -3,7 +3,6 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <random>
 #include <iostream>
-#include <SFML/Audio.hpp>
 
 
 Snake::Snake(sf::RenderWindow& window) : Game{window}
