@@ -1,5 +1,7 @@
 #include "boxhead.hpp"
 #include <iostream>
+#include <random>
+#include<cmath>
 
 Bullet::Bullet() 
 {
@@ -66,7 +68,7 @@ Boxhead::Boxhead(sf::RenderWindow& window) : Game{ window }
 	Tblood_.loadFromFile("../../img/boxhead/blood.png");
 	Tbullet_.loadFromFile("../../img/boxhead/bullet.png");
 	
-	sf::Sprite Szombie;
+	
 	sf::Texture TzombieU;
 	TzombieU.loadFromFile("../../img/boxhead/zombieUp.png");
 	sf::Texture TzombieR;
@@ -80,86 +82,124 @@ Boxhead::Boxhead(sf::RenderWindow& window) : Game{ window }
 	TzombieULDR_.push_back(TzombieD);
 	TzombieULDR_.push_back(TzombieR);
 
-	clock_.restart();
-	shootDelay_ = sf::milliseconds(200);
+	genererZombie(5);
 
-	//gene alea de zombie
-	Szombie.setTexture(TzombieULDR_[1]);
-	zombieVect_.push_back(Szombie);
-	zombieVect_.push_back(Szombie);
-	zombieVect_[0].setPosition(300, 300);
-	zombieVect_[1].setPosition(600, 300);
 }
 
-bool Boxhead::colli(char sens) 
+void Boxhead::genererZombie(int nbzombie) 
+{
+	sf::Sprite Szombie;
+	int spawn;
+	int delat = 20;
+	static std::random_device rd;
+	static std::default_random_engine gen(rd());
+	std::uniform_int_distribution<int> uniform(0,7);
+
+	for (int i = 0; i < nbzombie; i++)
+	{
+		spawn = uniform(gen);
+		switch (spawn)
+		{
+		case 0:
+			Szombie.setTexture(TzombieULDR_[3]);
+			Szombie.setPosition(8, 26 * 8 +delat*i);
+			break;
+		case 1:
+			Szombie.setTexture(TzombieULDR_[2]);
+			Szombie.setPosition(28 * 8, 3 * 8 + delat * i);
+			break;
+		case 2:
+			Szombie.setTexture(TzombieULDR_[2]);
+			Szombie.setPosition(65 * 8, 3 * 8 + delat * i);
+			break;
+		case 3:
+			Szombie.setTexture(TzombieULDR_[1]);
+			Szombie.setPosition(94 * 8, 26 * 8 + delat * i);
+			break;
+		case 4:
+			Szombie.setTexture(TzombieULDR_[1]);
+			Szombie.setPosition(94 * 8, 42 * 8 + delat * i);
+			break;
+		case 5:
+			Szombie.setTexture(TzombieULDR_[0]);
+			Szombie.setPosition(66 * 8 + delat * i, 67 * 8);
+			break;
+		case 6:
+			Szombie.setTexture(TzombieULDR_[0]);
+			Szombie.setPosition(27 * 8 + delat * i, 67 * 8 );
+			break;
+		case 7:
+			Szombie.setTexture(TzombieULDR_[3]);
+			Szombie.setPosition(8, 40 * 8 + delat * i);
+			break;
+		default:
+			break;
+		}
+		zombieVect_.push_back(Szombie);
+	}
+}
+
+bool Boxhead::colli(char sens, sf::Sprite& entity, bool zombie = false) 
 {
 	switch (sens)
 	{
 	case'U':
 		for (size_t i = 0; i < wallVect_.size(); i++)
-			if (wallVect_[i].getGlobalBounds().intersects(sf::FloatRect(player_.getPosition().x, player_.getPosition().y - 1, 40, 56)))
-			{
-				player_.setPosition(player_.getPosition().x, wallVect_[i].getPosition().y + 119);
+			if (wallVect_[i].getGlobalBounds().intersects(sf::FloatRect(entity.getPosition().x, entity.getPosition().y - 2, 40, 56)))
 				return true;
-			}
+
+		/*if(!zombie)
 		for (size_t i = 0; i < zombieVect_.size(); i++)
-			if (zombieVect_[i].getGlobalBounds().intersects(sf::FloatRect(player_.getPosition().x, player_.getPosition().y - 1, 40, 56)))
-			{
-				player_.setPosition(player_.getPosition().x, zombieVect_[i].getPosition().y + 56);
-				return true;
-			}
-		if (player_.getPosition().y < 0)
+			if(zombieVect_[i].getPosition()!=entity.getPosition())
+				if (zombieVect_[i].getGlobalBounds().intersects(sf::FloatRect(entity.getPosition().x, entity.getPosition().y - 2, 40, 56)))
+					return true;*/
+			
+		if (entity.getPosition().y < 0)
 			return true;
 		break;
 
 	case'D':
 		for (size_t i = 0; i < wallVect_.size(); i++)
-			if (wallVect_[i].getGlobalBounds().intersects(sf::FloatRect(player_.getPosition().x, player_.getPosition().y + 1, 40, 56)))
-			{
-				player_.setPosition(player_.getPosition().x, wallVect_[i].getPosition().y - 56);
+			if (wallVect_[i].getGlobalBounds().intersects(sf::FloatRect(entity.getPosition().x, entity.getPosition().y + 2, 40, 56)))
 				return true;
-			}
+
+		/*if (!zombie)
 		for (size_t i = 0; i < zombieVect_.size(); i++)
-			if (zombieVect_[i].getGlobalBounds().intersects(sf::FloatRect(player_.getPosition().x, player_.getPosition().y + 1, 40, 56)))
-			{
-				player_.setPosition(player_.getPosition().x, zombieVect_[i].getPosition().y - 56);
-				return true;
-			}
-		if (player_.getPosition().y + 56 > 600) //+56 car on dessend et +56 car je verifie au pied
+			if (zombieVect_[i].getPosition() != entity.getPosition())
+				if (zombieVect_[i].getGlobalBounds().intersects(sf::FloatRect(entity.getPosition().x, entity.getPosition().y + 2, 40, 56)))
+					return true;*/
+				
+		if (entity.getPosition().y + 56 > 600) //+56 car on dessend et +56 car je verifie au pied
 			return true;
 		break;
 
 	case'L':
 		for (size_t i = 0; i < wallVect_.size(); i++)
-			if (wallVect_[i].getGlobalBounds().intersects(sf::FloatRect(player_.getPosition().x - 1, player_.getPosition().y, 40, 56)))
-			{
-				player_.setPosition(wallVect_[i].getPosition().x + 104, player_.getPosition().y);
+			if (wallVect_[i].getGlobalBounds().intersects(sf::FloatRect(entity.getPosition().x - 2, entity.getPosition().y, 40, 56)))
 				return true;
-			}
+		
+		/*if (!zombie)
 		for (size_t i = 0; i < zombieVect_.size(); i++)
-			if (zombieVect_[i].getGlobalBounds().intersects(sf::FloatRect(player_.getPosition().x - 1, player_.getPosition().y, 40, 56)))
-			{
-				player_.setPosition(zombieVect_[i].getPosition().x + 40, player_.getPosition().y);
-				return true;
-			}
-		if (player_.getPosition().x  < 0) 
+			if (zombieVect_[i].getPosition() != entity.getPosition())
+				if (zombieVect_[i].getGlobalBounds().intersects(sf::FloatRect(entity.getPosition().x - 2, entity.getPosition().y, 40, 56)))
+					return true;*/
+				
+		if (entity.getPosition().x  < 0)
 			return true;
 		break;
 
 	case'R':
 		for (size_t i = 0; i < wallVect_.size(); i++)
-			if (wallVect_[i].getGlobalBounds().intersects(sf::FloatRect(player_.getPosition().x + 1, player_.getPosition().y, 40, 56)))
-			{
-				player_.setPosition(wallVect_[i].getPosition().x - 40, player_.getPosition().y);
+			if (wallVect_[i].getGlobalBounds().intersects(sf::FloatRect(entity.getPosition().x + 2, entity.getPosition().y, 40, 56)))
 				return true;
-			}
+		
+		/*if (!zombie)
 		for (size_t i = 0; i < zombieVect_.size(); i++)
-			if (zombieVect_[i].getGlobalBounds().intersects(sf::FloatRect(player_.getPosition().x + 1, player_.getPosition().y, 40, 56)))
-			{
-				player_.setPosition(zombieVect_[i].getPosition().x - 40, player_.getPosition().y);
-				return true;
-			}
-		if (player_.getPosition().x + 40 > 800)
+			if (zombieVect_[i].getPosition() != entity.getPosition())
+				if (zombieVect_[i].getGlobalBounds().intersects(sf::FloatRect(entity.getPosition().x + 2, entity.getPosition().y, 40, 56)))
+					return true;*/
+				
+		if (entity.getPosition().x + 40 > 800)
 			return true;
 		break;
 
@@ -171,44 +211,55 @@ bool Boxhead::colli(char sens)
 
 void Boxhead::movePlayer(const sf::Time& elapsedTime)
 {
+	sf::Vector2f posbefore = player_.getPosition();
+
 	if (keyboard_.isKeyPressed(sf::Keyboard::Left))
-		if (!colli('L'))
+		if (!colli('L', player_))
 		{
 			player_.move(-speedX_ * elapsedTime.asSeconds(), 0);
 			player_.setTexture(TPlayerULDR_[1]);
 			sens_ = 'L';
 		}
+		else
+			player_.setPosition(posbefore);
 		
 	if (keyboard_.isKeyPressed(sf::Keyboard::Right))
-		if (!colli('R'))
+		if (!colli('R', player_))
 		{
 			player_.move(speedX_ * elapsedTime.asSeconds(), 0);
 			player_.setTexture(TPlayerULDR_[3]);
 			sens_ = 'R';
 		}
+		else 
+			player_.setPosition(posbefore);
 
 	if (keyboard_.isKeyPressed(sf::Keyboard::Up))
-		if (!colli('U'))
+		if (!colli('U', player_))
 		{
 			player_.move(0, -speedY_ * elapsedTime.asSeconds());
 			player_.setTexture(TPlayerULDR_[0]);
 			sens_ = 'U';
 		}
+		else
+			player_.setPosition(posbefore);
 	
 	if (keyboard_.isKeyPressed(sf::Keyboard::Down))
-		if (!colli('D'))
+		if (!colli('D', player_))
 		{
 			player_.move(0, speedY_ * elapsedTime.asSeconds());
 			player_.setTexture(TPlayerULDR_[2]);
 			sens_ = 'D';
 		}
+		else 
+			player_.setPosition(posbefore);
 }
 
 void Boxhead::shoot(const sf::Time& elapsedTime, char sens)
 {
 	Bullet bullet;
+	shootProgression_ += elapsedTime;
 	if (keyboard_.isKeyPressed(sf::Keyboard::Space))
-		if(elapsedTime>=shootDelay_)
+		if(shootProgression_ >=shootDelay_)
 		{
 			switch (sens)
 			{
@@ -227,7 +278,7 @@ void Boxhead::shoot(const sf::Time& elapsedTime, char sens)
 			default:
 				break;
 			}
-			clock_.restart();
+			shootProgression_ = sf::Time::Zero;
 			bulletVect_.push_back(bullet);
 		}
 }
@@ -243,7 +294,7 @@ bool Boxhead::colliBullet()
 		{
 			if ((*itz).getGlobalBounds().intersects((*itb).getSprite().getGlobalBounds()))
 			{
-				blood.setPosition((*itz).getPosition().x, (*itz).getPosition().y + 16);
+				blood.setPosition(round(((*itz).getPosition().x)/8)*8, round(((*itz).getPosition().y + 16)/8)*8);
 				bloodVect_.push_back(blood);
 				zombieVect_.erase(itz);
 				bulletVect_.erase(itb);
@@ -283,29 +334,191 @@ void Boxhead::computeBullet(const sf::Time& elapsedTime)
 		
 }
 
+char Boxhead::directZombie(sf::Sprite& zombie) 
+{
+	
+	if(abs(player_.getPosition().x - zombie.getPosition().x) > abs(player_.getPosition().y - zombie.getPosition().y))
+	{
+		if (player_.getPosition().x + 40 < zombie.getPosition().x)
+			return 'L';
+		if (player_.getPosition().x - 40 > zombie.getPosition().x)
+			return 'R';
+		if (player_.getPosition().y + 56 < zombie.getPosition().y)
+			return 'U';
+		if (player_.getPosition().y - 56 > zombie.getPosition().y)
+			return 'D';
+		else
+			return 'C';
+	}
+	else 
+	{
+		if (player_.getPosition().y + 56 < zombie.getPosition().y)
+			return 'U';
+		if (player_.getPosition().y - 56 > zombie.getPosition().y)
+			return 'D';
+		if (player_.getPosition().x + 40 < zombie.getPosition().x)
+			return 'L';
+		if (player_.getPosition().x - 40 > zombie.getPosition().x)
+			return 'R';
+		else
+			return 'C';
+	}
+	
+}
+
+void Boxhead::moveZombie(const sf::Time& elapsedTime)
+{
+	sf::Vector2f delta;
+	static std::random_device rd;
+	static std::default_random_engine gen(rd());
+	std::uniform_int_distribution<int> uniform(-5 , 5);
+	sf::Vector2f posbefore;
+
+	delatProgression_ += elapsedTime;
+
+	for (size_t i = 0; i < zombieVect_.size(); i++)
+	{
+		posbefore = zombieVect_[i].getPosition();
+		if(delatProgression_ > deltaRate_)
+		{
+			delta.x = uniform(gen);
+			delta.y = uniform(gen);
+			zombieVect_[i].move(delta);
+		}
+	
+		switch (directZombie(zombieVect_[i]))
+		{
+		case 'U':
+			if (!colli('U', zombieVect_[i], true))
+			{
+				zombieVect_[i].move(0, -speedZombieY_ * elapsedTime.asSeconds());
+				zombieVect_[i].setTexture(TzombieULDR_[0]);
+			}
+			else if (!colli('L', zombieVect_[i], true))
+			{
+				zombieVect_[i].move(-speedZombieX_ * elapsedTime.asSeconds(), 0);
+				zombieVect_[i].setTexture(TzombieULDR_[1]);
+			}
+			else if (!colli('R', zombieVect_[i], true))
+			{
+				zombieVect_[i].move(+speedZombieX_ * elapsedTime.asSeconds() * 2, 0);
+				zombieVect_[i].setTexture(TzombieULDR_[3]);
+			}
+			else
+				zombieVect_[i].setPosition(posbefore);
+			break;
+
+		case 'L':
+			if (!colli('L', zombieVect_[i], true))
+			{
+				zombieVect_[i].move(-speedZombieX_ * elapsedTime.asSeconds(), 0);
+				zombieVect_[i].setTexture(TzombieULDR_[1]);
+			}
+			else if (!colli('U', zombieVect_[i], true))
+			{
+				zombieVect_[i].move(0, -speedZombieY_ * elapsedTime.asSeconds());
+				zombieVect_[i].setTexture(TzombieULDR_[0]);
+			}
+			else if (!colli('D', zombieVect_[i], true))
+			{
+				zombieVect_[i].move(0, +speedZombieY_ * elapsedTime.asSeconds() * 2);
+				zombieVect_[i].setTexture(TzombieULDR_[2]);
+			}
+			else
+				zombieVect_[i].setPosition(posbefore);
+			break;
+
+		case 'D':
+			if (!colli('D', zombieVect_[i], true))
+			{
+				zombieVect_[i].move(0, +speedZombieY_ * elapsedTime.asSeconds());
+				zombieVect_[i].setTexture(TzombieULDR_[2]);
+			}
+			else if (!colli('L', zombieVect_[i], true))
+			{
+				zombieVect_[i].move(-speedZombieX_ * elapsedTime.asSeconds(), 0);
+				zombieVect_[i].setTexture(TzombieULDR_[1]);
+			}
+			else if (!colli('R', zombieVect_[i], true))
+			{
+				zombieVect_[i].move(+speedZombieX_ * elapsedTime.asSeconds()*2, 0);
+				zombieVect_[i].setTexture(TzombieULDR_[3]);
+			}
+			else
+				zombieVect_[i].setPosition(posbefore);
+			break;
+
+		case 'R':
+			if (!colli('R', zombieVect_[i], true))
+			{
+				zombieVect_[i].move(+speedZombieX_ * elapsedTime.asSeconds(), 0);
+				zombieVect_[i].setTexture(TzombieULDR_[3]);
+			}
+			else if (!colli('U', zombieVect_[i], true))
+			{
+				zombieVect_[i].move(0, -speedZombieY_ * elapsedTime.asSeconds());
+				zombieVect_[i].setTexture(TzombieULDR_[0]);
+			}
+			else if (!colli('D', zombieVect_[i], true))
+			{
+				zombieVect_[i].move(0, +speedZombieY_ * elapsedTime.asSeconds()*2);
+				zombieVect_[i].setTexture(TzombieULDR_[2]);
+			}
+			else
+				zombieVect_[i].setPosition(posbefore);
+			break;
+
+		case 'C':
+			//player loose
+			std::cout << "loose"<<std::endl;
+				break;
+		default:
+			break;
+		}
+
+	}
+	if(delatProgression_>deltaRate_)
+		delatProgression_ = sf::Time::Zero;
+}
+
+void Boxhead::spawnZombie(const sf::Time& elapsedTime)
+{
+	spawnProgression_ += elapsedTime;
+	if (spawnProgression_ >= spawnRate_)
+	{
+		genererZombie(5);
+		spawnProgression_ = sf::Time::Zero;
+	}
+}
+
 void Boxhead::computeFrame(const sf::Time& elapsedTime)
 {
-	//fct de move player
 	movePlayer(elapsedTime);
-	//fct de move zombie
-	//ftc de shoot
-	shoot(clock_.getElapsedTime(), sens_);
+	shoot(elapsedTime, sens_);
 	computeBullet(elapsedTime);
+	moveZombie(elapsedTime);
+	spawnZombie(elapsedTime);
+	std::sort(zombieVect_.begin(), zombieVect_.end(), zombiecomparator());
 }
 
 void Boxhead::drawState()const
 {
+	size_t i = 0;
 	auto size = window_.getSize();
 	sf::RectangleShape rect(window_.mapPixelToCoords({ (int)size.x, (int)size.y }));
-	rect.setFillColor(sf::Color::White);
+	rect.setFillColor(sf::Color(102,51,0,255));
 	window_.draw(rect);
-	for (size_t i = 0; i < 6; i++)
-		window_.draw(wallVect_[i]);
 	for (size_t i = 0; i < bloodVect_.size(); i++)
 		window_.draw(bloodVect_[i]);
-	for (size_t i = 0; i < zombieVect_.size(); i++)
+	for (size_t i = 0; i < 6; i++)
+		window_.draw(wallVect_[i]);
+	for (i = 0; (i < zombieVect_.size())&&(zombieVect_[i].getPosition().y <= player_.getPosition().y); i++)
+		window_.draw(zombieVect_[i]);
+	window_.draw(player_);
+	for (; i < zombieVect_.size(); i++)
 		window_.draw(zombieVect_[i]);
 	for (size_t i = 0; i < bulletVect_.size(); i++)
 		window_.draw(bulletVect_[i].getSprite());
-	window_.draw(player_);
+	
+	
 }
