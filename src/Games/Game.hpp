@@ -4,7 +4,6 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Time.hpp>
 
-
 class Game
 {
     public:
