@@ -62,6 +62,7 @@ void Snake::computeFrame(const sf::Time& elapsedTime)
             auto rit = snake_.rbegin()+1;
             snake_.insert(rit.base(), *rit);
             randomApple();
+            // TODO Pomme mangée, augmentation de score
         }
         for(auto it = snake_.rbegin() + (appleAte?2:0); it+1 != snake_.rend(); ++it)
         {

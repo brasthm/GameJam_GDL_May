@@ -2,6 +2,7 @@
 #define UTILITIES_HPP
 
 #include <memory>
+#include <random>
 
 
 template<typename Base, typename... Args>
@@ -18,5 +19,13 @@ struct instanciator : instanciator_base<Base, Args...>
         return std::unique_ptr<Base>(new Derived(args...)); 
     }
 };
+
+template<typename T>
+T random(T min = 0, T max = std::numeric_limits<T>::max())
+{
+    static std::random_device rd;
+    static std::default_random_engine gen(rd());
+    return std::uniform_int_distribution<T>(min, max)(gen);
+}
 
 #endif //UTILITIES_HPP
