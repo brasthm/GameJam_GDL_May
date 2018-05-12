@@ -6,14 +6,16 @@
 
 BananaHero::BananaHero(sf::RenderWindow& window) : Game(window)
 {
-    textures_.resize(6);
+    textures_.resize(7);
     textures_[0].loadFromFile("../../img/bananaHero/banana.png");
     textures_[1].loadFromFile("../../img/bananaHero/doublebanana.png");
     textures_[2].loadFromFile("../../img/bananaHero/rottenbanana.png");
     textures_[3].loadFromFile("../../img/bananaHero/rottendoublebanana.png");
     textures_[4].loadFromFile("../../img/bananaHero/monkey.png");
     textures_[5].loadFromFile("../../img/bananaHero/sadmonkey.png");
+    textures_[6].loadFromFile("../../img/bananaHero/background.png");
     monkey_.setTextures(textures_[4], textures_[5]);
+    bg_.setTexture(textures_[6]);
     
     spawnDelay_ = sf::milliseconds(random(200, 1000));
     
@@ -96,10 +98,7 @@ void BananaHero::computeFrame(const sf::Time& elapsedTime)
 
 void BananaHero::drawState() const
 {
-    auto size = window_.getSize();
-    sf::RectangleShape rect(window_.mapPixelToCoords({(int) size.x, (int)size.y}));
-    rect.setFillColor(sf::Color::Blue);
-    window_.draw(rect);
+    window_.draw(bg_);
     
     for(auto& banana : bananas_)
     {

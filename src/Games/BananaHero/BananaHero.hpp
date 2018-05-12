@@ -21,6 +21,7 @@ class BananaHero : public Game
         sf::Time spawnDelay_;
         sf::Time spawnProgression_;
         float x;
+        sf::Sprite bg_;
 };
 
 
