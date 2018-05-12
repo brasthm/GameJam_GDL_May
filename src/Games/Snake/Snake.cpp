@@ -156,7 +156,7 @@ void Snake::randomSnake(size_t bodyPartMin, size_t bodyPartMax)
         valid = true;
         
         snake_.clear();
-        snake_.emplace_back(BodyPart::HEAD, sf::Vector2f{xDistrib(gen)*40, yDistrib(gen)*40}, orientation_t(uniformDir(gen)));
+        snake_.emplace_back(BodyPart::HEAD, sf::Vector2f{xDistrib(gen)*40.f, yDistrib(gen)*40.f}, orientation_t(uniformDir(gen)));
         
         size_t partNumber = bodyParts(gen);
         size_t step = 0;
@@ -164,7 +164,7 @@ void Snake::randomSnake(size_t bodyPartMin, size_t bodyPartMax)
         {            
             auto ori = snake_.back().orientation();
             orientation_t next_ori = orientation_t((ori + biasedDir(gen)+biasedDir(gen)-1 + 4) % 4);
-            auto pos = snake_.back().position() + sf::Vector2f{(ori%2) * (ori-2) * 40, ((ori+1)%2) * (1-ori) * 40};
+            auto pos = snake_.back().position() + sf::Vector2f{(ori%2) * (ori-2) * 40.f, ((ori+1)%2) * (1-ori) * 40.f};
             
             bool overlap = false;
             for(auto& part : snake_)
@@ -192,7 +192,7 @@ void Snake::randomSnake(size_t bodyPartMin, size_t bodyPartMax)
         for(int i = 1; i < 5 && valid; i++)
         {
             auto ori = snake_.front().orientation();
-            auto pos = snake_.front().position() + sf::Vector2f{(ori%2) * (2-ori) * 40, ((ori+1)%2) * (ori-1) * 40} * (float)i;
+            auto pos = snake_.front().position() + sf::Vector2f{(ori%2) * (2-ori) * 40.f, ((ori+1)%2) * (ori-1) * 40.f} * (float)i;
             bool overlap = false;
             for(auto& part : snake_)
                 if(part.position() == pos)
