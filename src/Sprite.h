@@ -62,6 +62,7 @@ class Sprite
 		sf::Clock getClock() const { return clockMoveAnim_; };
 		sf::Vector2i getBackTile(float x, float y);
 		
+		orientation_t getDirection() { return direction_; };
 
 		const bool isOOB();
 		bool isIAReady() { return iaReady_; };

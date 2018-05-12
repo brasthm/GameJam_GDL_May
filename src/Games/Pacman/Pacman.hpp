@@ -15,7 +15,8 @@ class Pacman : public Game
 		Map map_;
 		DirectionalSprite pacman_;
 		std::vector<sf::Vector2i> gums_;
-		std::vector<sf::Vector2i> noeuds_;
+
+		std::vector<Sprite> ghosts_;
 
 		sf::Texture gum_;
 
@@ -24,14 +25,13 @@ class Pacman : public Game
 
 		sf::Keyboard keyboard_;
 
-
 		void fillGum();
 		void collision();
 		void ia();
 		orientation_t getDirection(sf::Vector2i source, sf::Vector2i destination);
 	public :
 		Map getMap() { return map_; };
-		Sprite fantomeRouge_;
+		
 
 		explicit Pacman(sf::RenderWindow& window);
 

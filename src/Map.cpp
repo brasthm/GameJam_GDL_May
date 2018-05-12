@@ -70,7 +70,6 @@ void Map::draw(sf::RenderWindow &window) const
 			buffer.setPosition(tileWidth_ * j, tileHeight_ * i);
 			window.draw(buffer);
 		}
-		std::cerr << std::endl;
 	}
 }
 

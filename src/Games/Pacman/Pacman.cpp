@@ -30,6 +30,15 @@ void Pacman::collision()
 
 	if (fruitAlive_ && map_.getTile(pacman_.getPosition().x + 20, pacman_.getPosition().y + 20) == (map_.getTile(fruit_.getPosition().x + 20, fruit_.getPosition().y + 20)))
 		fruitAlive_ = false;
+
+	for (size_t i = 0; i < ghosts_.size(); i++)
+	{
+		if (map_.getTile(pacman_.getPosition().x + 20, pacman_.getPosition().y + 20) == (map_.getTile(ghosts_[i].getPosition().x + 20, ghosts_[i].getPosition().y + 20)))
+		{
+			std::cerr << "dead" << std::endl;
+		}
+	}
+
 }
 
 void Pacman::ia()
@@ -38,11 +47,27 @@ void Pacman::ia()
 	static std::default_random_engine gen(rd());
 	std::uniform_int_distribution<int> uniform(0, 3);
 
+	for (size_t i = 0; i < ghosts_.size(); i++)
+	{
+		if (ghosts_[i].isIAReady())
+		{
+			orientation_t dir;
+			bool redraw = false;
 
-	if (fantomeRouge_.isIAReady())
-		fantomeRouge_.changeDirection((orientation_t)uniform(rd));
-	
-	
+			do
+			{
+				redraw = false;
+				dir = (orientation_t)uniform(rd);
+				if (ghosts_[i].getDirection() == UP && dir == DOWN) redraw = true;
+				if (ghosts_[i].getDirection() == DOWN && dir == UP) redraw = true;
+				if (ghosts_[i].getDirection() == LEFT && dir == RIGHT) redraw = true;
+				if (ghosts_[i].getDirection() == RIGHT && dir == LEFT) redraw = true;
+
+			} while (redraw);
+
+			ghosts_[i].changeDirection(dir);
+		}
+	}
 }
 
 orientation_t Pacman::getDirection(sf::Vector2i source, sf::Vector2i destination)
@@ -95,12 +120,50 @@ Pacman::Pacman(sf::RenderWindow & window) : Game{ window }
 	gum_.loadFromFile("../../img/pacman/gum.png");
 	fillGum();
 
-	for (size_t i = 0; i < gums_.size(); i++)
-		noeuds_.push_back(gums_[i]);
-
 	static std::random_device rd;
 	static std::default_random_engine gen(rd());
 	std::uniform_int_distribution<int> uniform(0, gums_.size() - 1), uniform2(0, 2);
+	int n;
+
+	n = uniform(gen);
+	pacman_.setPosition(40 * gums_[n].x, 40 * gums_[n].y);
+
+	n = uniform(gen);
+	ghosts_.emplace_back();
+	ghosts_.back().setTexture("../../img/pacman/red_ghost.png");
+	ghosts_.back().updateMap(&map_);
+	ghosts_.back().setDelay(200, 200, 200);
+	ghosts_.back().setTileSize(40, 40);
+	ghosts_.back().setPosition(40 * gums_[n].x, 40 * gums_[n].y);
+	ghosts_.back().applyTexture();
+
+	n = uniform(gen);
+	ghosts_.emplace_back();
+	ghosts_.back().setTexture("../../img/pacman/orange_ghost.png");
+	ghosts_.back().updateMap(&map_);
+	ghosts_.back().setDelay(200, 200, 200);
+	ghosts_.back().setTileSize(40, 40);
+	ghosts_.back().setPosition(40 * gums_[n].x, 40 * gums_[n].y);
+	ghosts_.back().applyTexture();
+
+	n = uniform(gen);
+	ghosts_.emplace_back();
+	ghosts_.back().setTexture("../../img/pacman/blue_ghost.png");
+	ghosts_.back().updateMap(&map_);
+	ghosts_.back().setDelay(200, 200, 200);
+	ghosts_.back().setTileSize(40, 40);
+	ghosts_.back().setPosition(40 * gums_[n].x, 40 * gums_[n].y);
+	ghosts_.back().applyTexture();
+
+	n = uniform(gen);
+	ghosts_.emplace_back();
+	ghosts_.back().setTexture("../../img/pacman/pink_ghost.png");
+	ghosts_.back().updateMap(&map_);
+	ghosts_.back().setDelay(200, 200, 200);
+	ghosts_.back().setTileSize(40, 40);
+	ghosts_.back().setPosition(40 * gums_[n].x, 40 * gums_[n].y);
+	ghosts_.back().applyTexture();
+
 
 	switch (uniform2(gen))
 	{
@@ -117,18 +180,10 @@ Pacman::Pacman(sf::RenderWindow & window) : Game{ window }
 
 	fruit_.applyTexture();
 
-	int n = uniform(gen);
+	n = uniform(gen);
 
 	fruit_.setPos(gums_[n].x * map_.getTileWidth(), gums_[n].y* map_.getTileHeight());
-	gums_.erase(gums_.begin() + n);
-
-	fantomeRouge_.setTexture("../../img/pacman/red_ghost.png");
-	fantomeRouge_.updateMap(&map_);
-	fantomeRouge_.setDelay(200, 200, 200);
-	fantomeRouge_.setTileSize(40, 40);
-	fantomeRouge_.setPosition(40, 40 * 3);
-	fantomeRouge_.applyTexture();
-	
+	gums_.erase(gums_.begin() + n);	
 }
 
 void Pacman::computeFrame(const sf::Time & elapsedTime)
@@ -153,7 +208,9 @@ void Pacman::computeFrame(const sf::Time & elapsedTime)
 	ia();
 
 	pacman_.update();
-	fantomeRouge_.update();
+
+	for (size_t i = 0; i < ghosts_.size(); i++)
+		ghosts_[i].update();
 
 	if (pacman_.isOOB())
 	{
@@ -162,6 +219,18 @@ void Pacman::computeFrame(const sf::Time & elapsedTime)
 		if (dir == DOWN) pacman_.setPosition(pacman_.getPosition().x, 600 - map_.getTileHeight());
 		if (dir == LEFT) pacman_.setPosition(800 - map_.getTileWidth(), pacman_.getPosition().y);
 		if (dir == RIGHT) pacman_.setPosition(0, pacman_.getPosition().y);
+	}
+
+	for (size_t i = 0; i < ghosts_.size(); i++)
+	{
+		if (ghosts_[i].isOOB())
+		{
+			orientation_t dir = ghosts_[i].getDirection();
+			if (dir == UP) ghosts_[i].setPosition(ghosts_[i].getPosition().x, 0);
+			if (dir == DOWN) ghosts_[i].setPosition(ghosts_[i].getPosition().x, 600 - map_.getTileHeight());
+			if (dir == LEFT) ghosts_[i].setPosition(800 - map_.getTileWidth(), ghosts_[i].getPosition().y);
+			if (dir == RIGHT) ghosts_[i].setPosition(0, ghosts_[i].getPosition().y);
+		}
 	}
 
 	collision();
@@ -183,7 +252,9 @@ void Pacman::drawState() const
 	if(fruitAlive_)
 		window_.draw(fruit_.getSprite());
 
-	window_.draw(fantomeRouge_.getSprite());
+	for (size_t i = 0; i < ghosts_.size(); i++)
+		window_.draw(ghosts_[i].getSprite());
+
 	window_.draw(pacman_.getSprite());
 }
 

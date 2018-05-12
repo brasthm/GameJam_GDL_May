@@ -136,6 +136,8 @@ orientation_t Sprite::update()
 
 	if (auto_)
 	{
+		iaReady_ = false;
+
 		elapsed = clockMoveAnim_.getElapsedTime();
 		float ratio = elapsed.asSeconds() / moveAnimDelay_.asSeconds();
 		if (ratio < 1)
@@ -146,8 +148,7 @@ orientation_t Sprite::update()
 		}
 	
 		elapsed = clockMove_.getElapsedTime();
-		iaReady_ = false;
-
+		
 		if (elapsed > moveDelay_)
 		{
 			if (direction_ == nextDirection_)
@@ -155,8 +156,12 @@ orientation_t Sprite::update()
 				prevPosition_ = nextPosition_;
 				setNextPosition();
 
-				if(!map_->isBlank(nextPosition_.x, nextPosition_.y))
+				if (!map_->isBlank(nextPosition_.x, nextPosition_.y))
+				{
+					iaReady_ = true;
 					nextPosition_ = prevPosition_;
+				}
+					
 			}
 			else
 			{
