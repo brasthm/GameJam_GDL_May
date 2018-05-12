@@ -8,7 +8,7 @@
 #include <list>
 #include <string>
 
-enum orientation_t { UP, DOWN, LEFT, RIGHT };
+enum orientation_t { UP, RIGHT, DOWN, LEFT };
 
 
 class Sprite
