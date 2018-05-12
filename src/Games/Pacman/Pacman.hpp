@@ -5,19 +5,35 @@
 #include "../../Map.h"
 #include "../../Sprite.h"
 #include "../../DirectionalSprite.h"
+#include "../../Dijkstra.hpp"
+
+#include <random>
 
 class Pacman : public Game
 {
 	private:
 		Map map_;
 		DirectionalSprite pacman_;
-		std::vector<Sprite> gum_;
+		std::vector<sf::Vector2i> gums_;
+		std::vector<sf::Vector2i> noeuds_;
+		Dijkstra_data<sf::Vector2i, double, std::vector<sf::Vector2i>> data_;
+
+		sf::Texture gum_;
+
+		Sprite fruit_;
+		bool fruitAlive_ = true;
 
 		sf::Keyboard keyboard_;
-		float speedX_, speedY_, maxSpeed_;
+
 
 		void fillGum();
+		void collision();
+		void ia();
+		orientation_t getDirection(sf::Vector2i source, sf::Vector2i destination);
 	public :
+		Map getMap() { return map_; };
+		Sprite fantomeRouge_;
+
 		explicit Pacman(sf::RenderWindow& window);
 
 		void computeFrame(const sf::Time& elapsedTime) override;
