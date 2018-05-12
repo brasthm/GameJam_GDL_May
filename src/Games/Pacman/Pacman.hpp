@@ -2,13 +2,17 @@
 #define PACMAN_HPP
 
 #include "../Game.hpp"
+#include "../../Map.h"
 #include "../../Sprite.h"
+#include "../../DirectionalSprite.h"
 
 class Pacman : public Game
 {
 	private:
-		Sprite pacman_;
-		float speedX_ = 100, speedY_ = 0;
+		Map map_;
+		DirectionalSprite pacman_;
+		sf::Keyboard keyboard_;
+		float speedX_, speedY_, maxSpeed_;
 	public :
 		explicit Pacman(sf::RenderWindow& window);
 

@@ -57,24 +57,24 @@ void Snake::computeFrame(const sf::Time& elapsedTime)
         snake_.front().orientation(savedOrientation_);
         
         auto nextPos = snake_.front().nextPosition();
-        if(nextPos.x < 0 or nextPos.y < 0 or nextPos.x >= 800 or nextPos.y >= 600)
+        if(nextPos.x < 0 || nextPos.y < 0 || nextPos.x >= 800 || nextPos.y >= 600)
             lose = true;
     }
 
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up) and savedOrientation_ != DOWN and savedOrientation_ != UP)
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && savedOrientation_ != DOWN && savedOrientation_ != UP)
         currentOrientation_ = UP;
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left) and savedOrientation_ != RIGHT and savedOrientation_ != LEFT)
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && savedOrientation_ != RIGHT && savedOrientation_ != LEFT)
         currentOrientation_ = LEFT;
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down) and savedOrientation_ != UP and savedOrientation_ != DOWN)
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && savedOrientation_ != UP && savedOrientation_ != DOWN)
         currentOrientation_ = DOWN;
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right) and savedOrientation_ != LEFT and savedOrientation_ != RIGHT)
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && savedOrientation_ != LEFT && savedOrientation_ != RIGHT)
         currentOrientation_ = RIGHT;
 }
 
 void Snake::drawState() const
 {
     auto size = window_.getSize();
-    sf::RectangleShape rect(window_.mapPixelToCoords({size.x, size.y}));
+    sf::RectangleShape rect(window_.mapPixelToCoords({(int)size.x, (int)size.y}));
     rect.setFillColor(lose ? sf::Color::Red : sf::Color::Blue);
     window_.draw(rect);
     

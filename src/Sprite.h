@@ -1,6 +1,8 @@
 #ifndef SPRITE_H
 #define SPRITE_H
 
+#include "Map.h"
+
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
@@ -22,14 +24,17 @@ class Sprite
 		void setTexture(std::string path);
 
 		void move(float deltaX, float deltaY);
+		void move(Map &map, float deltaX, float deltaY);
 		void setPosition(float deltaX, float deltaY);
-
 
 		void setDelay(int delay);
 
 		void update();
 
 		sf::Sprite getSprite() const { return sprite_; };
+		sf::Vector2f getPosition() const { return position_; };
+
+		const bool isOOB();
 };
 
 

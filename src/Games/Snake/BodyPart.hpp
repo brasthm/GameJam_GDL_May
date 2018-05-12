@@ -4,9 +4,7 @@
 
 #include <SFML/System/Vector2.hpp>
 #include <SFML/System/Time.hpp>
-
-
-enum orientation_t { UP, RIGHT, DOWN, LEFT };
+#include "../../DirectionalSprite.h"
 
 class BodyPart
 {
