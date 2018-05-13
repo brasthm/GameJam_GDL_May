@@ -289,6 +289,8 @@ bool SpaceInvaders::computeFrame(const sf::Time & elapsedTime, int& score)
 	manageShoot(elapsedTime);
 
 	age_ += elapsedTime;
+
+	return true;
 }
 
 void SpaceInvaders::drawState() const
