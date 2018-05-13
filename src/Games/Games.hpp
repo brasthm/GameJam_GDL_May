@@ -10,6 +10,7 @@
 #include "SpaceInvaders/SpaceInvaders.hpp"
 #include "BananaHero/BananaHero.hpp"
 #include "Tetris/Tetris.hpp"
+#include "Frogger/Frogger.hpp"
 
 std::vector<std::unique_ptr<instanciator_base<Game, sf::RenderTarget&, DJ&>>> init_game_list();
 

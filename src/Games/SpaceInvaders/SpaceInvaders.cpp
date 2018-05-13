@@ -207,21 +207,39 @@ void SpaceInvaders::manageShoot(const sf::Time & elapsedTime)
 	{
 		playerShootDoesExist_ = true;
 		shoots_.push_back(shoot_);
-		float x = ship_.getPosition().x + ship_.getGlobalBounds().width / 2.f;
-		float y = ship_.getPosition().y;
 		shoots_.back().setPosition({ ship_.getPosition().x + ship_.getGlobalBounds().width / 2.f, ship_.getPosition().y });
 		shoots_.back().setTeam(SI_FRIEND);
 
-		Dj_.play(11,true);
+		Dj_.play(12,true);
 	}
 
-	//TODO tir ennemi
+	//Gestion des tirs ennemis 
 	static std::random_device rd;
 	static std::default_random_engine gen(rd());
 	std::uniform_int_distribution<int> unif_int(0, grids_[0].getGrid().size());
-	std::uniform_real_distribution<float> colldown(500, 1500);
+	std::uniform_real_distribution<float> unif_float(500, 1000);
+
+	if (cooldown_ == 0) cooldown_ = unif_float(rd);
+
+	if (ennemyShotAge_.asMilliseconds() > cooldown_) //actual ennemy shoot
+	{
+		int nbPillarShooting = unif_int(rd);
+		if (nbPillarShooting == 0) nbPillarShooting = 1; //toujours au moins un tir ennemi par vague
 
 
+		while (nbPillarShooting)
+		{
+			shoots_.push_back(shoot_);
+			shoots_.back().setPosition(grids_[0].getGrid()[nbPillarShooting-1].getPillarBottomPos());
+			shoots_.back().setTeam(SI_ENNEMY);
+			nbPillarShooting--;
+		}
+
+		ennemyShotAge_ = sf::Time::Zero;
+		cooldown_ = 0;
+	}
+
+	ennemyShotAge_ += elapsedTime;
 
 	//Gestion des tirs
 	for (auto& shoot : shoots_)
@@ -242,6 +260,20 @@ void SpaceInvaders::manageShoot(const sf::Time & elapsedTime)
 				playerShootDoesExist_ = false;
 			}
 		}
+		else if (shoot.getTeam() == SI_ENNEMY)
+		{
+			shoot.move({ 0,shootSpeed_ * elapsedTime.asSeconds() });
+			if (ship_.collision(shoot)) //vaisseau touché
+			{
+				shoot.setAlive(false); //ici le vaisseau allié est mort
+			}
+			if (shoot.getPosition().y > ECRAN_Y)
+			{
+				shoot.setAlive(false);
+			}
+			//TODO collision avec protecteur
+		}
+
 	}
 
 	//Destruction tirs morts
@@ -270,7 +302,8 @@ bool SpaceInvaders::computeFrame(const sf::Time & elapsedTime, int& score)
 	score += SI_score_;
 	SI_score_ = 0;
 
-	return true;
+	if (!ship_.isAlive()) return false;
+	else return true;
 }
 
 void SpaceInvaders::drawState(sf::Sprite &countdown) const
@@ -279,6 +312,8 @@ void SpaceInvaders::drawState(sf::Sprite &countdown) const
 	sf::RectangleShape rect(window_.mapPixelToCoords({ (int)size.x, (int)size.y }));
 	rect.setFillColor(sf::Color::Black);
 	window_.draw(rect);
+
+	window_.draw(countdown);
 
 	//vaisseau
 	ship_.display();

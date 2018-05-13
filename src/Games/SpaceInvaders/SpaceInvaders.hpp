@@ -85,6 +85,11 @@ public:
 		else return false;
 	}
 
+	bool collision(Entity entity)
+	{
+		return collision(entity.getSprites().front());
+	}
+
 private:
 	//écran
 	sf::RenderTarget* window_;
@@ -276,6 +281,13 @@ public:
 		return false;
 	}
 
+	void shoot(size_t nbShoot)
+	{
+		if (nbShoot > grid_.size())
+			throw std::runtime_error("Out of grid");
+		
+	}
+
 	void setSpaceBetweenColumns(float f) { spaceBetweenColumns_ = f; }
 	void setDirection(Direction direction) { direction_ = direction; }
 	void setSpriteCount(size_t count) { spriteCount_ = count; }
@@ -346,10 +358,13 @@ private:
 	//tirs
 	float shootSpeed_ = 1000;
 		//détermine le temps de clignotement
-	const sf::Time shootBlinkTime_ = sf::milliseconds(1000); //TODO marche pas
+	const sf::Time shootBlinkTime_ = sf::milliseconds(100);
 	sf::Time shootBlinkAge_;
 		//conteneur de tirs
 	std::vector<Entity> shoots_;
+		//cooldown ennemi
+	float cooldown_;
+	sf::Time ennemyShotAge_;
 
 	//tir joueur
 	Entity shoot_; 
