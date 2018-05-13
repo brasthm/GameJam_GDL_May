@@ -10,7 +10,8 @@ class MainMenu : public Screen
 		explicit MainMenu(sf::RenderWindow& window, DJ& dj);
 		std::unique_ptr<Screen> execute() override;
 	private:
-		sf::Texture bg_, cursor_;
+		sf::Texture bg_, cursor_, credits_, how2play_;
+		bool isCredits_, isHow2_;
 		int current_;
 		int maxOptions_;
 };

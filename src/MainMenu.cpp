@@ -3,10 +3,14 @@
 MainMenu::MainMenu(sf::RenderWindow & window, DJ & dj) : Screen{ window, dj }
 {
 	bg_.loadFromFile("../../img/mainMenu/bg.png");
+	credits_.loadFromFile("../../img/mainMenu/credits.png");
 	cursor_.loadFromFile("../../img/pacman/apple.png");
+	how2play_.loadFromFile("../../img/mainMenu/how2play.png");
 
 	current_ = 0;
 	maxOptions_ = 3;
+
+	isCredits_ = false;
 }
 
 std::unique_ptr<Screen> MainMenu::execute()
@@ -28,26 +32,41 @@ std::unique_ptr<Screen> MainMenu::execute()
 
 			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Return)
 			{
-				switch (current_)
+				if (isCredits_)
 				{
+					isCredits_ = false;
+					fond.setTexture(bg_);
+				}
+				else if (isHow2_)
+				{
+					return std::unique_ptr<Screen>(new GameSwitcher(window_, dj_));
+				}
+				else
+				{
+					switch (current_)
+					{
 					case 0:
-						return std::unique_ptr<Screen>(new GameSwitcher(window_, dj_));
+						isHow2_ = true;
+						fond.setTexture(how2play_);
 						break;
 					case 1:
+						isCredits_ = true;
+						fond.setTexture(credits_);
 						break;
 					case 2:
 						return std::unique_ptr<Screen>();
 						break;
+					}
 				}
 			}
-			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Up)
+			if (!isCredits_ && !isHow2_ && event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Up)
 			{
 				current_--;
 				if (current_ < 0) current_ = 0;
 				else cursor.move(0, -45);
 			}
 
-			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Down)
+			if (!isCredits_ && !isHow2_ && event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Down)
 			{
 				current_++;
 				if (current_ >= maxOptions_) current_ = maxOptions_ - 1;
@@ -58,7 +77,7 @@ std::unique_ptr<Screen> MainMenu::execute()
 
 		window_.clear();
 		window_.draw(fond);
-		window_.draw(cursor);
+		if(!isCredits_ && !isHow2_) window_.draw(cursor);
 		window_.display();
 
 		sf::sleep(sf::milliseconds(10));
