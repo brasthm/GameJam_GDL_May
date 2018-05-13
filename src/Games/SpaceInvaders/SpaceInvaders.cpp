@@ -211,6 +211,8 @@ void SpaceInvaders::manageShoot(const sf::Time & elapsedTime)
 		float y = ship_.getPosition().y;
 		shoots_.back().setPosition({ ship_.getPosition().x + ship_.getGlobalBounds().width / 2.f, ship_.getPosition().y });
 		shoots_.back().setTeam(SI_FRIEND);
+
+		Dj_.play(11,true);
 	}
 
 	//TODO tir ennemi
