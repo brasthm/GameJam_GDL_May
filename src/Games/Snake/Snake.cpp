@@ -5,7 +5,7 @@
 #include <iostream>
 
 
-Snake::Snake(sf::RenderTarget& window) : Game{window}
+Snake::Snake(sf::RenderTarget& window, DJ& dj) : Game{window, dj}
 {
     snake_.emplace_back(BodyPart::HEAD, sf::Vector2f{400, 280}, RIGHT);
     snake_.emplace_back(BodyPart::BODY, sf::Vector2f{360, 280}, RIGHT);
@@ -51,6 +51,7 @@ Snake::Snake(sf::RenderTarget& window) : Game{window}
 bool Snake::computeFrame(const sf::Time& elapsedTime, int& score)
 {
     if(lose)
+		Dj_.getAllTrack()[2].getSound().play();
         return false;
     
     cycleProgression_ += elapsedTime;
@@ -69,6 +70,7 @@ bool Snake::computeFrame(const sf::Time& elapsedTime, int& score)
             snake_.insert(rit.base(), *rit);
             randomApple();
             score += 20 * snake_.size(); // TODO Pomme mangée, augmentation de score
+			Dj_.getAllTrack()[5].getSound().play();
         }
         for(auto it = snake_.rbegin() + (appleAte?2:0); it+1 != snake_.rend(); ++it)
         {

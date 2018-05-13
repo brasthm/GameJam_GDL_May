@@ -11,8 +11,8 @@
 #include "BananaHero/BananaHero.hpp"
 #include "Tetris/Tetris.hpp"
 
-std::vector<std::unique_ptr<instanciator_base<Game, sf::RenderTarget&>>> init_game_list();
+std::vector<std::unique_ptr<instanciator_base<Game, sf::RenderTarget&, DJ&>>> init_game_list();
 
-const std::vector<std::unique_ptr<instanciator_base<Game, sf::RenderTarget&>>> game_list = init_game_list();
+const std::vector<std::unique_ptr<instanciator_base<Game, sf::RenderTarget&, DJ&>>> game_list = init_game_list();
 
 #endif //GAMES_HPP

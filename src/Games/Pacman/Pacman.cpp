@@ -31,6 +31,7 @@ void Pacman::collision(int &score)
 			gums_.erase(gums_.begin() + i);
 			i--;
 			score += 50;
+			Dj_.getAllTrack()[3].getSound().play();
 		}
 	}
 
@@ -49,6 +50,7 @@ void Pacman::collision(int &score)
 				ghosts_[i].setDelay(100000);
 				ghosts_[i].applyTexture(1);
 			}
+			Dj_.getAllTrack()[7].getSound().play();
 			score += 200;
 		}
 	}
@@ -67,11 +69,13 @@ void Pacman::collision(int &score)
 			{
 				dead_ = true;
 				score -= 500;
+				Dj_.getAllTrack()[2].getSound().play();
 			}
 			else
 			{
 				ghostAlive_[i] = false;
 				score += 500;
+				Dj_.getAllTrack()[5].getSound().play();
 			}
 				
 		}
@@ -118,7 +122,7 @@ orientation_t Pacman::getDirection(sf::Vector2i source, sf::Vector2i destination
 	if (delta.x < 0) return UP;
 }
 
-Pacman::Pacman(sf::RenderTarget & window) : Game{ window }
+Pacman::Pacman(sf::RenderTarget & window, DJ& dj) : Game{ window , dj}
 {
 	invincible_ = sf::seconds(0);
 	map_.setTileSize(40, 40);

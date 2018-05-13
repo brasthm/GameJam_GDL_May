@@ -8,7 +8,7 @@
 class BananaHero : public Game
 {
     public:
-        explicit BananaHero(sf::RenderTarget& window);
+        explicit BananaHero(sf::RenderTarget& window, DJ& dj);
     
         bool computeFrame(const sf::Time& elapsedTime, int& score) override;
         void drawState(sf::Sprite &countdown) const override;

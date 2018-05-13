@@ -22,7 +22,7 @@ void Shape::updateHW()
 	width_ = tmp;
 }
 
-Tetris::Tetris(sf::RenderTarget& window) : Game(window)
+Tetris::Tetris(sf::RenderTarget& window, DJ& dj) : Game(window, dj)
 {
 	Tvide_.loadFromFile("../../img/tetris/vide.png");
 	Svide_.setTexture(Tvide_);
@@ -73,6 +73,8 @@ Tetris::Tetris(sf::RenderTarget& window) : Game(window)
 	T_.assign(sf::Color(153, 0, 153, 255), "../../img/tetris/T.png", 'T');
 
 	selectShape();
+
+	grilletmp_ = grille_;
 }
 
 void Tetris::moveShape(Shape& shape, const sf::Time& elapsedTime)
@@ -117,7 +119,7 @@ bool Tetris::colli(Shape& shape)
 {
 	int posx = shape.getPos().x;
 	int posy = shape.getPos().y;
-	int angle = shape.getSprite().getRotation();
+	int angle = shape.getAngle();
 	char name = shape.getname();
 
 	posx /= 56; posy /= 56; posy++;
@@ -420,202 +422,202 @@ bool Tetris::colli(Shape& shape)
 	return false;
 }
 
-void Tetris::updateGid(Shape& shape)
+void Tetris::updateGid(Shape& shape, std::vector<std::vector<sf::Sprite>>& grille)
 {
 	int posx = shape.getPos().x;
 	int posy = shape.getPos().y;
-	int angle = shape.getSprite().getRotation();
+	int angle = shape.getAngle();
 	char name= shape.getname();
 
 	posx /= 56; posy /= 56;
-	
+
 	switch (name)
 	{
 	case 'C' :
-		setAt(posx, posy, shape.getSprite());
-		setAt(posx+1, posy, shape.getSprite());
-		setAt(posx, posy+1, shape.getSprite());
-		setAt(posx+1, posy+1, shape.getSprite());
+		setAt(posx, posy, shape.getSprite(), grille);
+		setAt(posx+1, posy, shape.getSprite(), grille);
+		setAt(posx, posy+1, shape.getSprite(), grille);
+		setAt(posx+1, posy+1, shape.getSprite(), grille);
 		break;
 
 	case 'B' : 
 		if (angle == 0)
 		{
-			setAt(posx, posy, shape.getSprite());
-			setAt(posx+1, posy, shape.getSprite());
-			setAt(posx+2, posy, shape.getSprite());
-			setAt(posx+3, posy, shape.getSprite());
+			setAt(posx, posy, shape.getSprite(), grille);
+			setAt(posx+1, posy, shape.getSprite(), grille);
+			setAt(posx+2, posy, shape.getSprite(), grille);
+			setAt(posx+3, posy, shape.getSprite(), grille);
 		}
 		else if (angle == 90)
 		{
-			setAt(posx, posy, shape.getSprite());
-			setAt(posx, posy -1, shape.getSprite());
-			setAt(posx, posy -2, shape.getSprite());
-			setAt(posx, posy -3, shape.getSprite());
+			setAt(posx, posy, shape.getSprite(), grille);
+			setAt(posx, posy -1, shape.getSprite(), grille);
+			setAt(posx, posy -2, shape.getSprite(), grille);
+			setAt(posx, posy -3, shape.getSprite(), grille);
 		}
 		else if (angle == 180)
 		{
-			setAt(posx, posy, shape.getSprite());
-			setAt(posx-1, posy, shape.getSprite());
-			setAt(posx-2, posy, shape.getSprite());
-			setAt(posx-3, posy, shape.getSprite());
+			setAt(posx, posy, shape.getSprite(), grille);
+			setAt(posx-1, posy, shape.getSprite(), grille);
+			setAt(posx-2, posy, shape.getSprite(), grille);
+			setAt(posx-3, posy, shape.getSprite(), grille);
 		}
 		else
 		{
-			setAt(posx, posy, shape.getSprite());
-			setAt(posx , posy+1, shape.getSprite());
-			setAt(posx , posy+2, shape.getSprite());
-			setAt(posx , posy+3, shape.getSprite());
+			setAt(posx, posy, shape.getSprite(), grille);
+			setAt(posx , posy+1, shape.getSprite(), grille);
+			setAt(posx , posy+2, shape.getSprite(), grille);
+			setAt(posx , posy+3, shape.getSprite(), grille);
 		}
 		break;
 	case 'D' :
 		if (angle == 0)
 		{
-			setAt(posx, posy, shape.getSprite());
-			setAt(posx, posy+1, shape.getSprite());
-			setAt(posx+1, posy, shape.getSprite());
-			setAt(posx+2, posy, shape.getSprite());
+			setAt(posx, posy, shape.getSprite(), grille);
+			setAt(posx, posy+1, shape.getSprite(), grille);
+			setAt(posx+1, posy, shape.getSprite(), grille);
+			setAt(posx+2, posy, shape.getSprite(), grille);
 		}
 		else if (angle == 90)
 		{
-			setAt(posx, posy, shape.getSprite());
-			setAt(posx+1, posy, shape.getSprite());
-			setAt(posx, posy -1, shape.getSprite());
-			setAt(posx, posy -2, shape.getSprite());
+			setAt(posx, posy, shape.getSprite(), grille);
+			setAt(posx+1, posy, shape.getSprite(), grille);
+			setAt(posx, posy -1, shape.getSprite(), grille);
+			setAt(posx, posy -2, shape.getSprite(), grille);
 		}
 		else if (angle == 180)
 		{
-			setAt(posx, posy, shape.getSprite());
-			setAt(posx, posy - 1, shape.getSprite());
-			setAt(posx - 1, posy, shape.getSprite());
-			setAt(posx - 2, posy, shape.getSprite());
+			setAt(posx, posy, shape.getSprite(), grille);
+			setAt(posx, posy - 1, shape.getSprite(), grille);
+			setAt(posx - 1, posy, shape.getSprite(), grille);
+			setAt(posx - 2, posy, shape.getSprite(), grille);
 		}
 		else
 		{
-			setAt(posx, posy, shape.getSprite());
-			setAt(posx -1, posy, shape.getSprite());
-			setAt(posx, posy +1, shape.getSprite());
-			setAt(posx, posy+2, shape.getSprite());
+			setAt(posx, posy, shape.getSprite(), grille);
+			setAt(posx -1, posy, shape.getSprite(), grille);
+			setAt(posx, posy +1, shape.getSprite(), grille);
+			setAt(posx, posy+2, shape.getSprite(), grille);
 		}
 		break;
 	case 'M' :
 		if (angle == 0)
 		{
-			setAt(posx, posy, shape.getSprite());
-			setAt(posx + 1, posy, shape.getSprite());
-			setAt(posx+2, posy , shape.getSprite());
-			setAt(posx+2, posy+1, shape.getSprite());
+			setAt(posx, posy, shape.getSprite(), grille);
+			setAt(posx + 1, posy, shape.getSprite(), grille);
+			setAt(posx+2, posy , shape.getSprite(), grille);
+			setAt(posx+2, posy+1, shape.getSprite(), grille);
 		}
 		else if (angle == 90)
 		{
-			setAt(posx, posy, shape.getSprite());
-			setAt(posx , posy-1, shape.getSprite());
-			setAt(posx, posy-2, shape.getSprite());
-			setAt(posx + 1, posy -2, shape.getSprite());
+			setAt(posx, posy, shape.getSprite(), grille);
+			setAt(posx , posy-1, shape.getSprite(), grille);
+			setAt(posx, posy-2, shape.getSprite(), grille);
+			setAt(posx + 1, posy -2, shape.getSprite(), grille);
 		}
 		else if (angle == 180)
 		{
-			setAt(posx, posy, shape.getSprite());
-			setAt(posx - 1, posy, shape.getSprite());
-			setAt(posx - 2, posy, shape.getSprite());
-			setAt(posx - 2, posy - 1, shape.getSprite());
+			setAt(posx, posy, shape.getSprite(), grille);
+			setAt(posx - 1, posy, shape.getSprite(), grille);
+			setAt(posx - 2, posy, shape.getSprite(), grille);
+			setAt(posx - 2, posy - 1, shape.getSprite(), grille);
 		}
 		else
 		{
-			setAt(posx, posy, shape.getSprite());
-			setAt(posx, posy + 1, shape.getSprite());
-			setAt(posx, posy + 2, shape.getSprite());
-			setAt(posx - 1, posy + 2, shape.getSprite());
+			setAt(posx, posy, shape.getSprite(), grille);
+			setAt(posx, posy + 1, shape.getSprite(), grille);
+			setAt(posx, posy + 2, shape.getSprite(), grille);
+			setAt(posx - 1, posy + 2, shape.getSprite(), grille);
 		}
 		break;
 	case 'L' :
 		if (angle == 0)
 		{
-			setAt(posx, posy, shape.getSprite());
-			setAt(posx+1, posy , shape.getSprite());
-			setAt(posx+1, posy + 1, shape.getSprite());
-			setAt(posx + 2, posy + 1, shape.getSprite());
+			setAt(posx, posy, shape.getSprite(), grille);
+			setAt(posx+1, posy , shape.getSprite(), grille);
+			setAt(posx+1, posy + 1, shape.getSprite(), grille);
+			setAt(posx + 2, posy + 1, shape.getSprite(), grille);
 		}
 		else if (angle == 90)
 		{
-			setAt(posx, posy, shape.getSprite());
-			setAt(posx, posy - 1, shape.getSprite());
-			setAt(posx+1, posy - 1, shape.getSprite());
-			setAt(posx + 1, posy - 2, shape.getSprite());
+			setAt(posx, posy, shape.getSprite(), grille);
+			setAt(posx, posy - 1, shape.getSprite(), grille);
+			setAt(posx+1, posy - 1, shape.getSprite(), grille);
+			setAt(posx + 1, posy - 2, shape.getSprite(), grille);
 		}
 		else if (angle == 180)
 		{
-			setAt(posx, posy, shape.getSprite());
-			setAt(posx - 1, posy, shape.getSprite());
-			setAt(posx - 1, posy - 1, shape.getSprite());
-			setAt(posx - 2, posy - 1, shape.getSprite());
+			setAt(posx, posy, shape.getSprite(), grille);
+			setAt(posx - 1, posy, shape.getSprite(), grille);
+			setAt(posx - 1, posy - 1, shape.getSprite(), grille);
+			setAt(posx - 2, posy - 1, shape.getSprite(), grille);
 		}
 		else
 		{
-			setAt(posx, posy, shape.getSprite());
-			setAt(posx, posy + 1, shape.getSprite());
-			setAt(posx - 1, posy + 1, shape.getSprite());
-			setAt(posx - 1, posy + 2, shape.getSprite());
+			setAt(posx, posy, shape.getSprite(), grille);
+			setAt(posx, posy + 1, shape.getSprite(), grille);
+			setAt(posx - 1, posy + 1, shape.getSprite(), grille);
+			setAt(posx - 1, posy + 2, shape.getSprite(), grille);
 		}
 		break;
 	case 'R' :
 		if (angle == 0)
 		{
-			setAt(posx, posy+1, shape.getSprite());
-			setAt(posx+1, posy+1 , shape.getSprite());
-			setAt(posx+1, posy , shape.getSprite());
-			setAt(posx + 2, posy , shape.getSprite());
+			setAt(posx, posy+1, shape.getSprite(), grille);
+			setAt(posx+1, posy+1 , shape.getSprite(), grille);
+			setAt(posx+1, posy , shape.getSprite(), grille);
+			setAt(posx + 2, posy , shape.getSprite(), grille);
 		}
 		else if (angle == 90)
 		{
-			setAt(posx+1, posy, shape.getSprite());
-			setAt(posx+1, posy - 1, shape.getSprite());
-			setAt(posx, posy - 1, shape.getSprite());
-			setAt(posx, posy - 2, shape.getSprite());
+			setAt(posx+1, posy, shape.getSprite(), grille);
+			setAt(posx+1, posy - 1, shape.getSprite(), grille);
+			setAt(posx, posy - 1, shape.getSprite(), grille);
+			setAt(posx, posy - 2, shape.getSprite(), grille);
 		}
 		else if (angle == 180)
 		{
-			setAt(posx, posy - 1, shape.getSprite());
-			setAt(posx - 1, posy - 1, shape.getSprite());
-			setAt(posx - 1, posy, shape.getSprite());
-			setAt(posx - 2, posy, shape.getSprite());
+			setAt(posx, posy - 1, shape.getSprite(), grille);
+			setAt(posx - 1, posy - 1, shape.getSprite(), grille);
+			setAt(posx - 1, posy, shape.getSprite(), grille);
+			setAt(posx - 2, posy, shape.getSprite(), grille);
 		}
 		else
 		{
-			setAt(posx - 1, posy, shape.getSprite());
-			setAt(posx - 1, posy + 1, shape.getSprite());
-			setAt(posx, posy + 1, shape.getSprite());
-			setAt(posx, posy + 2, shape.getSprite());
+			setAt(posx - 1, posy, shape.getSprite(), grille);
+			setAt(posx - 1, posy + 1, shape.getSprite(), grille);
+			setAt(posx, posy + 1, shape.getSprite(), grille);
+			setAt(posx, posy + 2, shape.getSprite(), grille);
 		}
 		break;
 	case 'T':
 		if (angle == 0)
 		{
-			setAt(posx, posy, shape.getSprite());
-			setAt(posx+1, posy, shape.getSprite());
-			setAt(posx+1, posy+1, shape.getSprite());
-			setAt(posx + 2, posy , shape.getSprite());
+			setAt(posx, posy, shape.getSprite(), grille);
+			setAt(posx+1, posy, shape.getSprite(), grille);
+			setAt(posx+1, posy+1, shape.getSprite(), grille);
+			setAt(posx + 2, posy , shape.getSprite(), grille);
 		}
 		else if (angle == 90)
 		{
-			setAt(posx, posy, shape.getSprite());
-			setAt(posx, posy - 1, shape.getSprite());
-			setAt(posx+1, posy - 1, shape.getSprite());
-			setAt(posx , posy - 2, shape.getSprite());
+			setAt(posx, posy, shape.getSprite(), grille);
+			setAt(posx, posy - 1, shape.getSprite(), grille);
+			setAt(posx+1, posy - 1, shape.getSprite(), grille);
+			setAt(posx , posy - 2, shape.getSprite(), grille);
 		}
 		else if (angle == 180)
 		{
-			setAt(posx, posy, shape.getSprite());
-			setAt(posx - 1, posy, shape.getSprite());
-			setAt(posx -1, posy - 1, shape.getSprite());
-			setAt(posx - 2, posy, shape.getSprite());
+			setAt(posx, posy, shape.getSprite(), grille);
+			setAt(posx - 1, posy, shape.getSprite(), grille);
+			setAt(posx -1, posy - 1, shape.getSprite(), grille);
+			setAt(posx - 2, posy, shape.getSprite(), grille);
 		}
 		else
 		{
-			setAt(posx, posy, shape.getSprite());
-			setAt(posx, posy + 1, shape.getSprite());
-			setAt(posx - 1, posy + 1, shape.getSprite());
-			setAt(posx, posy + 2, shape.getSprite());
+			setAt(posx, posy, shape.getSprite(), grille);
+			setAt(posx, posy + 1, shape.getSprite(), grille);
+			setAt(posx - 1, posy + 1, shape.getSprite(), grille);
+			setAt(posx, posy + 2, shape.getSprite(), grille);
 		}
 		break;
 	default:
@@ -667,6 +669,7 @@ void Tetris::selectShape()
 	default:
 		break;
 	}
+	shapecourrante_ = Barre_;
 }
 
 int Tetris::isRow() 
@@ -697,18 +700,24 @@ void Tetris::destroyRow(int row)
 bool Tetris::computeFrame(const sf::Time& elapsedTime, int& score)
 {
 	if (!colli(shapecourrante_))
-		  moveShape(shapecourrante_, elapsedTime);
+	{
+		moveShape(shapecourrante_, elapsedTime);
+		updateGid(shapecourrante_, grilletmp_);
+	}
+		
 	else
 	{
 		if (shapecourrante_.getPos().y == 56)
 			return false;
 		else
 		{
-			updateGid(shapecourrante_);
+			updateGid(shapecourrante_, grille_);
 			selectShape();
 			shapecourrante_.setPos(56, 56);
+			grilletmp_ = grille_;
 		}
 	}
+	
 
 	int row = isRow();
 	if (row != -1)
@@ -729,6 +738,8 @@ void Tetris::drawState(sf::Sprite &countdown)const
 			if(grille_[i][j].getTexture() != Svide_.getTexture())
 				window_.draw(grille_[i][j]);
 
-	window_.draw(shapecourrante_.getSprite());
-
+	for (size_t i = 0; i < 10; i++)
+		for (size_t j = 0; j < 14; j++)
+			if (grille_[i][j].getTexture() != Svide_.getTexture())
+				window_.draw(grilletmp_[i][j]);
 }

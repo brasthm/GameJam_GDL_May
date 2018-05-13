@@ -2,7 +2,7 @@
 #include <random>
 
 
-GameSwitcher::GameSwitcher(sf::RenderWindow & window) : Screen{ window }, score_{ 0 } 
+GameSwitcher::GameSwitcher(sf::RenderWindow & window, DJ& dj) : Screen{ window, dj}, score_{ 0 } 
 {
 	currentGame_ = randomGame();
 	renderT_.create(800, 600);
@@ -23,7 +23,7 @@ GameSwitcher::GameSwitcher(sf::RenderWindow & window) : Screen{ window }, score_
 	progressBar_.setFillColor(sf::Color::White);
 	progressBar_.setPosition(0, 590);
 
-	gameDuration_ = 3.f;
+	gameDuration_ = 30.f;
 }
 
 std::unique_ptr<Screen> GameSwitcher::execute()
@@ -89,7 +89,7 @@ std::unique_ptr<Game> GameSwitcher::randomGame()
     static std::default_random_engine gen(rd());
     std::uniform_int_distribution<size_t> distrib(0, game_list.size()-1);
     auto& game_instanciator = *game_list[distrib(gen)];
-    return game_instanciator(renderT_);
+    return game_instanciator(renderT_, dj_);
 }
 
 std::unique_ptr<Game> GameSwitcher::randomGame(const std::unique_ptr<Game>& previous)

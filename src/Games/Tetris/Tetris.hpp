@@ -43,6 +43,7 @@ private:
 	sf::Texture Tvide_;
 	sf::Sprite Svide_;
 	std::vector<std::vector<sf::Sprite>> grille_;
+	std::vector<std::vector<sf::Sprite>> grilletmp_;
 	std::vector<sf::Sprite> row_;
 	Shape Carrer_;
 	Shape Barre_;
@@ -59,15 +60,15 @@ private:
 	sf::Time chuteprogression_;
 
 public:
-	explicit Tetris(sf::RenderTarget& window);
+	explicit Tetris(sf::RenderTarget& window, DJ& dj);
 	bool computeFrame(const sf::Time& elapsedTime, int& score) override;
 	void drawState(sf::Sprite &countdown) const override;
-	void setAt(int x, int y, const sf::Sprite& elem) { grille_[x][y] = elem; }
+	void setAt(int x, int y, const sf::Sprite& elem, std::vector<std::vector<sf::Sprite>>& grille) { grille[x][y] = elem; }
 	void moveShape(Shape&, const sf::Time& elapsedTime);
 	void rotateLeft(Shape&);
 	void rotateRight(Shape&);
 	void selectShape();
-	void updateGid(Shape&);
+	void updateGid(Shape&, std::vector<std::vector<sf::Sprite>>& grille);
 	bool colli(Shape&);
 	int isRow();
 	void destroyRow(int);

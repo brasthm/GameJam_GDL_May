@@ -10,7 +10,7 @@
 class Snake : public Game
 {
     public:
-        explicit Snake(sf::RenderTarget& window);
+        explicit Snake(sf::RenderTarget& window, DJ& dj);
 
         bool computeFrame(const sf::Time& elapsedTime, int& score) override;
         void drawState(sf::Sprite &countdown) const override;

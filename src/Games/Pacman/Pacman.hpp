@@ -38,7 +38,7 @@ class Pacman : public Game
 	public :
 		Map getMap() { return map_; };
 		
-		explicit Pacman(sf::RenderTarget& window);
+		explicit Pacman(sf::RenderTarget& window, DJ& dj);
 
 		bool computeFrame(const sf::Time& elapsedTime, int& score) override;
 		void drawState(sf::Sprite &countdown) const override;
