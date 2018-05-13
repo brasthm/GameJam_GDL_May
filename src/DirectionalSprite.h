@@ -24,7 +24,7 @@ class DirectionalSprite
 		void updateMap(Map *m);
 		void changeDirection(orientation_t dir);
 
-		void update();
+		void update(sf::Time elapsed);
 
 		sf::Sprite getSprite() const { return sprites_[current_].getSprite(); };
 		const orientation_t getDirection() { return current_; };

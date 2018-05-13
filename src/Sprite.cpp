@@ -15,9 +15,6 @@ void Sprite::setNextPosition()
 Sprite::Sprite() 
 {
 	direction_ = nextDirection_ = RIGHT;
-	clock_.restart();
-	clockMove_.restart();
-	clockMoveAnim_.restart();
 
 	nextPosition_ = { 40, 40 };
 	prevPosition_ = { 40, 40 };
@@ -85,7 +82,7 @@ void Sprite::setNextPosition(float deltaX, float deltaY)
 	nextPosition_.y = deltaY;
 }
 
-void Sprite::setClcok(sf::Clock c)
+void Sprite::setClcok(sf::Time c)
 {
 	clockMoveAnim_ = c;
 }
@@ -115,6 +112,12 @@ void Sprite::changeDirection(orientation_t dir)
 	nextDirection_ = dir;
 }
 
+void Sprite::setDirection(orientation_t dir, orientation_t nDir)
+{
+	direction_ = dir;
+	nextDirection_ = nDir;
+}
+
 void Sprite::applyTexture()
 {
 	sprite_.setTexture(textures_.back());
@@ -125,26 +128,26 @@ void Sprite::applyTexture(size_t n)
 	if(n <nb_textures_) sprite_.setTexture(textures_[n]);
 }
 
-orientation_t Sprite::update()
+orientation_t Sprite::update(sf::Time elapsed)
 {
-	sf::Time elapsed = clock_.getElapsedTime();
+	clock_ +=elapsed;
 
-	if (elapsed >= delay_)
+	if (clock_ >= delay_)
 	{
 		current_++;
 		if (current_ == nb_textures_)
 			current_ = 0;
 
 		sprite_.setTexture(textures_[current_]);
-		clock_.restart();
+		clock_ = sf::milliseconds(0);
 	}
 
 	if (auto_)
 	{
 		iaReady_ = false;
 
-		elapsed = clockMoveAnim_.getElapsedTime();
-		float ratio = elapsed.asSeconds() / moveAnimDelay_.asSeconds();
+		clockMoveAnim_ += elapsed;
+		float ratio = clockMoveAnim_.asSeconds() / moveAnimDelay_.asSeconds();
 		if (ratio < 1)
 		{
 			sf::Vector2f pos = prevPosition_ + (nextPosition_ - prevPosition_) * ratio;
@@ -152,42 +155,43 @@ orientation_t Sprite::update()
 			sprite_.setPosition(position_);
 		}
 	
-		elapsed = clockMove_.getElapsedTime();
+		clockMove_ += elapsed;
 		
-		if (elapsed > moveDelay_)
+		if (clockMove_ > moveDelay_ || nextPosition_ == prevPosition_)
 		{
 			if (direction_ == nextDirection_)
 			{
 				prevPosition_ = nextPosition_;
 				setNextPosition();
 
-				if (!map_->isBlank(nextPosition_.x, nextPosition_.y))
+				if (!map_->isBlank(nextPosition_.x + 20, nextPosition_.y + 20))
 				{
 					iaReady_ = true;
 					nextPosition_ = prevPosition_;
 				}
-					
 			}
 			else
 			{
 				orientation_t temp = direction_;
 				direction_ = nextDirection_;
+				std::cerr << clockMove_.asMilliseconds() << " " << elapsed.asMilliseconds() << std::endl;;
 				prevPosition_ = nextPosition_;
 				setNextPosition();
 				iaReady_ = true;
 
-				if (!map_->isBlank(nextPosition_.x, nextPosition_.y))
+				if (!map_->isBlank(nextPosition_.x + 20, nextPosition_.y + 20))
 				{
 					direction_ = temp;
+					nextDirection_ = direction_;
 					nextPosition_ = prevPosition_;
 					setNextPosition();
-					if (!map_->isBlank(nextPosition_.x, nextPosition_.y))
+					if (!map_->isBlank(nextPosition_.x + 20, nextPosition_.y + 20))
 						nextPosition_ = prevPosition_;
 				}
 			}
 
-			clockMove_.restart();
-			clockMoveAnim_.restart();
+			clockMove_ = sf::milliseconds(0);
+			clockMoveAnim_ = sf::milliseconds(0);
 		}
 	}
 

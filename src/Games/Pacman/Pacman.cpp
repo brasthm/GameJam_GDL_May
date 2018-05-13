@@ -273,11 +273,11 @@ bool Pacman::computeFrame(const sf::Time & elapsedTime, int& score)
 
 	ia();
 
-	pacman_.update();
+	pacman_.update(elapsedTime);
 
-	for (size_t i = 0; i < ghosts_.size(); i++)
+	/*for (size_t i = 0; i < ghosts_.size(); i++)
 		if (ghostAlive_[i])
-			ghosts_[i].update();
+			ghosts_[i].update(elapsedTime);*/
 
 	if (pacman_.isOOB())
 	{
@@ -300,7 +300,7 @@ bool Pacman::computeFrame(const sf::Time & elapsedTime, int& score)
 		}
 	}
 
-	collision(score);
+	//collision(score);
 	
 	return true;
 }
