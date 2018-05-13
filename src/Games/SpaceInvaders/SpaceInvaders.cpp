@@ -1,6 +1,6 @@
 #include "SpaceInvaders.hpp"
 
-SpaceInvaders::SpaceInvaders(sf::RenderWindow& window) : Game{ window }
+SpaceInvaders::SpaceInvaders(sf::RenderTarget& window) : Game{ window }
 {
 	textures_.resize(17);
 
@@ -20,7 +20,7 @@ SpaceInvaders::SpaceInvaders(sf::RenderWindow& window) : Game{ window }
 	textures_[5].loadFromFile("../../img/SpaceInvaders/invaderDownA.png");
 	textures_[6].loadFromFile("../../img/SpaceInvaders/invaderDownB.png");
 	//invader Boss
-	//TODO PG à augmenter x8 depuis le dossier Original
+	//TODO PG ï¿½ augmenter x8 depuis le dossier Original
 	//textures_[7].loadFromFile("../../img/SpaceInvaders/invaderDownB.png");
 
 	//TEXTURES des protections
@@ -28,7 +28,7 @@ SpaceInvaders::SpaceInvaders(sf::RenderWindow& window) : Game{ window }
 	textures_[9].loadFromFile("../../img/SpaceInvaders/prot1.png");
 	textures_[10].loadFromFile("../../img/SpaceInvaders/prot2.png");
 	textures_[11].loadFromFile("../../img/SpaceInvaders/prot3.png");
-	//TODO PG à augmenter x8 depuis le dossier Original
+	//TODO PG ï¿½ augmenter x8 depuis le dossier Original
 	//textures_[12].loadFromFile("../../img/SpaceInvaders/protHalf.png");
 	//textures_[13].loadFromFile("../../img/SpaceInvaders/protHalf1.png");
 	//textures_[14].loadFromFile("../../img/SpaceInvaders/protHalf2.png");
@@ -37,10 +37,10 @@ SpaceInvaders::SpaceInvaders(sf::RenderWindow& window) : Game{ window }
 	//TEXTURE du tir
 	textures_[16].loadFromFile("../../img/SpaceInvaders/shootA.png");
 
-	//Création du tir
+	//Crï¿½ation du tir
 
 
-	//Création de la Grid A
+	//Crï¿½ation de la Grid A
 	Grid gridA;
 		//pillar 1
 		Pillar pillarA1;
@@ -77,7 +77,7 @@ SpaceInvaders::SpaceInvaders(sf::RenderWindow& window) : Game{ window }
 		gridA.addPillar(pillarA1);
 	grids_.push_back(gridA);
 
-	//Création de la Grid B
+	//Crï¿½ation de la Grid B
 	Grid gridB;
 		//pillar 1
 		Pillar pillarB1;
@@ -152,10 +152,12 @@ void SpaceInvaders::manageGrids(const sf::Time & elapsedTime)
 }
 
 
-void SpaceInvaders::computeFrame(const sf::Time & elapsedTime)
+bool SpaceInvaders::computeFrame(const sf::Time & elapsedTime, int& score)
 {
 	manageShip(elapsedTime);
 	manageGrids(elapsedTime);
+	
+	return true;
 }
 
 void SpaceInvaders::drawState() const

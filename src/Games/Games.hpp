@@ -9,6 +9,7 @@
 #include "boxhead/boxhead.hpp"
 #include "SpaceInvaders/SpaceInvaders.hpp"
 #include "BananaHero/BananaHero.hpp"
+#include "Tetris/Tetris.hpp"
 
 std::vector<std::unique_ptr<instanciator_base<Game, sf::RenderWindow&>>> init_game_list();
 

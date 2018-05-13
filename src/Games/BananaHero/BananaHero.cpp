@@ -4,7 +4,7 @@
 #include "../../utilities.hpp"
 
 
-BananaHero::BananaHero(sf::RenderWindow& window) : Game(window)
+BananaHero::BananaHero(sf::RenderTarget& window) : Game(window)
 {
     textures_.resize(7);
     textures_[0].loadFromFile("../../img/bananaHero/banana.png");
@@ -17,33 +17,30 @@ BananaHero::BananaHero(sf::RenderWindow& window) : Game(window)
     monkey_.setTextures(textures_[4], textures_[5]);
     bg_.setTexture(textures_[6]);
     
-    spawnDelay_ = sf::milliseconds(random(200, 1000));
+    spawnDelay_ = sf::milliseconds(random(100, 400));
+
+    x = 400;
+    
+    sf::Time generatedTime;
+    
+    while(generatedTime < sf::milliseconds(400))
+    {
+        generateBanana();
+        auto timing = sf::milliseconds(random(100, 400));
+        for(auto& banana : bananas_)
+            banana.update(timing);
+        generatedTime += timing;
+    }
+    generateBanana();
     
     monkey_.position({400, 500});
-    
-    x = 400;
 }
 
-void BananaHero::computeFrame(const sf::Time& elapsedTime)
+bool BananaHero::computeFrame(const sf::Time& elapsedTime, int& score)
 {
     spawnProgression_ += elapsedTime;
     if(spawnProgression_ >= spawnDelay_) {
-        Banana::type_t type;
-        if(random(1, 10) == 1) {
-            if(random(1,5) == 1)
-                type = Banana::DOUBLEROTTEN;
-            else
-                type = Banana::DOUBLE;
-        }else {
-            if(random(1,5) == 1)
-                type = Banana::ROTTEN;
-            else
-                type = Banana::NORMAL;
-        }
-        if(random(1, 50) == 1)
-            x += random(-500, 500);
-        x = std::clamp(x + random(-100, 100), 40.f, 760.f);
-        bananas_.emplace_back(type, x);
+        generateBanana();
         spawnProgression_ = sf::Time::Zero;
         spawnDelay_ = sf::milliseconds(random(100, 400));
     }
@@ -65,22 +62,22 @@ void BananaHero::computeFrame(const sf::Time& elapsedTime)
             {
                 case Banana::NORMAL:
                     monkey_.happy(true);
-                    // TODO Banane normale attrappée : des points en plus
+                    score += 100;// TODO Banane normale attrappée : des points en plus
                     break;
                 
                 case Banana::DOUBLE:
                     monkey_.happy(true);
-                    // TODO Banane double attrappée : plus de points en plus
+                    score += 300;// TODO Banane double attrappée : plus de points en plus
                     break;
                 
                 case Banana::ROTTEN:
                     monkey_.happy(false);
-                    // TODO Banane pourrie attrappée : des points en moins
+                    score -= 100;// TODO Banane pourrie attrappée : des points en moins
                     break;
                 
                 case Banana::DOUBLEROTTEN:
                     monkey_.happy(false);
-                    // TODO Banane double pourrie attrappée : plus de points en moins
+                    score -= 300;// TODO Banane double pourrie attrappée : plus de points en moins
                     break;
             }
             bananas_.erase(bananas_.begin()+i);
@@ -89,11 +86,13 @@ void BananaHero::computeFrame(const sf::Time& elapsedTime)
         else if(bananas_[i].position().y > 640)
         {
             if(bananas_[i].type() == Banana::NORMAL || bananas_[i].type() == Banana::DOUBLE)
-                ; // TODO Banane normale ou double pas attrapée : des points en moins
+                score -= 50; // TODO Banane normale ou double pas attrapée : des points en moins
             bananas_.erase(bananas_.begin()+i);
             --i;
         }
     }
+        
+    return true;
 }
 
 void BananaHero::drawState() const
@@ -110,4 +109,24 @@ void BananaHero::drawState() const
     }
     
     window_.draw(monkey_.sprite());
+}
+
+void BananaHero::generateBanana()
+{
+    Banana::type_t type;
+    if(random(1, 10) == 1) {
+        if(random(1,5) == 1)
+            type = Banana::DOUBLEROTTEN;
+        else
+            type = Banana::DOUBLE;
+    }else {
+        if(random(1,5) == 1)
+            type = Banana::ROTTEN;
+        else
+            type = Banana::NORMAL;
+    }
+    if(random(1, 50) == 1)
+        x += random(-500, 500);
+    x = std::clamp(x + random(-100, 100), 40.f, 760.f);
+    bananas_.emplace_back(type, x);
 }

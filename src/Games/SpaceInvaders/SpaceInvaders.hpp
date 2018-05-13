@@ -11,7 +11,7 @@ class Entity
 {
 public:
 	explicit Entity() = default;
-	explicit Entity(sf::RenderWindow* window, const sf::Texture& texture)
+	explicit Entity(sf::RenderTarget* window, const sf::Texture& texture)
 		: window_{ window }
 	{
 		sprite_.setTexture(texture);
@@ -43,8 +43,8 @@ public:
 	void operator=(Entity entity) { sprite_ = entity.sprite_; window_ = entity.window_; }
 
 private:
-	//écran
-	sf::RenderWindow* window_;
+	//ï¿½cran
+	sf::RenderTarget* window_;
 	//sprite
 	sf::Sprite sprite_;
 };
@@ -138,8 +138,8 @@ public:
 		{
 			pillar.setPosition({ x,y });
 			//espace entre les colonnes
-				//x += 2 * pillar.getWidth(); //largeur du pillar dédoublée
-				x += pillar.getWidth() + 8; //+1 pixel (8 en réalité)
+				//x += 2 * pillar.getWidth(); //largeur du pillar dï¿½doublï¿½e
+				x += pillar.getWidth() + 8; //+1 pixel (8 en rï¿½alitï¿½)
 		}
 	}
 
@@ -166,8 +166,8 @@ private:
 class SpaceInvaders : public Game
 {
 public:
-	explicit SpaceInvaders(sf::RenderWindow& window);
-	void computeFrame(const sf::Time& elapsedTime) override;
+	explicit SpaceInvaders(sf::RenderTarget& window);
+	bool computeFrame(const sf::Time& elapsedTime, int& score) override;
 	void drawState() const override;
 
 	void manageShip(const sf::Time& elapsedTime);
@@ -184,10 +184,10 @@ private:
 	//textures 
 	std::vector<sf::Texture> textures_;
 
-	//ennemis (chaque grid correspond à une sprite de l'animation pour chaque ennemi)
+	//ennemis (chaque grid correspond ï¿½ une sprite de l'animation pour chaque ennemi)
 	std::vector<Grid> grids_;
 	float gridSpeed_ = 400;
-	size_t gridCount_ = 0; //détermine quelle grid afficher
+	size_t gridCount_ = 0; //dï¿½termine quelle grid afficher
 
 	//vaisseau
 	Entity ship_;

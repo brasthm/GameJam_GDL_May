@@ -60,8 +60,8 @@ private:
 	sf::Time chuteprogression_;
 
 public:
-	explicit Tetris(sf::RenderWindow& window);
-	void computeFrame(const sf::Time& elapsedTime) override;
+	explicit Tetris(sf::RenderTarget& window);
+	bool computeFrame(const sf::Time& elapsedTime, int& score) override;
 	void drawState() const override;
 	void setAt(int x, int y, const sf::Sprite& elem) { grille_[x][y] = elem; }
 	void moveShape(Shape&, const sf::Time& elapsedTime);

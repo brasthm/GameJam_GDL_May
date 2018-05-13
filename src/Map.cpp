@@ -59,7 +59,7 @@ void Map::setTileSize(size_t width, size_t height)
 	}
 }
 
-void Map::draw(sf::RenderWindow &window) const
+void Map::draw(sf::RenderTarget &window) const
 {
 	for (size_t i = 0; i < nbMaxHeight_; i++)
 	{

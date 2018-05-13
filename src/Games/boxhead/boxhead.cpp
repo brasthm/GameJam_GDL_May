@@ -35,7 +35,7 @@ void Bullet::move(float speed, const sf::Time& elapsedTime)
 	}
 }
 
-Boxhead::Boxhead(sf::RenderWindow& window) : Game{ window }
+Boxhead::Boxhead(sf::RenderTarget& window) : Game{ window }
 {
 	sf::Texture TplayerD;
 	TplayerD.loadFromFile("../../img/boxhead/playerDown.png");
@@ -444,8 +444,8 @@ void Boxhead::moveZombie(const sf::Time& elapsedTime)
 			break;
 
 		case 'C':
-			//player lose score
-			
+			//player loose
+			lose_ = true;
 				break;
 		default:
 			break;
@@ -466,14 +466,19 @@ void Boxhead::spawnZombie(const sf::Time& elapsedTime)
 	}
 }
 
-void Boxhead::computeFrame(const sf::Time& elapsedTime)
+bool Boxhead::computeFrame(const sf::Time& elapsedTime, int& score)
 {
+    if(lose_)
+        return false;
+    
 	movePlayer(elapsedTime);
 	shoot(elapsedTime, sens_);
 	computeBullet(elapsedTime);
 	moveZombie(elapsedTime);
 	spawnZombie(elapsedTime);
 	std::sort(zombieVect_.begin(), zombieVect_.end(), zombiecomparator());
+	
+	return true;
 }
 
 void Boxhead::drawState()const

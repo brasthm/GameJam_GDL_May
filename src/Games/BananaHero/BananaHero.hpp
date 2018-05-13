@@ -8,10 +8,12 @@
 class BananaHero : public Game
 {
     public:
-        explicit BananaHero(sf::RenderWindow& window);
+        explicit BananaHero(sf::RenderTarget& window);
     
-        void computeFrame(const sf::Time& elapsedTime) override;
+        bool computeFrame(const sf::Time& elapsedTime, int& score) override;
         void drawState() const override;
+        
+        void generateBanana();
     
     private:
         std::vector<Banana> bananas_;

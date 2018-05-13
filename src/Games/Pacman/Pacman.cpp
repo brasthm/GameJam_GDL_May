@@ -60,7 +60,7 @@ void Pacman::collision()
 		if (ghostAlive_[i] && map_.getTile(pacman_.getPosition().x + 20, pacman_.getPosition().y + 20) == (map_.getTile(ghosts_[i].getPosition().x + 20, ghosts_[i].getPosition().y + 20)))
 		{
 			if (!isInvincible)
-				std::cerr << "dead" << std::endl;
+				dead_ = true;
 			else
 				ghostAlive_[i] = false;
 		}
@@ -107,7 +107,7 @@ orientation_t Pacman::getDirection(sf::Vector2i source, sf::Vector2i destination
 	if (delta.x < 0) return UP;
 }
 
-Pacman::Pacman(sf::RenderWindow & window) : Game{ window }
+Pacman::Pacman(sf::RenderTarget & window) : Game{ window }
 {
 	invincible_ = sf::seconds(0);
 	map_.setTileSize(40, 40);
@@ -220,8 +220,11 @@ Pacman::Pacman(sf::RenderWindow & window) : Game{ window }
 	gums_.erase(gums_.begin() + n);
 }
 
-void Pacman::computeFrame(const sf::Time & elapsedTime)
+bool Pacman::computeFrame(const sf::Time & elapsedTime, int& score)
 {
+    if(dead_)
+        return false;
+    
 	if (isInvincible) invincible_ += elapsedTime;
 
 	if (invincible_ > sf::seconds(2))
@@ -287,6 +290,8 @@ void Pacman::computeFrame(const sf::Time & elapsedTime)
 	}
 
 	collision();
+	
+	return true;
 }
 
 void Pacman::drawState() const 

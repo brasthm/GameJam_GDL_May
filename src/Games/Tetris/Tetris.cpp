@@ -22,12 +22,12 @@ void Shape::updateHW()
 	width_ = tmp;
 }
 
-Tetris::Tetris(sf::RenderWindow& window) : Game(window)
+Tetris::Tetris(sf::RenderTarget& window) : Game(window)
 {
-	Tvide_.loadFromFile("../../img/Tetris/vide.png");
+	Tvide_.loadFromFile("../../img/tetris/vide.png");
 	Svide_.setTexture(Tvide_);
 
-	Tblock_.loadFromFile("../../img/Tetris/cube.png");
+	Tblock_.loadFromFile("../../img/tetris/cube.png");
 	Sblock_.setTexture(Tblock_);
 	Sblock_.setColor(sf::Color(128, 128, 128, 255));
 
@@ -58,19 +58,19 @@ Tetris::Tetris(sf::RenderWindow& window) : Game(window)
 		grille_[9][i] = Sblock_;
 	}
 	
-	Carrer_.assign(sf::Color(255, 255, 0, 255), "../../img/Tetris/carrer.png", 'C');
+	Carrer_.assign(sf::Color(255, 255, 0, 255), "../../img/tetris/carrer.png", 'C');
 	
-	Barre_.assign(sf::Color(51,153,255,255), "../../img/Tetris/barre.png", 'B');
+	Barre_.assign(sf::Color(51,153,255,255), "../../img/tetris/barre.png", 'B');
 	
-	LDroit_.assign(sf::Color(255, 128, 0, 255), "../../img/Tetris/LD.png", 'D');
+	LDroit_.assign(sf::Color(255, 128, 0, 255), "../../img/tetris/LD.png", 'D');
 	
-	LMirroire_.assign(sf::Color(0, 0, 204, 255), "../../img/Tetris/LM.png", 'M');
+	LMirroire_.assign(sf::Color(0, 0, 204, 255), "../../img/tetris/LM.png", 'M');
 	
-	ZigZagLeft_.assign(sf::Color(0, 204, 0, 255), "../../img/Tetris/ZigL.png", 'L');
+	ZigZagLeft_.assign(sf::Color(0, 204, 0, 255), "../../img/tetris/zigL.png", 'L');
 	
-	ZigZagRight_.assign(sf::Color(255, 0, 0, 255), "../../img/Tetris/ZigR.png", 'R');
+	ZigZagRight_.assign(sf::Color(255, 0, 0, 255), "../../img/tetris/zigR.png", 'R');
 
-	T_.assign(sf::Color(153, 0, 153, 255), "../../img/Tetris/T.png", 'T');
+	T_.assign(sf::Color(153, 0, 153, 255), "../../img/tetris/T.png", 'T');
 
 	posx_ = 0;
 	//generer shape alea
@@ -696,14 +696,14 @@ void Tetris::destroyRow(int row)
 		grille_[c][row] = Svide_;
 }
 
-void Tetris::computeFrame(const sf::Time& elapsedTime)
+bool Tetris::computeFrame(const sf::Time& elapsedTime, int& score)
 {
 	if (!colli(shapecourrante_))
 		  moveShape(shapecourrante_, elapsedTime);
 	else
 	{
 		if (shapecourrante_.getPos().y == 56)
-			;//perdu
+			return false;
 		else
 		{
 			updateGid(shapecourrante_);
@@ -715,6 +715,8 @@ void Tetris::computeFrame(const sf::Time& elapsedTime)
 	int row = isRow();
 	if (row != -1)
 		destroyRow(row);
+	
+	return true;
 }
 
 void Tetris::drawState()const
