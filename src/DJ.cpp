@@ -33,12 +33,11 @@ DJ::DJ(sf::Music& m) : music_(m)
 	AllTrack_[10].getSound().setVolume(25);
 	AllTrack_[11].getSound().setVolume(50);
 
-	playMusicForever();
 }
 
-void DJ::playMusicForever() 
+void DJ::playMusicForever(std::string path) 
 {
-	music_.openFromFile(location "music/Komiku_-_64_-_First_Dance.ogg");
+	music_.openFromFile(path);
 	//HACK PG protection de mes oreilles
 	music_.play();
 	music_.setLoop(true);

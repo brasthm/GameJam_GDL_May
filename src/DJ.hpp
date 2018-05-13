@@ -24,7 +24,7 @@ private :
 public :
 	DJ(sf::Music& m);
 	std::vector<Track>& getAllTrack(){ return AllTrack_; }
-	void playMusicForever();
+	void playMusicForever(std::string path);
 	void play(size_t n, bool forced = false);
 
 };

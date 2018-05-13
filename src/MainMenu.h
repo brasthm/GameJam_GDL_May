@@ -3,6 +3,7 @@
 
 #include "Screen.hpp"
 #include "GameSwitcher.hpp"
+#include "constants.hpp"
 
 class MainMenu : public Screen
 {

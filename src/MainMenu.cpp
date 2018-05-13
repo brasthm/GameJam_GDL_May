@@ -2,10 +2,10 @@
 
 MainMenu::MainMenu(sf::RenderWindow & window, DJ & dj) : Screen{ window, dj }
 {
-	bg_.loadFromFile("../../img/mainMenu/bg.png");
-	credits_.loadFromFile("../../img/mainMenu/credits.png");
-	cursor_.loadFromFile("../../img/pacman/apple.png");
-	how2play_.loadFromFile("../../img/mainMenu/how2play.png");
+	bg_.loadFromFile(location "img/mainMenu/bg.png");
+	credits_.loadFromFile(location "img/mainMenu/credits.png");
+	cursor_.loadFromFile(location "img/pacman/apple.png");
+	how2play_.loadFromFile(location "img/mainMenu/how2play.png");
 
 	current_ = 0;
 	maxOptions_ = 3;
@@ -20,6 +20,8 @@ std::unique_ptr<Screen> MainMenu::execute()
 	cursor.setTexture(cursor_);
 
 	cursor.setPosition(250, 345);
+
+	dj_.playMusicForever(location "music/menu.ogg");
 
 	while (window_.isOpen())
 	{
@@ -39,6 +41,7 @@ std::unique_ptr<Screen> MainMenu::execute()
 				}
 				else if (isHow2_)
 				{
+					dj_.playMusicForever(location "music/game.ogg");
 					return std::unique_ptr<Screen>(new GameSwitcher(window_, dj_));
 				}
 				else
