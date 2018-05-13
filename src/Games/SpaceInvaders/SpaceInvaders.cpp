@@ -1,4 +1,4 @@
-#include "SpaceInvaders.hpp"
+﻿#include "SpaceInvaders.hpp"
 #include <cmath>
 #include <random>
 
@@ -9,9 +9,9 @@ SpaceInvaders::SpaceInvaders(sf::RenderTarget& window, DJ& dj) : Game{ window , 
 	//vaisseau
 	textures_[0].loadFromFile("../../img/SpaceInvaders/ship.png");
 	ship_ = Entity(&window, textures_[0]);
-	ship_.move({ ECRAN_X / 2, ECRAN_Y - ship_.getSprite().getGlobalBounds().height });//initial pos
+	ship_.move({ ECRAN_X / 2, ECRAN_Y - ship_.getGlobalBounds().height });//initial pos
 	ship_.setTeam(SI_FRIEND);
-	borderSpace_ = std::ceil(ship_.getSprite().getGlobalBounds().width / 2.f);
+	borderSpace_ = std::ceil(ship_.getGlobalBounds().width / 2.f);
 
 	//TEXTURES des ennemis
 	//invader haut
@@ -24,7 +24,7 @@ SpaceInvaders::SpaceInvaders(sf::RenderTarget& window, DJ& dj) : Game{ window , 
 	textures_[5].loadFromFile("../../img/SpaceInvaders/invaderDownA.png");
 	textures_[6].loadFromFile("../../img/SpaceInvaders/invaderDownB.png");
 	//invader Boss
-	//TODO PG � augmenter x8 depuis le dossier Original
+	//TODO PG à augmenter x8 depuis le dossier Original
 	//textures_[7].loadFromFile("../../img/SpaceInvaders/invaderDownB.png");
 
 	//TEXTURES des protections
@@ -32,7 +32,7 @@ SpaceInvaders::SpaceInvaders(sf::RenderTarget& window, DJ& dj) : Game{ window , 
 	textures_[9].loadFromFile("../../img/SpaceInvaders/prot1.png");
 	textures_[10].loadFromFile("../../img/SpaceInvaders/prot2.png");
 	textures_[11].loadFromFile("../../img/SpaceInvaders/prot3.png");
-	//TODO PG � augmenter x8 depuis le dossier Original
+	//TODO PG à augmenter x8 depuis le dossier Original
 	//textures_[12].loadFromFile("../../img/SpaceInvaders/protHalf.png");
 	//textures_[13].loadFromFile("../../img/SpaceInvaders/protHalf1.png");
 	//textures_[14].loadFromFile("../../img/SpaceInvaders/protHalf2.png");
@@ -49,10 +49,15 @@ SpaceInvaders::SpaceInvaders(sf::RenderTarget& window, DJ& dj) : Game{ window , 
 		//pillar 1
 		Pillar pillarA1;
 		Entity entityA11(&window, textures_[1]);
+		entityA11.addSprite(textures_[2]);
 		Entity entityA12(&window, textures_[3]);
+		entityA12.addSprite(textures_[4]);
 		Entity entityA13(&window, textures_[3]);
+		entityA13.addSprite(textures_[4]);
 		Entity entityA14(&window, textures_[5]);
+		entityA14.addSprite(textures_[6]);
 		Entity entityA15(&window, textures_[5]);
+		entityA15.addSprite(textures_[6]);
 		pillarA1.addInvader(entityA11);
 		pillarA1.addInvader(entityA12);
 		pillarA1.addInvader(entityA13);
@@ -67,10 +72,10 @@ SpaceInvaders::SpaceInvaders(sf::RenderTarget& window, DJ& dj) : Game{ window , 
 		gridA.addPillar(pillarA1);
 		//pillar 5
 		gridA.addPillar(pillarA1);
-		//pillar 6 
-		gridA.addPillar(pillarA1);
-		//pillar 7
-		gridA.addPillar(pillarA1);
+		////pillar 6 
+		//gridA.addPillar(pillarA1);
+		////pillar 7
+		//gridA.addPillar(pillarA1);
 		////pillar 8
 		//gridA.addPillar(pillarA1);
 		////pillar 9
@@ -83,43 +88,6 @@ SpaceInvaders::SpaceInvaders(sf::RenderTarget& window, DJ& dj) : Game{ window , 
 
 	downLimit_ = pillarA1.getPillarBottomPos().y + SPACE_BETWEEN_LINES;
 
-	//Création de la Grid B
-	Grid gridB;
-		//pillar 1
-		Pillar pillarB1;
-		Entity entityB11(&window, textures_[2]);
-		Entity entityB12(&window, textures_[4]);
-		Entity entityB13(&window, textures_[4]);
-		Entity entityB14(&window, textures_[6]);
-		Entity entityB15(&window, textures_[6]);
-		pillarB1.addInvader(entityB11);
-		pillarB1.addInvader(entityB12);
-		pillarB1.addInvader(entityB13);
-		pillarB1.addInvader(entityB14);
-		pillarB1.addInvader(entityB15);
-		gridB.addPillar(pillarB1);
-		//pillar 2
-		gridB.addPillar(pillarB1);
-		//pillar 3
-		gridB.addPillar(pillarB1);
-		//pillar 4
-		gridB.addPillar(pillarB1);
-		//pillar 5
-		gridB.addPillar(pillarB1);
-		//pillar 6 
-		gridB.addPillar(pillarB1);
-		//pillar 7
-		gridB.addPillar(pillarB1);
-		////pillar 8
-		//gridB.addPillar(pillarB1);
-		////pillar 9
-		//gridB.addPillar(pillarB1);
-		//pillar 10
-		//gridB.addPillar(pillarB1);
-		//pillar 11
-		//gridB.addPillar(pillarB1);
-	grids_.push_back(gridB);
-
 	for (auto& grid : grids_)
 	{
 		float gridWidth = 0;
@@ -129,7 +97,7 @@ SpaceInvaders::SpaceInvaders(sf::RenderTarget& window, DJ& dj) : Game{ window , 
 		}
 		grid.setSpaceBetweenColumns((ECRAN_X - 2 * borderSpace_ - gridWidth) / grid.getGrid().size());
 		grid.setWidth(ECRAN_X - 2 * borderSpace_ - (ECRAN_X - 2 * borderSpace_ - gridWidth) / grid.getGrid().size());
-		grid.setPosition({ 0,0 });
+		grid.setPosition({ 0,30 });
 		grid.setTeam(SI_ENNEMY);
 	}
 
@@ -137,7 +105,7 @@ SpaceInvaders::SpaceInvaders(sf::RenderTarget& window, DJ& dj) : Game{ window , 
 
 void SpaceInvaders::manageShip(const sf::Time& elapsedTime)
 {
-	sf::Vector2f posbefore = ship_.getSprite().getPosition();
+	sf::Vector2f posbefore = ship_.getPosition();
 	sf::Keyboard keyboard;
 
 	float deltaX = 0;
@@ -147,8 +115,8 @@ void SpaceInvaders::manageShip(const sf::Time& elapsedTime)
 	else if (keyboard.isKeyPressed(sf::Keyboard::Right))
 		deltaX = shipSpeed_ * elapsedTime.asSeconds();
 
-	float taille = ship_.getSprite().getGlobalBounds().width;
-	float pos = ship_.getSprite().getPosition().x;
+	float taille = ship_.getGlobalBounds().width;
+	float pos = ship_.getPosition().x;
 	if ((pos + taille + deltaX) > ECRAN_X) deltaX = ECRAN_X - pos - taille;
 	else if (pos + deltaX < 0) deltaX = -pos;
 	ship_.move({ deltaX, 0 });
@@ -159,11 +127,17 @@ void SpaceInvaders::manageGrids(const sf::Time & elapsedTime)
 {
 	if (gridBlinkAge_ >= gridBlinkTime_)
 	{
-		gridCount_++;
-		if (gridCount_ >= grids_.size()) gridCount_ = 0;
+		//HACK nombre de sprites
+		size_t nbSprite = 2;
+
+		grids_[0].setSpriteCount(grids_[0].getSpriteCount() + 1);
+		if (grids_[0].getSpriteCount() >= nbSprite) grids_[0].setSpriteCount(0);
 		gridBlinkAge_ = sf::Time::Zero;
 	}
 	gridBlinkAge_ += elapsedTime;
+
+	//màj de la vitesse de la grid
+	gridSpeed_ = 300;
 
 	//mouvement : création du delta de mouvement
 	sf::Vector2f delta = { gridSpeed_*elapsedTime.asSeconds()*(float)(grids_[0].getDirection() == DIR_RIGHT) - gridSpeed_ * elapsedTime.asSeconds()*(float)(grids_[0].getDirection() == DIR_LEFT)
@@ -222,7 +196,7 @@ void SpaceInvaders::manageShoot(const sf::Time & elapsedTime)
 	if (shootBlinkAge_ >= shootBlinkTime_)
 	{
 		for (auto& shoot : shoots_)
-			shoot.getSprite().rotate(180);
+			shoot.rotate(180);
 		shootBlinkAge_ = sf::Time::Zero;
 	}
 	shootBlinkAge_ += elapsedTime;
@@ -233,9 +207,9 @@ void SpaceInvaders::manageShoot(const sf::Time & elapsedTime)
 	{
 		playerShootDoesExist_ = true;
 		shoots_.push_back(shoot_);
-		float x = ship_.getSprite().getPosition().x + ship_.getSprite().getGlobalBounds().width / 2.f;
-		float y = ship_.getSprite().getPosition().y;
-		shoots_.back().setPosition({ ship_.getSprite().getPosition().x + ship_.getSprite().getGlobalBounds().width / 2.f, ship_.getSprite().getPosition().y });
+		float x = ship_.getPosition().x + ship_.getGlobalBounds().width / 2.f;
+		float y = ship_.getPosition().y;
+		shoots_.back().setPosition({ ship_.getPosition().x + ship_.getGlobalBounds().width / 2.f, ship_.getPosition().y });
 		shoots_.back().setTeam(SI_FRIEND);
 	}
 
@@ -253,12 +227,12 @@ void SpaceInvaders::manageShoot(const sf::Time & elapsedTime)
 		if (shoot.getTeam() == SI_FRIEND)
 		{
 			shoot.move({ 0,-shootSpeed_ * elapsedTime.asSeconds() });
-			if (grids_[0].collision(shoot.getSprite()))
+			if (grids_[0].collision(shoot.getSprites().front()))
 			{
 				shoot.setAlive(false);
 				playerShootDoesExist_ = false;
 			}
-			if (shoot.getSprite().getPosition().y < 0)
+			if (shoot.getPosition().y < 0)
 			{
 				shoot.setAlive(false);
 				playerShootDoesExist_ = false;
@@ -304,7 +278,7 @@ void SpaceInvaders::drawState(sf::Sprite &countdown) const
 	ship_.display();
 
 	//grid
-	grids_[gridCount_].display();
+	grids_[0].display(grids_[0].getSpriteCount());
 
 	//tirs
 	for (auto shoot : shoots_)

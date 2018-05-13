@@ -2,11 +2,11 @@
 
 ScreenGameOver::ScreenGameOver(sf::RenderWindow& window) : Screen{ window }
 {
-	renderT_.create(800, 600);
 	font_.loadFromFile("../../font/upheavtt.ttf");
+	renderT_.create(800, 600);
 }
 
 std::unique_ptr<Screen> ScreenGameOver::execute()
 {
-	return std::unique_ptr<Screen>();
+	return std::unique_ptr<Screen>(nullptr);
 }
