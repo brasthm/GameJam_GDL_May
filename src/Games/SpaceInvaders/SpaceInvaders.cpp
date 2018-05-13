@@ -287,7 +287,7 @@ bool SpaceInvaders::computeFrame(const sf::Time & elapsedTime, int& score)
 	manageShip(elapsedTime);
 	manageGrids(elapsedTime);
 	manageShoot(elapsedTime);
-
+	return true;
 	age_ += elapsedTime;
 }
 

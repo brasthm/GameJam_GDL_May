@@ -459,7 +459,7 @@ void Boxhead::moveZombie(const sf::Time& elapsedTime)
 void Boxhead::spawnZombie(const sf::Time& elapsedTime)
 {
 	spawnProgression_ += elapsedTime;
-	if (spawnProgression_ >= spawnRate_)
+	if ((spawnProgression_ >= spawnRate_)||(zombieVect_.size()==0))
 	{
 		genererZombie(5);
 		spawnProgression_ = sf::Time::Zero;
