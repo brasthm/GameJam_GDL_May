@@ -39,7 +39,7 @@ private:
 	
 	sf::Time shootDelay_ = sf::milliseconds(200);
 	sf::Time shootProgression_;
-	sf::Time spawnRate_ = sf::seconds(10);
+	sf::Time spawnRate_ = sf::seconds(5);
 	sf::Time spawnProgression_;
 	sf::Time deltaRate_ = sf::milliseconds(100);
 	sf::Time delatProgression_;
