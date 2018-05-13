@@ -31,7 +31,7 @@ void Pacman::collision(int &score)
 			gums_.erase(gums_.begin() + i);
 			i--;
 			score += 50;
-			Dj_.getAllTrack()[3].getSound().play();
+			//Dj_.getAllTrack()[3].getSound().play();
 		}
 	}
 
@@ -240,6 +240,8 @@ bool Pacman::computeFrame(const sf::Time & elapsedTime, int& score)
 {
     if(dead_)
         return false;
+
+	if (Dj_.getAllTrack()[10].getSound().getStatus() != sf::Sound::Playing) Dj_.getAllTrack()[10].getSound().play();
     
 	if (isInvincible) invincible_ += elapsedTime;
 
