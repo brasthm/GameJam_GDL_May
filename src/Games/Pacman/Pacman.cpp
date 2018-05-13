@@ -31,7 +31,7 @@ void Pacman::collision(int &score)
 			gums_.erase(gums_.begin() + i);
 			i--;
 			score += 50;
-			Dj_.getAllTrack()[3].getSound().play();
+			//Dj_.getAllTrack()[3].getSound().play();
 		}
 	}
 

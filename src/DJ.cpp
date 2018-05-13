@@ -25,4 +25,7 @@ DJ::DJ()
 	AllTrack_[8].setTrack("../../sound/Shoot.wav", "Shoot");
 	AllTrack_[9].setTrack("../../sound/victory.wav", "victory");
 	AllTrack_[10].setTrack("../../sound/waka.wav", "waka");
+
+	//AllMusic_.resize(3);
+	//AllMusic_[0].setMusic("../../music/Komiku_-_20_-_SUPER_POUPI.mp3", "Komiku_-_20_-_SUPER_POUPI");
 }
