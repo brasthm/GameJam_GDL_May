@@ -60,7 +60,7 @@ public:
 	void computeFrame(const sf::Time& elapsedTime) override;
 	void drawState() const override;
 	void movePlayer(const sf::Time& elapsedTime);
-	bool colli(char, sf::Sprite&, bool);
+	bool colli(char, sf::Sprite&);
 	void shoot(const sf::Time& elapsedTime, char sens);
 	void computeBullet(const sf::Time& elapsedTime);
 	bool colliBullet();

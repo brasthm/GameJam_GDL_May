@@ -139,7 +139,7 @@ void Boxhead::genererZombie(int nbzombie)
 	}
 }
 
-bool Boxhead::colli(char sens, sf::Sprite& entity, bool zombie = false) 
+bool Boxhead::colli(char sens, sf::Sprite& entity) 
 {
 	switch (sens)
 	{
@@ -148,12 +148,6 @@ bool Boxhead::colli(char sens, sf::Sprite& entity, bool zombie = false)
 			if (wallVect_[i].getGlobalBounds().intersects(sf::FloatRect(entity.getPosition().x, entity.getPosition().y - 2, 40, 56)))
 				return true;
 
-		/*if(!zombie)
-		for (size_t i = 0; i < zombieVect_.size(); i++)
-			if(zombieVect_[i].getPosition()!=entity.getPosition())
-				if (zombieVect_[i].getGlobalBounds().intersects(sf::FloatRect(entity.getPosition().x, entity.getPosition().y - 2, 40, 56)))
-					return true;*/
-			
 		if (entity.getPosition().y < 0)
 			return true;
 		break;
@@ -163,12 +157,6 @@ bool Boxhead::colli(char sens, sf::Sprite& entity, bool zombie = false)
 			if (wallVect_[i].getGlobalBounds().intersects(sf::FloatRect(entity.getPosition().x, entity.getPosition().y + 2, 40, 56)))
 				return true;
 
-		/*if (!zombie)
-		for (size_t i = 0; i < zombieVect_.size(); i++)
-			if (zombieVect_[i].getPosition() != entity.getPosition())
-				if (zombieVect_[i].getGlobalBounds().intersects(sf::FloatRect(entity.getPosition().x, entity.getPosition().y + 2, 40, 56)))
-					return true;*/
-				
 		if (entity.getPosition().y + 56 > 600) //+56 car on dessend et +56 car je verifie au pied
 			return true;
 		break;
@@ -178,12 +166,6 @@ bool Boxhead::colli(char sens, sf::Sprite& entity, bool zombie = false)
 			if (wallVect_[i].getGlobalBounds().intersects(sf::FloatRect(entity.getPosition().x - 2, entity.getPosition().y, 40, 56)))
 				return true;
 		
-		/*if (!zombie)
-		for (size_t i = 0; i < zombieVect_.size(); i++)
-			if (zombieVect_[i].getPosition() != entity.getPosition())
-				if (zombieVect_[i].getGlobalBounds().intersects(sf::FloatRect(entity.getPosition().x - 2, entity.getPosition().y, 40, 56)))
-					return true;*/
-				
 		if (entity.getPosition().x  < 0)
 			return true;
 		break;
@@ -193,12 +175,6 @@ bool Boxhead::colli(char sens, sf::Sprite& entity, bool zombie = false)
 			if (wallVect_[i].getGlobalBounds().intersects(sf::FloatRect(entity.getPosition().x + 2, entity.getPosition().y, 40, 56)))
 				return true;
 		
-		/*if (!zombie)
-		for (size_t i = 0; i < zombieVect_.size(); i++)
-			if (zombieVect_[i].getPosition() != entity.getPosition())
-				if (zombieVect_[i].getGlobalBounds().intersects(sf::FloatRect(entity.getPosition().x + 2, entity.getPosition().y, 40, 56)))
-					return true;*/
-				
 		if (entity.getPosition().x + 40 > 800)
 			return true;
 		break;
@@ -328,7 +304,6 @@ void Boxhead::computeBullet(const sf::Time& elapsedTime)
 	for (size_t i = 0; i < bulletVect_.size(); i++)
 		bulletVect_[i].move(speedWeapon_, elapsedTime);
 
-	//true si collie zombie uniquement
 	if (colliBullet())
 	{ }//mettre du score
 		
@@ -389,17 +364,17 @@ void Boxhead::moveZombie(const sf::Time& elapsedTime)
 		switch (directZombie(zombieVect_[i]))
 		{
 		case 'U':
-			if (!colli('U', zombieVect_[i], true))
+			if (!colli('U', zombieVect_[i]))
 			{
 				zombieVect_[i].move(0, -speedZombieY_ * elapsedTime.asSeconds());
 				zombieVect_[i].setTexture(TzombieULDR_[0]);
 			}
-			else if (!colli('L', zombieVect_[i], true))
+			else if (!colli('L', zombieVect_[i]))
 			{
 				zombieVect_[i].move(-speedZombieX_ * elapsedTime.asSeconds(), 0);
 				zombieVect_[i].setTexture(TzombieULDR_[1]);
 			}
-			else if (!colli('R', zombieVect_[i], true))
+			else if (!colli('R', zombieVect_[i]))
 			{
 				zombieVect_[i].move(+speedZombieX_ * elapsedTime.asSeconds() * 2, 0);
 				zombieVect_[i].setTexture(TzombieULDR_[3]);
@@ -409,17 +384,17 @@ void Boxhead::moveZombie(const sf::Time& elapsedTime)
 			break;
 
 		case 'L':
-			if (!colli('L', zombieVect_[i], true))
+			if (!colli('L', zombieVect_[i]))
 			{
 				zombieVect_[i].move(-speedZombieX_ * elapsedTime.asSeconds(), 0);
 				zombieVect_[i].setTexture(TzombieULDR_[1]);
 			}
-			else if (!colli('U', zombieVect_[i], true))
+			else if (!colli('U', zombieVect_[i]))
 			{
 				zombieVect_[i].move(0, -speedZombieY_ * elapsedTime.asSeconds());
 				zombieVect_[i].setTexture(TzombieULDR_[0]);
 			}
-			else if (!colli('D', zombieVect_[i], true))
+			else if (!colli('D', zombieVect_[i]))
 			{
 				zombieVect_[i].move(0, +speedZombieY_ * elapsedTime.asSeconds() * 2);
 				zombieVect_[i].setTexture(TzombieULDR_[2]);
@@ -429,17 +404,17 @@ void Boxhead::moveZombie(const sf::Time& elapsedTime)
 			break;
 
 		case 'D':
-			if (!colli('D', zombieVect_[i], true))
+			if (!colli('D', zombieVect_[i]))
 			{
 				zombieVect_[i].move(0, +speedZombieY_ * elapsedTime.asSeconds());
 				zombieVect_[i].setTexture(TzombieULDR_[2]);
 			}
-			else if (!colli('L', zombieVect_[i], true))
+			else if (!colli('L', zombieVect_[i]))
 			{
 				zombieVect_[i].move(-speedZombieX_ * elapsedTime.asSeconds(), 0);
 				zombieVect_[i].setTexture(TzombieULDR_[1]);
 			}
-			else if (!colli('R', zombieVect_[i], true))
+			else if (!colli('R', zombieVect_[i]))
 			{
 				zombieVect_[i].move(+speedZombieX_ * elapsedTime.asSeconds()*2, 0);
 				zombieVect_[i].setTexture(TzombieULDR_[3]);
@@ -449,17 +424,17 @@ void Boxhead::moveZombie(const sf::Time& elapsedTime)
 			break;
 
 		case 'R':
-			if (!colli('R', zombieVect_[i], true))
+			if (!colli('R', zombieVect_[i]))
 			{
 				zombieVect_[i].move(+speedZombieX_ * elapsedTime.asSeconds(), 0);
 				zombieVect_[i].setTexture(TzombieULDR_[3]);
 			}
-			else if (!colli('U', zombieVect_[i], true))
+			else if (!colli('U', zombieVect_[i]))
 			{
 				zombieVect_[i].move(0, -speedZombieY_ * elapsedTime.asSeconds());
 				zombieVect_[i].setTexture(TzombieULDR_[0]);
 			}
-			else if (!colli('D', zombieVect_[i], true))
+			else if (!colli('D', zombieVect_[i]))
 			{
 				zombieVect_[i].move(0, +speedZombieY_ * elapsedTime.asSeconds()*2);
 				zombieVect_[i].setTexture(TzombieULDR_[2]);
@@ -469,8 +444,8 @@ void Boxhead::moveZombie(const sf::Time& elapsedTime)
 			break;
 
 		case 'C':
-			//player loose
-			std::cout << "loose"<<std::endl;
+			//player lose score
+			
 				break;
 		default:
 			break;
