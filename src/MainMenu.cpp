@@ -11,6 +11,7 @@ MainMenu::MainMenu(sf::RenderWindow & window, DJ & dj) : Screen{ window, dj }
 	maxOptions_ = 3;
 
 	isCredits_ = false;
+	isHow2_	 = false;
 }
 
 std::unique_ptr<Screen> MainMenu::execute()

@@ -54,6 +54,7 @@ bool Snake::computeFrame(const sf::Time& elapsedTime, int& score)
 	if (lose)
 	{
 		Dj_.getAllTrack()[2].getSound().play();
+		score -= 200;
 		return false;
 	}
     

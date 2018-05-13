@@ -22,12 +22,10 @@ class Screen
 
         virtual std::unique_ptr<Screen> execute() = 0;
         virtual std::optional<std::unique_ptr<Screen>> gestionEvent(const sf::Event& event);
-
-		int getScore() { return score_; }
+        
     protected:
         sf::RenderWindow& window_;
 		DJ& dj_;
-		int score_;
 };
 
 #endif //ECRAN_H

@@ -2,6 +2,9 @@
 #include "MainMenu.h"
 
 
+// Global variable is evil
+int score = 0;
+
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(800, 600), "10 seconds classsics");

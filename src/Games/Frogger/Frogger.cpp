@@ -86,7 +86,8 @@ bool Frogger::computeFrame(const sf::Time& elapsedTime, int& score)
 {
     if(lose_)
     {
-        // TODO Son défaite
+        score -= 200;
+        Dj_.play(2);
         return false;
     }
     
@@ -160,6 +161,7 @@ bool Frogger::computeFrame(const sf::Time& elapsedTime, int& score)
     
     if(frog_.position().y < 32) {
         Dj_.play(9);
+        score += 430;
         return false;
     }
     
