@@ -52,7 +52,6 @@ private:
 	Shape ZigZagRight_;
 	Shape T_;
 	Shape shapecourrante_;
-	int posx_;
 	sf::Time Sensi_ = sf::milliseconds(100);
 	sf::Time sensiprogression_;
 	sf::Time chute_ = sf::milliseconds(600);

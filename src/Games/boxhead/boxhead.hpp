@@ -64,9 +64,9 @@ public:
 	void movePlayer(const sf::Time& elapsedTime);
 	bool colli(char, sf::Sprite&);
 	void shoot(const sf::Time& elapsedTime, char sens);
-	void computeBullet(const sf::Time& elapsedTime);
+	void computeBullet(const sf::Time& elapsedTime, int& score);
 	bool colliBullet();
-	void moveZombie(const sf::Time& elapsedTime);
+	void moveZombie(const sf::Time& elapsedTime, int& score);
 	char directZombie(sf::Sprite&);
 	void genererZombie(int);
 	void spawnZombie(const sf::Time& elapsedTime);
