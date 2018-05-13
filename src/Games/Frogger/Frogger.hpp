@@ -12,7 +12,7 @@
 class Frogger : public Game
 {
     public:
-        explicit Frogger(sf::RenderTarget& window_);
+        explicit Frogger(sf::RenderTarget& window_, DJ& dj);
         
         bool computeFrame(const sf::Time& elapsedTime, int& score) override;
         void drawState(sf::Sprite& countdown) const override;
@@ -31,6 +31,8 @@ class Frogger : public Game
         std::vector<sf::Time> vehicleSpawnTime_;
         
         bool lose_ = false;
+        
+        float minY;
         
         int currentWaterTexture_;
         sf::Time waterAnimationProgression_;

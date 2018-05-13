@@ -30,9 +30,15 @@ void Frog::update(const sf::Time& elapsedTime)
         x = std::clamp(x, 32.f, 800.f-32.f);
         position({x, position_.y});
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+        {
             nextPosition_.y -= 56;
+            dj_.play(4);
+        }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && position_.y < 600-28)
+        {
             nextPosition_.y += 56;
+            dj_.play(4);
+        }
         
     }
 }

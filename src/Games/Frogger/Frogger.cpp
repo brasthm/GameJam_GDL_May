@@ -6,7 +6,7 @@
 
 const sf::Time Frogger::waterAnimationTime = sf::milliseconds(500);
 
-Frogger::Frogger(sf::RenderTarget& window_) : Game(window_)
+Frogger::Frogger(sf::RenderTarget& window_, DJ& dj) : Game(window_, dj), frog_{dj}
 {
     textures_.resize(9);
     textures_[0].loadFromFile(location "img/frogger/water1.png");
@@ -78,6 +78,8 @@ Frogger::Frogger(sf::RenderTarget& window_) : Game(window_)
             }
         }
     }
+        
+        minY = frog_.position().y;
 }
 
 bool Frogger::computeFrame(const sf::Time& elapsedTime, int& score)
@@ -157,8 +159,13 @@ bool Frogger::computeFrame(const sf::Time& elapsedTime, int& score)
     }
     
     if(frog_.position().y < 32) {
-        //TODO SOn de victoire
+        Dj_.play(9);
         return false;
+    }
+    
+    if(frog_.position().y < minY)
+    {
+        score += 70;
     }
     
     return true;
@@ -168,6 +175,7 @@ void Frogger::drawState(sf::Sprite& countdown) const
 {
     window_.draw(water_);
     window_.draw(ground_);
+    window_.draw(countdown);
     for(auto& trunks : trunks_)
         for(auto& trunk : trunks)
             window_.draw(trunk.sprite());

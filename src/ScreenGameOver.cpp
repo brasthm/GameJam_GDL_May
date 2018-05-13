@@ -1,6 +1,6 @@
 ﻿#include "ScreenGameOver.hpp"
 
-ScreenGameOver::ScreenGameOver(sf::RenderWindow& window) : Screen{ window }
+ScreenGameOver::ScreenGameOver(sf::RenderWindow& window, DJ& dj) : Screen{ window, dj }
 {
 	font_.loadFromFile("../../font/upheavtt.ttf");
 	renderT_.create(800, 600);

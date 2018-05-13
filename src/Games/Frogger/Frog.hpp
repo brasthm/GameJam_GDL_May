@@ -4,11 +4,13 @@
 
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
+#include "../../DJ.hpp"
 
 
 class Frog
 {
     public:
+        Frog(DJ& dj) : dj_{dj} {}
         sf::Vector2f position() const { return position_; }
         void position(sf::Vector2f pos) {
             pos.x = std::clamp(pos.x, 32.f, 800.f-32.f);
@@ -17,6 +19,7 @@ class Frog
         void update(const sf::Time& elapsedTime);
     
     private:
+        DJ& dj_;
         sf::Vector2f position_;
         sf::Vector2f lastPosition_;
         sf::Vector2f nextPosition_;

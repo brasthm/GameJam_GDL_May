@@ -6,7 +6,7 @@
 class ScreenGameOver : public Screen
 {
 public:
-	explicit ScreenGameOver(sf::RenderWindow& window);
+	explicit ScreenGameOver(sf::RenderWindow& window, DJ& dj);
 	std::unique_ptr<Screen> execute() override;
 
 
