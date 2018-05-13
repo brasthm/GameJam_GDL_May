@@ -50,9 +50,11 @@ Snake::Snake(sf::RenderTarget& window, DJ& dj) : Game{window, dj}
 
 bool Snake::computeFrame(const sf::Time& elapsedTime, int& score)
 {
-    if(lose)
+	if (lose)
+	{
 		Dj_.getAllTrack()[2].getSound().play();
-        return false;
+		return false;
+	}
     
     cycleProgression_ += elapsedTime;
 

@@ -11,15 +11,15 @@ void Track::setTrack(std::string filepath, std::string name)
 	name_ = name;
 }
 
-//Music::Music() 
-//{
-//}
-//
-//void Music::setMusic(std::string filepath, std::string name) 
-//{
-//	music_.openFromFile(filepath);
-//	name_ = name;
-//}
+Music::Music() 
+{
+}
+
+void Music::setMusic(std::string filepath, std::string name) 
+{
+	music_.openFromFile(filepath);
+	name_ = name;
+}
 
 DJ::DJ() 
 {
@@ -36,5 +36,6 @@ DJ::DJ()
 	AllTrack_[9].setTrack("../../sound/victory.wav", "victory");
 
 	//AllMusic_.resize(3);
-	//AllMusic_[0].setMusic("../../music/Komiku_-_20_-_SUPER_POUPI.mp3", "Komiku_-_20_-_SUPER_POUPI");
+	AllMusic_[0].setMusic("../../music/Komiku_-_20_-_SUPER_POUPI.ogg", "Komiku_-_20_-_SUPER_POUPI");
+	AllMusic_[0].setMusic("../../music/Komiku_-_64_-_First_Dance.ogg", "Komiku_-_64_-_First_Dance");
 }
