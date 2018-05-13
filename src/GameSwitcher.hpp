@@ -3,6 +3,7 @@
 
 #include "Games/Games.hpp"
 #include "Screen.hpp"
+#include "ScreenGameOver.hpp"
 
 struct Step
 {

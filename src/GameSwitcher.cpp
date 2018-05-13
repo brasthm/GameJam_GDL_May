@@ -86,7 +86,7 @@ std::unique_ptr<Screen> GameSwitcher::execute()
 			{
 				currentStep_++;
 				if (currentStep_ >= steps_.size())
-					return std::unique_ptr<Screen>(nullptr);
+					return std::unique_ptr<Screen>(new ScreenGameOver(window_, dj_));
 				globalClock.restart();
 				isSpeedUp = true;
 			}

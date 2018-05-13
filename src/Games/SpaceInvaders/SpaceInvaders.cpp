@@ -215,7 +215,7 @@ void SpaceInvaders::manageShoot(const sf::Time & elapsedTime)
 	}
 
 	//Gestion des tirs ennemis 
-	static std::random_device rd;
+	/*static std::random_device rd;
 	static std::default_random_engine gen(rd());
 	std::uniform_int_distribution<int> unif_int(0, grids_[0].getGrid().size());
 	std::uniform_real_distribution<float> unif_float(500, 1000);
@@ -240,7 +240,7 @@ void SpaceInvaders::manageShoot(const sf::Time & elapsedTime)
 		cooldown_ = 0;
 	}
 
-	ennemyShotAge_ += elapsedTime;
+	ennemyShotAge_ += elapsedTime;*/
 
 	//Gestion des tirs
 	for (auto& shoot : shoots_)
