@@ -166,6 +166,7 @@ bool Frogger::computeFrame(const sf::Time& elapsedTime, int& score)
     if(frog_.position().y < minY)
     {
         score += 70;
+        minY = frog_.position().y;
     }
     
     return true;
