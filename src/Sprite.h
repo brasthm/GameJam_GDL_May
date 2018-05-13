@@ -55,6 +55,8 @@ class Sprite
 
 		void updateMap(Map *m) { map_ = m; };
 
+		void updateClock(sf::Time elapsed);
+
 		orientation_t update(sf::Time elapsed);
 
 		sf::Sprite getSprite() const { return sprite_; };

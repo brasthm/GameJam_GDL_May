@@ -53,7 +53,7 @@ GameSwitcher::GameSwitcher(sf::RenderWindow & window) : Screen{ window }, score_
 	steps_.back().id = 4;
 	steps_.back().duration = sf::seconds(10.f);
 	steps_.back().gameDuration = sf::seconds(2.f);
-	steps_.back().timeMultiplier = 2.0f;
+	steps_.back().timeMultiplier = 1.8f;
 }
 
 std::unique_ptr<Screen> GameSwitcher::execute()
