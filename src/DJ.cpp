@@ -11,19 +11,9 @@ void Track::setTrack(std::string filepath, std::string name)
 	name_ = name;
 }
 
-//Music::Music() 
-//{
-//}
-//
-//void Music::setMusic(std::string filepath, std::string name) 
-//{
-//	music_.openFromFile(filepath);
-//	name_ = name;
-//}
-
-DJ::DJ() 
+DJ::DJ(sf::Music& m) : music_(m)
 {
-	AllTrack_.resize(11);
+	AllTrack_.resize(20);
 	AllTrack_[0].setTrack("../../sound/decompte1_2.wav", "decompte1_2");
 	AllTrack_[1].setTrack("../../sound/decompte3.wav", "decompte3");
 	AllTrack_[2].setTrack("../../sound/Defeat.wav", "defeat2");
@@ -34,7 +24,13 @@ DJ::DJ()
 	AllTrack_[7].setTrack("../../sound/Powerup.wav", "Powerup");
 	AllTrack_[8].setTrack("../../sound/Shoot.wav", "Shoot");
 	AllTrack_[9].setTrack("../../sound/victory.wav", "victory");
+	AllTrack_[10].setTrack("../../sound/waka.wav", "waka");
+	AllTrack_[12].setTrack("../../sound/piou8bits.wav", "piou");
+	AllTrack_[11].setTrack("../../sound/Laser_Shoot.wav", "victory");
 
-	//AllMusic_.resize(3);
-	//AllMusic_[0].setMusic("../../music/Komiku_-_20_-_SUPER_POUPI.mp3", "Komiku_-_20_-_SUPER_POUPI");
+	AllTrack_[10].getSound().setVolume(25);
+
+	music_.openFromFile("../../music/Komiku_-_64_-_First_Dance.ogg");
+	music_.play();
+	music_.setLoop(true);
 }

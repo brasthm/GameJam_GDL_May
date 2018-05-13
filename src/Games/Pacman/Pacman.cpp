@@ -31,7 +31,7 @@ void Pacman::collision(int &score)
 			gums_.erase(gums_.begin() + i);
 			i--;
 			score += 50;
-			Dj_.getAllTrack()[3].getSound().play();
+			//Dj_.getAllTrack()[3].getSound().play();
 		}
 	}
 
@@ -58,6 +58,7 @@ void Pacman::collision(int &score)
 	if (fruitAlive_ && map_.getTile(pacman_.getPosition().x + 20, pacman_.getPosition().y + 20) == (map_.getTile(fruit_.getPosition().x + 20, fruit_.getPosition().y + 20)))
 	{
 		fruitAlive_ = false;
+		Dj_.getAllTrack()[5].getSound().play();
 		score += 300;
 	}
 
@@ -239,6 +240,8 @@ bool Pacman::computeFrame(const sf::Time & elapsedTime, int& score)
 {
     if(dead_)
         return false;
+
+	Dj_.play(10);
     
 	if (isInvincible) invincible_ += elapsedTime;
 

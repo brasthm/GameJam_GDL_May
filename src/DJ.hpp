@@ -16,27 +16,25 @@ public :
 	sf::Sound& getSound() { return sound_; }
 };
 
-class Music {
-private:
-	sf::Music music_;
-	std::string name_;
-public:
-	Music();
-	void setMusic(std::string filepath, std::string name);
-	const std::string& getName() const { return name_; }
-	sf::Music& getMusic() { return music_; }
-};
-
-
 class DJ 
 {
 private : 
 	std::vector<Track> AllTrack_;
-	std::vector<Music> AllMusic_;
+	sf::Music& music_;
 public :
-	DJ();
+	DJ(sf::Music& m);
 	std::vector<Track>& getAllTrack(){ return AllTrack_; }
-	std::vector<Music>& getAllMusic() { return AllMusic_; }
+
+	void play(size_t n, bool forced = false)
+	{
+		if (forced)
+			AllTrack_[n].getSound().play();
+		else
+		{
+			if (AllTrack_[n].getSound().getStatus() != sf::Sound::Playing) AllTrack_[n].getSound().play();
+		}
+	}
+
 };
 
 #endif //DJ_HPP

@@ -321,8 +321,9 @@ private:
 	const float ECRAN_Y = 600;
 	float borderSpace_ = 0; //espace sur le côté
 
-	//varaibles de jeu
+	//variables de jeu
 	sf::Time age_;
+	int SI_score_ = 0;
 
 	//textures 
 	std::vector<sf::Texture> textures_;

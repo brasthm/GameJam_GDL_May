@@ -4,8 +4,10 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "10 seconds classics");
-	DJ dj;
+    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML works!");
+
+	sf::Music music;
+	DJ dj(music);
 
     std::unique_ptr<Screen> current_screen(new MainMenu(window, dj));
     while(current_screen)
