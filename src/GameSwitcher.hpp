@@ -11,6 +11,8 @@ struct Step
 	float timeMultiplier;
 };
 
+extern int score;
+
 class GameSwitcher : public Screen
 {
     public:
@@ -38,7 +40,6 @@ class GameSwitcher : public Screen
 
 		std::vector<Step> steps_;
 		int currentStep_ = 0;
-		int score_;
 };
 
 

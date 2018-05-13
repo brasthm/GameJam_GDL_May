@@ -3,8 +3,10 @@
 #include "constants.hpp"
 
 
-GameSwitcher::GameSwitcher(sf::RenderWindow & window, DJ& dj) : Screen{ window, dj}, score_{ 0 } 
+GameSwitcher::GameSwitcher(sf::RenderWindow & window, DJ& dj) : Screen{ window, dj} 
 {
+	score = 0;
+	
 	currentGame_ = randomGame();
 	renderT_.create(800, 600);
 
@@ -108,7 +110,7 @@ std::unique_ptr<Screen> GameSwitcher::execute()
         {
             renderT_.clear();
 			computeUI(gameClock.getElapsedTime(), frameClock.getElapsedTime());
-            continueGame = currentGame_->computeFrame(frameClock.restart() * steps_[currentStep_].timeMultiplier, score_);
+            continueGame = currentGame_->computeFrame(frameClock.restart() * steps_[currentStep_].timeMultiplier, score);
 			currentGame_->drawState(countdown_);
             renderT_.display();
             
@@ -286,6 +288,6 @@ void GameSwitcher::computeUI(sf::Time elapsed, sf::Time frame)
 	}
 
 	progressBar_.setSize({ 800.f * (1 - elapsed.asSeconds() / steps_[currentStep_].gameDuration.asSeconds()), 10 });
-	scoreUI_.setString("Score : " + std::to_string(score_));
+	scoreUI_.setString("Score : " + std::to_string(score));
 }
 
