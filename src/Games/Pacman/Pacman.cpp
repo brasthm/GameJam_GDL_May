@@ -240,7 +240,7 @@ bool Pacman::computeFrame(const sf::Time & elapsedTime, int& score)
     if(dead_)
         return false;
 
-	if (Dj_.getAllTrack()[10].getSound().getStatus() != sf::Sound::Playing) Dj_.getAllTrack()[10].getSound().play();
+	Dj_.play(10);
     
 	if (isInvincible) invincible_ += elapsedTime;
 
