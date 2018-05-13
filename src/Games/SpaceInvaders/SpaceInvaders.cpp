@@ -313,6 +313,8 @@ void SpaceInvaders::drawState(sf::Sprite &countdown) const
 	rect.setFillColor(sf::Color::Black);
 	window_.draw(rect);
 
+	window_.draw(countdown);
+
 	//vaisseau
 	ship_.display();
 

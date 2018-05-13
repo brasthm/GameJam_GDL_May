@@ -88,6 +88,8 @@ std::unique_ptr<Screen> GameSwitcher::execute()
 				isSpeedUp = true;
 			}
 			//HACK désactivation temporaire
+			if (continueGame)
+				dj_.getAllTrack()[9].getSound().play();
             auto result = transition(randomGame(currentGame_), isSpeedUp);
             if(result)
                 return std::move(*result);
@@ -244,6 +246,7 @@ void GameSwitcher::computeUI(sf::Time elapsed, sf::Time frame)
 		countdown_.setTexture(countdownText_[2]);
 		countdown_.setColor({ 255, 255, 255, 255 });
 		countdown_.scale({ 1.f / countdown_.getScale().x, 1.f / countdown_.getScale().y });
+		dj_.getAllTrack()[0].getSound().play();
 	}
 	else if (animationTrigger_ == 0 && elapsed > sf::seconds(steps_[currentStep_].gameDuration.asSeconds() - 2 * 0.5))
 	{
@@ -251,6 +254,7 @@ void GameSwitcher::computeUI(sf::Time elapsed, sf::Time frame)
 		countdown_.setTexture(countdownText_[1]);
 		countdown_.setColor({ 255, 255, 255, 255 });
 		countdown_.scale({ 1.f / countdown_.getScale().x, 1.f / countdown_.getScale().y });
+		dj_.getAllTrack()[0].getSound().play();
 	}
 	else if (animationTrigger_ == -1 && elapsed > sf::seconds(steps_[currentStep_].gameDuration.asSeconds() - 3 * 0.5))
 	{
@@ -258,6 +262,7 @@ void GameSwitcher::computeUI(sf::Time elapsed, sf::Time frame)
 		countdown_.setTexture(countdownText_[0]);
 		countdown_.setColor({ 255, 255, 255, 255 });
 		countdown_.scale({ 1.f / countdown_.getScale().x, 1.f / countdown_.getScale().y });
+		dj_.getAllTrack()[0].getSound().play();
 	}
 	else if (elapsed < sf::seconds(steps_[currentStep_].gameDuration.asSeconds() - 3 * 0.5))
 	{

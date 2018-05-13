@@ -473,8 +473,11 @@ void Boxhead::spawnZombie(const sf::Time& elapsedTime)
 
 bool Boxhead::computeFrame(const sf::Time& elapsedTime, int& score)
 {
-    if(lose_)
-        return false;
+	if (lose_)
+	{
+		Dj_.getAllTrack()[2].getSound().play();
+		return false;
+	}
     
 	movePlayer(elapsedTime);
 	shoot(elapsedTime, sens_);
