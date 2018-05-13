@@ -3,6 +3,9 @@
 
 #include "Screen.hpp"
 
+
+extern int score;
+
 class ScreenGameOver : public Screen
 {
 public:
@@ -11,8 +14,8 @@ public:
 
 
 private:
-	sf::RenderTexture renderT_;
 	sf::Font font_;
+	std::vector<std::pair<int, std::string>> scores_;
 };
 
 #endif // !SCREEN_GAME_OVER_HPP
