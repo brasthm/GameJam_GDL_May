@@ -24,7 +24,17 @@ private :
 public :
 	DJ(sf::Music& m);
 	std::vector<Track>& getAllTrack(){ return AllTrack_; }
-	void playForever();
+
+	void play(size_t n, bool forced = false)
+	{
+		if (forced)
+			AllTrack_[n].getSound().play();
+		else
+		{
+			if (AllTrack_[n].getSound().getStatus() != sf::Sound::Playing) AllTrack_[n].getSound().play();
+		}
+	}
+
 };
 
 #endif //DJ_HPP

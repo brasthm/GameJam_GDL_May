@@ -13,7 +13,7 @@ void Track::setTrack(std::string filepath, std::string name)
 
 DJ::DJ(sf::Music& m) : music_(m)
 {
-	AllTrack_.resize(12);
+	AllTrack_.resize(20);
 	AllTrack_[0].setTrack("../../sound/decompte.wav", "decompte");
 	//AllTrack_[1].setTrack("", ""); free space
 	AllTrack_[2].setTrack("../../sound/Defeat.wav", "defeat2");
@@ -25,6 +25,7 @@ DJ::DJ(sf::Music& m) : music_(m)
 	AllTrack_[8].setTrack("../../sound/Shoot.wav", "Shoot");
 	AllTrack_[9].setTrack("../../sound/victory.wav", "victory");
 	AllTrack_[10].setTrack("../../sound/waka.wav", "waka");
+	AllTrack_[12].setTrack("../../sound/piou8bits.wav", "piou");
 	AllTrack_[11].setTrack("../../sound/Laser_Shoot.wav", "Laser");
 
 	AllTrack_[10].getSound().setVolume(25);
