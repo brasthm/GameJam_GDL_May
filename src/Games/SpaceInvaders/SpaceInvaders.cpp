@@ -227,10 +227,11 @@ void SpaceInvaders::manageShoot(const sf::Time & elapsedTime)
 		if (shoot.getTeam() == SI_FRIEND)
 		{
 			shoot.move({ 0,-shootSpeed_ * elapsedTime.asSeconds() });
-			if (grids_[0].collision(shoot.getSprites().front()))
+			if (grids_[0].collision(shoot.getSprites().front())) //ennemi touché
 			{
 				shoot.setAlive(false);
 				playerShootDoesExist_ = false;
+				SI_score_ += 100;
 			}
 			if (shoot.getPosition().y < 0)
 			{
@@ -261,8 +262,10 @@ bool SpaceInvaders::computeFrame(const sf::Time & elapsedTime, int& score)
 	manageShip(elapsedTime);
 	manageGrids(elapsedTime);
 	manageShoot(elapsedTime);
-	return true;
 	age_ += elapsedTime;
+
+	score += SI_score_;
+	SI_score_ = 0;
 
 	return true;
 }
