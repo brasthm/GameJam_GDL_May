@@ -95,9 +95,10 @@ bool BananaHero::computeFrame(const sf::Time& elapsedTime, int& score)
     return true;
 }
 
-void BananaHero::drawState() const
+void BananaHero::drawState(sf::Sprite &countdown) const
 {
     window_.draw(bg_);
+	window_.draw(countdown);
     
     for(auto& banana : bananas_)
     {

@@ -481,13 +481,14 @@ bool Boxhead::computeFrame(const sf::Time& elapsedTime, int& score)
 	return true;
 }
 
-void Boxhead::drawState()const
+void Boxhead::drawState(sf::Sprite &countdown)const
 {
 	size_t i = 0;
 	auto size = window_.getSize();
 	sf::RectangleShape rect(window_.mapPixelToCoords({ (int)size.x, (int)size.y }));
 	rect.setFillColor(sf::Color(102,51,0,255));
 	window_.draw(rect);
+	window_.draw(countdown);
 	for (size_t i = 0; i < bloodVect_.size(); i++)
 		window_.draw(bloodVect_[i]);
 	for (size_t i = 0; i < 6; i++)

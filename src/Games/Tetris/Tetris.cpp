@@ -718,7 +718,7 @@ bool Tetris::computeFrame(const sf::Time& elapsedTime, int& score)
 	return true;
 }
 
-void Tetris::drawState()const
+void Tetris::drawState(sf::Sprite &countdown)const
 {
 	auto size = window_.getSize();
 	sf::RectangleShape rect(window_.mapPixelToCoords({ (int)size.x, (int)size.y }));

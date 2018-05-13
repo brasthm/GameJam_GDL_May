@@ -13,7 +13,7 @@ class Snake : public Game
         explicit Snake(sf::RenderTarget& window);
 
         bool computeFrame(const sf::Time& elapsedTime, int& score) override;
-        void drawState() const override;
+        void drawState(sf::Sprite &countdown) const override;
         
         void randomApple();
         void randomSnake(size_t bodyPartMin = 1, size_t bodyPartMax = 10);

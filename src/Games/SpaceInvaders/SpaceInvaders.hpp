@@ -279,7 +279,7 @@ class SpaceInvaders : public Game
 public:
 	explicit SpaceInvaders(sf::RenderTarget& window);
 	bool computeFrame(const sf::Time& elapsedTime, int& score) override;
-	void drawState() const override;
+	void drawState(sf::Sprite &countdown) const override;
 
 	void manageShip(const sf::Time& elapsedTime);
 	void manageGrids(const sf::Time& elapsedTime);
