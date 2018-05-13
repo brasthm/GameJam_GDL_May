@@ -46,7 +46,7 @@ Frogger::Frogger(sf::RenderTarget& window_, DJ& dj) : Game(window_, dj), frog_{d
         for(int i = 0; i < 4; i++)
         {
             sf::Time timing = sf::milliseconds(random(7000, 10000));
-            trunks_[i].emplace_back(sf::Vector2f{(i % 2 ? -128.f : 800.f + 128.f), 40 + 28 + 56 * (3 - i)},
+            trunks_[i].emplace_back(sf::Vector2f{(i % 2 ? -128.f : 800.f + 128.f), 40.f + 28.f + 56.f * (3 - i)},
                                     textures_[6], (i == 0 ? -50 : i == 1 ? 60 : i == 2 ? -70 : 80), &frog_);
 
             for(size_t j = 0; j < trunks_[i].size(); ++j)
@@ -63,7 +63,7 @@ Frogger::Frogger(sf::RenderTarget& window_, DJ& dj) : Game(window_, dj), frog_{d
         for(int i = 0; i < 4; i++)
         {
             sf::Time timing = sf::milliseconds(random(2000, 5000));
-            vehicles_[i].emplace_back(sf::Vector2f{(i % 2 ? -128.f : 800.f + 128.f), 40 + 28 + 56 * (8 - i)},
+            vehicles_[i].emplace_back(sf::Vector2f{(i % 2 ? -128.f : 800.f + 128.f), 40.f + 28.f + 56.f * (8 - i)},
                                     textures_[random(1,4)==1?8:7], (i == 0 ? -80 : i == 1 ? 90 : i == 2 ? -100 : 110), &frog_);
 
             for(size_t j = 0; j < vehicles_[i].size(); ++j)
@@ -103,7 +103,7 @@ bool Frogger::computeFrame(const sf::Time& elapsedTime, int& score)
         trunkSpawnProgression_[i] += elapsedTime;
         if(trunkSpawnProgression_[i] >= trunkSpawnTime_[i])
         {
-            trunks_[i].emplace_back(sf::Vector2f{(i%2?-128.f:800.f+128.f), 40+28+56*(3-i)}, textures_[6], (i==0?-50:i==1?60:i==2?-70:80), &frog_);
+            trunks_[i].emplace_back(sf::Vector2f{(i%2?-128.f:800.f+128.f), 40.f+28.f+56.f*(3-i)}, textures_[6], (i==0?-50:i==1?60:i==2?-70.f:80.f), &frog_);
             trunkSpawnTime_[i] = sf::milliseconds(random(7000, 10000));
             trunkSpawnProgression_[i] = sf::Time::Zero;
         }
@@ -114,8 +114,8 @@ bool Frogger::computeFrame(const sf::Time& elapsedTime, int& score)
         vehicleSpawnProgression_[i] += elapsedTime;
         if(vehicleSpawnProgression_[i] >= vehicleSpawnTime_[i])
         {
-            vehicles_[i].emplace_back(sf::Vector2f{(i % 2 ? -128.f : 800.f + 128.f), 40 + 28 + 56 * (8 - i)},
-                                      textures_[random(1,4)==1?8:7], (i == 0 ? -80 : i == 1 ? 90 : i == 2 ? -100 : 110), &frog_);
+            vehicles_[i].emplace_back(sf::Vector2f{(i % 2 ? -128.f : 800.f + 128.f), 40.f + 28.f + 56.f * (8 - i)},
+                                      textures_[random(1,4)==1?8:7], (i == 0 ? -80 : i == 1 ? 90 : i == 2 ? -100.f : 110.f), &frog_);
             vehicleSpawnTime_[i] = sf::milliseconds(random(2000, 5000));
             vehicleSpawnProgression_[i] = sf::Time::Zero;
         }
