@@ -22,7 +22,7 @@ void Pacman::fillGum()
 	megaGums_.emplace_back(18, 13);
 }
 
-void Pacman::collision()
+void Pacman::collision(int &score)
 {
 	for (size_t i = 0; i < gums_.size(); i++)
 	{
@@ -30,6 +30,7 @@ void Pacman::collision()
 		{
 			gums_.erase(gums_.begin() + i);
 			i--;
+			score += 50;
 		}
 	}
 
@@ -48,21 +49,31 @@ void Pacman::collision()
 				ghosts_[i].setDelay(100000);
 				ghosts_[i].applyTexture(1);
 			}
-				
+			score += 200;
 		}
 	}
 
 	if (fruitAlive_ && map_.getTile(pacman_.getPosition().x + 20, pacman_.getPosition().y + 20) == (map_.getTile(fruit_.getPosition().x + 20, fruit_.getPosition().y + 20)))
+	{
 		fruitAlive_ = false;
+		score += 300;
+	}
 
 	for (size_t i = 0; i < ghosts_.size(); i++)
 	{
 		if (ghostAlive_[i] && map_.getTile(pacman_.getPosition().x + 20, pacman_.getPosition().y + 20) == (map_.getTile(ghosts_[i].getPosition().x + 20, ghosts_[i].getPosition().y + 20)))
 		{
 			if (!isInvincible)
+			{
 				dead_ = true;
+				score -= 500;
+			}
 			else
+			{
 				ghostAlive_[i] = false;
+				score += 500;
+			}
+				
 		}
 	}
 
@@ -289,14 +300,15 @@ bool Pacman::computeFrame(const sf::Time & elapsedTime, int& score)
 		}
 	}
 
-	collision();
+	collision(score);
 	
 	return true;
 }
 
-void Pacman::drawState() const 
+void Pacman::drawState(sf::Sprite &countdown) const
 {
 	map_.draw(window_);
+	window_.draw(countdown);
 
 	for (size_t i = 0; i < gums_.size(); i++)
 	{

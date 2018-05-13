@@ -62,7 +62,7 @@ private:
 public:
 	explicit Tetris(sf::RenderTarget& window);
 	bool computeFrame(const sf::Time& elapsedTime, int& score) override;
-	void drawState() const override;
+	void drawState(sf::Sprite &countdown) const override;
 	void setAt(int x, int y, const sf::Sprite& elem) { grille_[x][y] = elem; }
 	void moveShape(Shape&, const sf::Time& elapsedTime);
 	void rotateLeft(Shape&);

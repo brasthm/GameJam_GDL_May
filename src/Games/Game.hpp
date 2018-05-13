@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Time.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 class Game
 {
@@ -11,7 +12,7 @@ class Game
         virtual ~Game() = default;
         
         virtual bool computeFrame(const sf::Time& elapsedTime, int& score) = 0;
-        virtual void drawState() const = 0;
+        virtual void drawState(sf::Sprite &countdown) const = 0;
     
     protected:
         sf::RenderTarget& window_;

@@ -60,7 +60,7 @@ private:
 public:
 	explicit Boxhead(sf::RenderTarget& window);
 	bool computeFrame(const sf::Time& elapsedTime, int& score) override;
-	void drawState() const override;
+	void drawState(sf::Sprite &countdown) const override;
 	void movePlayer(const sf::Time& elapsedTime);
 	bool colli(char, sf::Sprite&);
 	void shoot(const sf::Time& elapsedTime, char sens);

@@ -32,7 +32,7 @@ class Pacman : public Game
 		bool dead_ = false;
 
 		void fillGum();
-		void collision();
+		void collision(int &score);
 		void ia();
 		orientation_t getDirection(sf::Vector2i source, sf::Vector2i destination);
 	public :
@@ -41,7 +41,7 @@ class Pacman : public Game
 		explicit Pacman(sf::RenderTarget& window);
 
 		bool computeFrame(const sf::Time& elapsedTime, int& score) override;
-		void drawState() const override;
+		void drawState(sf::Sprite &countdown) const override;
 };
 
 

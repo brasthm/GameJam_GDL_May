@@ -103,9 +103,10 @@ bool Snake::computeFrame(const sf::Time& elapsedTime, int& score)
     return true;
 }
 
-void Snake::drawState() const
+void Snake::drawState(sf::Sprite &countdown) const
 {
     window_.draw(bg_);
+	window_.draw(countdown);
     
     auto appleSprite = appleSprite_;
     appleSprite.setPosition(applePos_);
