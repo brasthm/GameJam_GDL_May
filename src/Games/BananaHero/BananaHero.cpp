@@ -2,18 +2,19 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include "BananaHero.hpp"
 #include "../../utilities.hpp"
+#include "../../constants.hpp"
 
 
 BananaHero::BananaHero(sf::RenderTarget& window, DJ& dj) : Game(window, dj)
 {
     textures_.resize(7);
-    textures_[0].loadFromFile("../../img/bananaHero/banana.png");
-    textures_[1].loadFromFile("../../img/bananaHero/doublebanana.png");
-    textures_[2].loadFromFile("../../img/bananaHero/rottenbanana.png");
-    textures_[3].loadFromFile("../../img/bananaHero/rottendoublebanana.png");
-    textures_[4].loadFromFile("../../img/bananaHero/monkey.png");
-    textures_[5].loadFromFile("../../img/bananaHero/sadmonkey.png");
-    textures_[6].loadFromFile("../../img/bananaHero/background.png");
+    textures_[0].loadFromFile(location "img/bananaHero/banana.png");
+    textures_[1].loadFromFile(location "img/bananaHero/doublebanana.png");
+    textures_[2].loadFromFile(location "img/bananaHero/rottenbanana.png");
+    textures_[3].loadFromFile(location "img/bananaHero/rottendoublebanana.png");
+    textures_[4].loadFromFile(location "img/bananaHero/monkey.png");
+    textures_[5].loadFromFile(location "img/bananaHero/sadmonkey.png");
+    textures_[6].loadFromFile(location "img/bananaHero/background.png");
     monkey_.setTextures(textures_[4], textures_[5]);
     bg_.setTexture(textures_[6]);
     

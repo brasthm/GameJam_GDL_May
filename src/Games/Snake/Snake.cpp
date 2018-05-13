@@ -3,6 +3,7 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <random>
 #include <iostream>
+#include "../../constants.hpp"
 
 
 Snake::Snake(sf::RenderTarget& window, DJ& dj) : Game{window, dj}
@@ -12,33 +13,33 @@ Snake::Snake(sf::RenderTarget& window, DJ& dj) : Game{window, dj}
     snake_.emplace_back(BodyPart::TAIL, sf::Vector2f{320, 280}, RIGHT);
     
     textures_.resize(12);
-    textures_[0].loadFromFile("../../img/snake/bodyH.png");
+    textures_[0].loadFromFile(location "img/snake/bodyH.png");
     sprites_[BodyPart::BODY][RIGHT].setTexture(textures_[0]);
     sprites_[BodyPart::BODY][LEFT].setTexture(textures_[0]);
-    textures_[1].loadFromFile("../../img/snake/bodyV.png");
+    textures_[1].loadFromFile(location "img/snake/bodyV.png");
     sprites_[BodyPart::BODY][UP].setTexture(textures_[1]);
     sprites_[BodyPart::BODY][DOWN].setTexture(textures_[1]);
-    textures_[2].loadFromFile("../../img/snake/headUp.png");
+    textures_[2].loadFromFile(location "img/snake/headUp.png");
     sprites_[BodyPart::HEAD][UP].setTexture(textures_[2]);
-    textures_[3].loadFromFile("../../img/snake/headLeft.png");
+    textures_[3].loadFromFile(location "img/snake/headLeft.png");
     sprites_[BodyPart::HEAD][LEFT].setTexture(textures_[3]);
-    textures_[4].loadFromFile("../../img/snake/headDown.png");
+    textures_[4].loadFromFile(location "img/snake/headDown.png");
     sprites_[BodyPart::HEAD][DOWN].setTexture(textures_[4]);
-    textures_[5].loadFromFile("../../img/snake/headRight.png");
+    textures_[5].loadFromFile(location "img/snake/headRight.png");
     sprites_[BodyPart::HEAD][RIGHT].setTexture(textures_[5]);
-    textures_[6].loadFromFile("../../img/snake/tailUp.png");
+    textures_[6].loadFromFile(location "img/snake/tailUp.png");
     sprites_[BodyPart::TAIL][UP].setTexture(textures_[6]);
-    textures_[7].loadFromFile("../../img/snake/tailLeft.png");
+    textures_[7].loadFromFile(location "img/snake/tailLeft.png");
     sprites_[BodyPart::TAIL][LEFT].setTexture(textures_[7]);
-    textures_[8].loadFromFile("../../img/snake/tailDown.png");
+    textures_[8].loadFromFile(location "img/snake/tailDown.png");
     sprites_[BodyPart::TAIL][DOWN].setTexture(textures_[8]);
-    textures_[9].loadFromFile("../../img/snake/tailRight.png");
+    textures_[9].loadFromFile(location "img/snake/tailRight.png");
     sprites_[BodyPart::TAIL][RIGHT].setTexture(textures_[9]);
     
-    textures_[10].loadFromFile("../../img/snake/apple.png");
+    textures_[10].loadFromFile(location "img/snake/apple.png");
     appleSprite_.setTexture(textures_[10]);
     
-    textures_[11].loadFromFile("../../img/snake/background.png");
+    textures_[11].loadFromFile(location "img/snake/background.png");
     bg_.setTexture(textures_[11]);
     
     randomSnake(3, 50);

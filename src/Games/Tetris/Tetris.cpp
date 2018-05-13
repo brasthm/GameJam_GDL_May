@@ -1,4 +1,5 @@
 #include"Tetris.hpp"
+#include "../../constants.hpp"
 #include <random>
 
 void Shape::assign(const sf::Color color, std::string texturestr, char name)
@@ -24,10 +25,10 @@ void Shape::updateHW()
 
 Tetris::Tetris(sf::RenderTarget& window, DJ& dj) : Game(window, dj)
 {
-	Tvide_.loadFromFile("../../img/tetris/vide.png");
+	Tvide_.loadFromFile(location "img/tetris/vide.png");
 	Svide_.setTexture(Tvide_);
 
-	Tblock_.loadFromFile("../../img/tetris/cube.png");
+	Tblock_.loadFromFile(location "img/tetris/cube.png");
 	Sblock_.setTexture(Tblock_);
 	Sblock_.setColor(sf::Color(128, 128, 128, 255));
 
@@ -58,19 +59,19 @@ Tetris::Tetris(sf::RenderTarget& window, DJ& dj) : Game(window, dj)
 		grille_[9][i] = Sblock_;
 	}
 	
-	Carrer_.assign(sf::Color(255, 255, 0, 255), "../../img/tetris/carrer.png", 'C');
+	Carrer_.assign(sf::Color(255, 255, 0, 255), location "img/tetris/carrer.png", 'C');
 	
-	Barre_.assign(sf::Color(51,153,255,255), "../../img/tetris/barre.png", 'B');
+	Barre_.assign(sf::Color(51,153,255,255), location "img/tetris/barre.png", 'B');
 	
-	LDroit_.assign(sf::Color(255, 128, 0, 255), "../../img/tetris/LD.png", 'D');
+	LDroit_.assign(sf::Color(255, 128, 0, 255), location "img/tetris/LD.png", 'D');
 	
-	LMirroire_.assign(sf::Color(0, 0, 204, 255), "../../img/tetris/LM.png", 'M');
+	LMirroire_.assign(sf::Color(0, 0, 204, 255), location "img/tetris/LM.png", 'M');
 	
-	ZigZagLeft_.assign(sf::Color(0, 204, 0, 255), "../../img/tetris/zigL.png", 'L');
+	ZigZagLeft_.assign(sf::Color(0, 204, 0, 255), location "img/tetris/zigL.png", 'L');
 	
-	ZigZagRight_.assign(sf::Color(255, 0, 0, 255), "../../img/tetris/zigR.png", 'R');
+	ZigZagRight_.assign(sf::Color(255, 0, 0, 255), location "img/tetris/zigR.png", 'R');
 
-	T_.assign(sf::Color(153, 0, 153, 255), "../../img/tetris/T.png", 'T');
+	T_.assign(sf::Color(153, 0, 153, 255), location "img/tetris/T.png", 'T');
 
 	selectShape();
 

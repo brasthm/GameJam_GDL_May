@@ -1,4 +1,6 @@
 #include"DJ.hpp"
+#include "constants.hpp"
+
 
 Track::Track() 
 {
@@ -14,19 +16,19 @@ void Track::setTrack(std::string filepath, std::string name)
 DJ::DJ(sf::Music& m) : music_(m)
 {
 	AllTrack_.resize(20);
-	AllTrack_[0].setTrack("../../sound/decompte.wav", "decompte");
+	AllTrack_[0].setTrack(location "sound/decompte.wav", "decompte");
 	//AllTrack_[1].setTrack("", ""); free space
-	AllTrack_[2].setTrack("../../sound/Defeat.wav", "defeat2");
-	AllTrack_[3].setTrack("../../sound/Hit.wav", "Hit");
-	AllTrack_[4].setTrack("../../sound/Jump.wav", "Jump");
-	AllTrack_[5].setTrack("../../sound/Pickup_banana.wav", "Pickup_banana");
-	AllTrack_[6].setTrack("../../sound/Pickup_rotten_banana.wav", "Pickup_rotten_banana");
-	AllTrack_[7].setTrack("../../sound/Powerup.wav", "Powerup");
-	AllTrack_[8].setTrack("../../sound/Shoot.wav", "Shoot");
-	AllTrack_[9].setTrack("../../sound/victory.wav", "victory");
-	AllTrack_[10].setTrack("../../sound/waka.wav", "waka");
-	AllTrack_[12].setTrack("../../sound/piou8bits.wav", "piou");
-	AllTrack_[11].setTrack("../../sound/Laser_Shoot.wav", "Laser");
+	AllTrack_[2].setTrack(location "sound/Defeat.wav", "defeat2");
+	AllTrack_[3].setTrack(location "sound/Hit.wav", "Hit");
+	AllTrack_[4].setTrack(location "sound/Jump.wav", "Jump");
+	AllTrack_[5].setTrack(location "sound/Pickup_banana.wav", "Pickup_banana");
+	AllTrack_[6].setTrack(location "sound/Pickup_rotten_banana.wav", "Pickup_rotten_banana");
+	AllTrack_[7].setTrack(location "sound/Powerup.wav", "Powerup");
+	AllTrack_[8].setTrack(location "sound/Shoot.wav", "Shoot");
+	AllTrack_[9].setTrack(location "sound/victory.wav", "victory");
+	AllTrack_[10].setTrack(location "sound/waka.wav", "waka");
+	AllTrack_[12].setTrack(location "sound/piou8bits.wav", "piou");
+	AllTrack_[11].setTrack(location "sound/Laser_Shoot.wav", "Laser");
 
 	AllTrack_[10].getSound().setVolume(25);
 	AllTrack_[11].getSound().setVolume(50);
@@ -36,9 +38,9 @@ DJ::DJ(sf::Music& m) : music_(m)
 
 void DJ::playMusicForever() 
 {
-	music_.openFromFile("../../music/Komiku_-_64_-_First_Dance.ogg");
+	music_.openFromFile(location "music/Komiku_-_64_-_First_Dance.ogg");
 	//HACK PG protection de mes oreilles
-	//music_.play();
+	music_.play();
 	music_.setLoop(true);
 
 	//HACK PG moins fort !

@@ -1,4 +1,5 @@
 #include "boxhead.hpp"
+#include "../../constants.hpp"
 #include <iostream>
 #include <random>
 #include<cmath>
@@ -38,13 +39,13 @@ void Bullet::move(float speed, const sf::Time& elapsedTime)
 Boxhead::Boxhead(sf::RenderTarget& window, DJ& dj) : Game{ window, dj}
 {
 	sf::Texture TplayerD;
-	TplayerD.loadFromFile("../../img/boxhead/playerDown.png");
+	TplayerD.loadFromFile(location "img/boxhead/playerDown.png");
 	sf::Texture TplayerL;
-	TplayerL.loadFromFile("../../img/boxhead/playerLeft.png");
+	TplayerL.loadFromFile(location "img/boxhead/playerLeft.png");
 	sf::Texture TplayerR;
-	TplayerR.loadFromFile("../../img/boxhead/playerRight.png");
+	TplayerR.loadFromFile(location "img/boxhead/playerRight.png");
 	sf::Texture TplayerU;
-	TplayerU.loadFromFile("../../img/boxhead/playerUp.png");
+	TplayerU.loadFromFile(location "img/boxhead/playerUp.png");
 	TPlayerULDR_.push_back(TplayerU); 
 	TPlayerULDR_.push_back(TplayerL); 
 	TPlayerULDR_.push_back(TplayerD); 
@@ -54,7 +55,7 @@ Boxhead::Boxhead(sf::RenderTarget& window, DJ& dj) : Game{ window, dj}
 	player_.setPosition(400, 300);
 
 	sf::Sprite Swall;
-	Twall_.loadFromFile("../../img/boxhead/wall.png");
+	Twall_.loadFromFile(location "img/boxhead/wall.png");
 	Swall.setTexture(Twall_);
 	for (size_t i = 0; i < 6; i++)
 		wallVect_.push_back(Swall);
@@ -65,18 +66,18 @@ Boxhead::Boxhead(sf::RenderTarget& window, DJ& dj) : Game{ window, dj}
 	wallVect_[4].setPosition(43 * 8, 52 * 8);
 	wallVect_[5].setPosition(79 * 8, 52 * 8);
 
-	Tblood_.loadFromFile("../../img/boxhead/blood.png");
-	Tbullet_.loadFromFile("../../img/boxhead/bullet.png");
+	Tblood_.loadFromFile(location "img/boxhead/blood.png");
+	Tbullet_.loadFromFile(location "img/boxhead/bullet.png");
 	
 	
 	sf::Texture TzombieU;
-	TzombieU.loadFromFile("../../img/boxhead/zombieUp.png");
+	TzombieU.loadFromFile(location "img/boxhead/zombieUp.png");
 	sf::Texture TzombieR;
-	TzombieR.loadFromFile("../../img/boxhead/zombieRight.png");
+	TzombieR.loadFromFile(location "img/boxhead/zombieRight.png");
 	sf::Texture TzombieD;
-	TzombieD.loadFromFile("../../img/boxhead/zombieDown.png");
+	TzombieD.loadFromFile(location "img/boxhead/zombieDown.png");
 	sf::Texture TzombieL;
-	TzombieL.loadFromFile("../../img/boxhead/zombieLeft.png");
+	TzombieL.loadFromFile(location "img/boxhead/zombieLeft.png");
 	TzombieULDR_.push_back(TzombieU);
 	TzombieULDR_.push_back(TzombieL);
 	TzombieULDR_.push_back(TzombieD);

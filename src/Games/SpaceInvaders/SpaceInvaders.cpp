@@ -1,4 +1,5 @@
 ﻿#include "SpaceInvaders.hpp"
+#include "../../constants.hpp"
 #include <cmath>
 #include <random>
 
@@ -7,7 +8,7 @@ SpaceInvaders::SpaceInvaders(sf::RenderTarget& window, DJ& dj) : Game{ window , 
 	textures_.resize(17);
 
 	//vaisseau
-	textures_[0].loadFromFile("../../img/SpaceInvaders/ship.png");
+	textures_[0].loadFromFile(location "img/SpaceInvaders/ship.png");
 	ship_ = Entity(&window, textures_[0]);
 	ship_.move({ ECRAN_X / 2, ECRAN_Y - ship_.getGlobalBounds().height });//initial pos
 	ship_.setTeam(SI_FRIEND);
@@ -15,31 +16,31 @@ SpaceInvaders::SpaceInvaders(sf::RenderTarget& window, DJ& dj) : Game{ window , 
 
 	//TEXTURES des ennemis
 	//invader haut
-	textures_[1].loadFromFile("../../img/SpaceInvaders/invaderUpA.png");
-	textures_[2].loadFromFile("../../img/SpaceInvaders/invaderUpB.png");
+	textures_[1].loadFromFile(location "img/SpaceInvaders/invaderUpA.png");
+	textures_[2].loadFromFile(location "img/SpaceInvaders/invaderUpB.png");
 	//invader mileu
-	textures_[3].loadFromFile("../../img/SpaceInvaders/invaderMiddleA.png");
-	textures_[4].loadFromFile("../../img/SpaceInvaders/invaderMiddleB.png");
+	textures_[3].loadFromFile(location "img/SpaceInvaders/invaderMiddleA.png");
+	textures_[4].loadFromFile(location "img/SpaceInvaders/invaderMiddleB.png");
 	//invadeur bas
-	textures_[5].loadFromFile("../../img/SpaceInvaders/invaderDownA.png");
-	textures_[6].loadFromFile("../../img/SpaceInvaders/invaderDownB.png");
+	textures_[5].loadFromFile(location "img/SpaceInvaders/invaderDownA.png");
+	textures_[6].loadFromFile(location "img/SpaceInvaders/invaderDownB.png");
 	//invader Boss
 	//TODO PG à augmenter x8 depuis le dossier Original
-	//textures_[7].loadFromFile("../../img/SpaceInvaders/invaderDownB.png");
+	//textures_[7].loadFromFile(location "img/SpaceInvaders/invaderDownB.png");
 
 	//TEXTURES des protections
-	textures_[8].loadFromFile("../../img/SpaceInvaders/prot.png");
-	textures_[9].loadFromFile("../../img/SpaceInvaders/prot1.png");
-	textures_[10].loadFromFile("../../img/SpaceInvaders/prot2.png");
-	textures_[11].loadFromFile("../../img/SpaceInvaders/prot3.png");
+	textures_[8].loadFromFile(location "img/SpaceInvaders/prot.png");
+	textures_[9].loadFromFile(location "img/SpaceInvaders/prot1.png");
+	textures_[10].loadFromFile(location "img/SpaceInvaders/prot2.png");
+	textures_[11].loadFromFile(location "img/SpaceInvaders/prot3.png");
 	//TODO PG à augmenter x8 depuis le dossier Original
-	//textures_[12].loadFromFile("../../img/SpaceInvaders/protHalf.png");
-	//textures_[13].loadFromFile("../../img/SpaceInvaders/protHalf1.png");
-	//textures_[14].loadFromFile("../../img/SpaceInvaders/protHalf2.png");
-	//textures_[15].loadFromFile("../../img/SpaceInvaders/protHalf3.png");
+	//textures_[12].loadFromFile(location "img/SpaceInvaders/protHalf.png");
+	//textures_[13].loadFromFile(location "img/SpaceInvaders/protHalf1.png");
+	//textures_[14].loadFromFile(location "img/SpaceInvaders/protHalf2.png");
+	//textures_[15].loadFromFile(location "img/SpaceInvaders/protHalf3.png");
 
 	//TEXTURE du tir
-	textures_[16].loadFromFile("../../img/SpaceInvaders/shootA.png");
+	textures_[16].loadFromFile(location "img/SpaceInvaders/shootA.png");
 
 	//Création du tir
 	shoot_ = Entity(&window, textures_[16]);

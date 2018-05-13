@@ -1,4 +1,6 @@
 #include "Pacman.hpp"
+#include "../../constants.hpp"
+
 
 void Pacman::fillGum()
 {
@@ -129,40 +131,40 @@ Pacman::Pacman(sf::RenderTarget & window, DJ& dj) : Game{ window , dj}
 	map_.setTileSize(40, 40);
 
 	map_.addTexture("blank");
-	map_.addTexture("../../img/pacman/wall_h.png");
-	map_.addTexture("../../img/pacman/wall_v.png");
-	map_.addTexture("../../img/pacman/wall_corner_topleft.png");
-	map_.addTexture("../../img/pacman/wall_corner_topright.png");
-	map_.addTexture("../../img/pacman/wall_corner_bottomleft.png");
-	map_.addTexture("../../img/pacman/wall_corner_bottomright.png");
-	map_.addTexture("../../img/pacman/wall_end_left.png");
-	map_.addTexture("../../img/pacman/wall_end_right.png");
-	map_.addTexture("../../img/pacman/wall_end_up.png");
-	map_.addTexture("../../img/pacman/wall_end_down.png");
-	map_.addTexture("../../img/pacman/wall_three_left.png");
-	map_.addTexture("../../img/pacman/wall_three_right.png");
-	map_.addTexture("../../img/pacman/wall_three_top.png");
-	map_.addTexture("../../img/pacman/wall_three_bottom.png");
-	map_.addTexture("../../img/pacman/wall_block.png");
+	map_.addTexture(location "img/pacman/wall_h.png");
+	map_.addTexture(location "img/pacman/wall_v.png");
+	map_.addTexture(location "img/pacman/wall_corner_topleft.png");
+	map_.addTexture(location "img/pacman/wall_corner_topright.png");
+	map_.addTexture(location "img/pacman/wall_corner_bottomleft.png");
+	map_.addTexture(location "img/pacman/wall_corner_bottomright.png");
+	map_.addTexture(location "img/pacman/wall_end_left.png");
+	map_.addTexture(location "img/pacman/wall_end_right.png");
+	map_.addTexture(location "img/pacman/wall_end_up.png");
+	map_.addTexture(location "img/pacman/wall_end_down.png");
+	map_.addTexture(location "img/pacman/wall_three_left.png");
+	map_.addTexture(location "img/pacman/wall_three_right.png");
+	map_.addTexture(location "img/pacman/wall_three_top.png");
+	map_.addTexture(location "img/pacman/wall_three_bottom.png");
+	map_.addTexture(location "img/pacman/wall_block.png");
 
-	map_.loadFromFile("../../maps/pacman.txt");
+	map_.loadFromFile(location "maps/pacman.txt");
 
-	pacman_.setTexture(RIGHT, "../../img/pacman/pacman1_right.png");
-	pacman_.setTexture(RIGHT, "../../img/pacman/pacman2_right.png");
-	pacman_.setTexture(LEFT, "../../img/pacman/pacman1_left.png");
-	pacman_.setTexture(LEFT, "../../img/pacman/pacman2_left.png");
-	pacman_.setTexture(UP, "../../img/pacman/pacman1_up.png");
-	pacman_.setTexture(UP, "../../img/pacman/pacman2_up.png");
-	pacman_.setTexture(DOWN, "../../img/pacman/pacman1_down.png");
-	pacman_.setTexture(DOWN, "../../img/pacman/pacman2_down.png");
+	pacman_.setTexture(RIGHT, location "img/pacman/pacman1_right.png");
+	pacman_.setTexture(RIGHT, location "img/pacman/pacman2_right.png");
+	pacman_.setTexture(LEFT, location "img/pacman/pacman1_left.png");
+	pacman_.setTexture(LEFT, location "img/pacman/pacman2_left.png");
+	pacman_.setTexture(UP, location "img/pacman/pacman1_up.png");
+	pacman_.setTexture(UP, location "img/pacman/pacman2_up.png");
+	pacman_.setTexture(DOWN, location "img/pacman/pacman1_down.png");
+	pacman_.setTexture(DOWN, location "img/pacman/pacman2_down.png");
 
 	pacman_.updateMap(&map_);
 	pacman_.setDelay(200, 200, 200);
 	pacman_.setTileSize(40, 40);
 	pacman_.setPosition(40, 40);
 
-	gum_.loadFromFile("../../img/pacman/gum.png");
-	megaGum_.loadFromFile("../../img/pacman/mega_gum.png");
+	gum_.loadFromFile(location "img/pacman/gum.png");
+	megaGum_.loadFromFile(location "img/pacman/mega_gum.png");
 	fillGum();
 
 	static std::random_device rd;
@@ -175,8 +177,8 @@ Pacman::Pacman(sf::RenderTarget & window, DJ& dj) : Game{ window , dj}
 
 	n = uniform(gen);
 	ghosts_.emplace_back();
-	ghosts_.back().setTexture("../../img/pacman/red_ghost.png");
-	ghosts_.back().setTexture("../../img/pacman/rip_ghost.png");
+	ghosts_.back().setTexture(location "img/pacman/red_ghost.png");
+	ghosts_.back().setTexture(location "img/pacman/rip_ghost.png");
 	ghosts_.back().updateMap(&map_);
 	ghosts_.back().setDelay(100000, 400, 400);
 	ghosts_.back().setTileSize(40, 40);
@@ -184,8 +186,8 @@ Pacman::Pacman(sf::RenderTarget & window, DJ& dj) : Game{ window , dj}
 
 	n = uniform(gen);
 	ghosts_.emplace_back();
-	ghosts_.back().setTexture("../../img/pacman/orange_ghost.png");
-	ghosts_.back().setTexture("../../img/pacman/rip_ghost.png");
+	ghosts_.back().setTexture(location "img/pacman/orange_ghost.png");
+	ghosts_.back().setTexture(location "img/pacman/rip_ghost.png");
 	ghosts_.back().updateMap(&map_);
 	ghosts_.back().setDelay(100000, 400, 400);
 	ghosts_.back().setTileSize(40, 40);
@@ -193,8 +195,8 @@ Pacman::Pacman(sf::RenderTarget & window, DJ& dj) : Game{ window , dj}
 
 	n = uniform(gen);
 	ghosts_.emplace_back();
-	ghosts_.back().setTexture("../../img/pacman/blue_ghost.png");
-	ghosts_.back().setTexture("../../img/pacman/rip_ghost.png");
+	ghosts_.back().setTexture(location "img/pacman/blue_ghost.png");
+	ghosts_.back().setTexture(location "img/pacman/rip_ghost.png");
 	ghosts_.back().updateMap(&map_);
 	ghosts_.back().setDelay(100000, 400, 400);
 	ghosts_.back().setTileSize(40, 40);
@@ -202,8 +204,8 @@ Pacman::Pacman(sf::RenderTarget & window, DJ& dj) : Game{ window , dj}
 
 	n = uniform(gen);
 	ghosts_.emplace_back();
-	ghosts_.back().setTexture("../../img/pacman/pink_ghost.png");
-	ghosts_.back().setTexture("../../img/pacman/rip_ghost.png");
+	ghosts_.back().setTexture(location "img/pacman/pink_ghost.png");
+	ghosts_.back().setTexture(location "img/pacman/rip_ghost.png");
 	ghosts_.back().updateMap(&map_);
 	ghosts_.back().setDelay(100000, 400, 400);
 	ghosts_.back().setTileSize(40, 40);
@@ -218,13 +220,13 @@ Pacman::Pacman(sf::RenderTarget & window, DJ& dj) : Game{ window , dj}
 	switch (uniform2(gen))
 	{
 		case 0:
-			fruit_.setTexture("../../img/pacman/apple.png");
+			fruit_.setTexture(location "img/pacman/apple.png");
 			break;
 		case 1:
-			fruit_.setTexture("../../img/pacman/cherry.png");
+			fruit_.setTexture(location "img/pacman/cherry.png");
 			break;
 		case 2:
-			fruit_.setTexture("../../img/pacman/orange.png");
+			fruit_.setTexture(location "img/pacman/orange.png");
 			break;
 	}
 

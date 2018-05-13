@@ -1,5 +1,6 @@
 #include "GameSwitcher.hpp"
 #include <random>
+#include "constants.hpp"
 
 
 GameSwitcher::GameSwitcher(sf::RenderWindow & window, DJ& dj) : Screen{ window, dj}, score_{ 0 } 
@@ -7,20 +8,20 @@ GameSwitcher::GameSwitcher(sf::RenderWindow & window, DJ& dj) : Screen{ window, 
 	currentGame_ = randomGame();
 	renderT_.create(800, 600);
 
-	font_.loadFromFile("../../font/upheavtt.ttf");
+	font_.loadFromFile(location "font/upheavtt.ttf");
 	scoreUI_.setFont(font_);
 	scoreUI_.setCharacterSize(32);
 	scoreUI_.setFillColor(sf::Color::White);
 	scoreUI_.setPosition(10, 0);
 
 	countdownText_.emplace_back();
-	countdownText_.back().loadFromFile("../../img/ui/3.png");
+	countdownText_.back().loadFromFile(location "img/ui/3.png");
 	countdownText_.emplace_back();
-	countdownText_.back().loadFromFile("../../img/ui/2.png");
+	countdownText_.back().loadFromFile(location "img/ui/2.png");
 	countdownText_.emplace_back();
-	countdownText_.back().loadFromFile("../../img/ui/1.png");
+	countdownText_.back().loadFromFile(location "img/ui/1.png");
 
-	speedUp_.loadFromFile("../../img/ui/speed_up.png");
+	speedUp_.loadFromFile(location "img/ui/speed_up.png");
 
 	progressBar_.setFillColor(sf::Color::White);
 	progressBar_.setPosition(0, 590);
