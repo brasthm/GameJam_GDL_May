@@ -24,6 +24,7 @@ private :
 public :
 	DJ(sf::Music& m);
 	std::vector<Track>& getAllTrack(){ return AllTrack_; }
+	void playForever();
 };
 
 #endif //DJ_HPP
