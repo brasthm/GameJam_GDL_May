@@ -7,7 +7,8 @@
 #include "Pacman/Pacman.hpp"
 #include "../utilities.hpp"
 #include "boxhead/boxhead.hpp"
-#include "Tetris/Tetris.hpp"
+#include "SpaceInvaders/SpaceInvaders.hpp"
+#include "BananaHero/BananaHero.hpp"
 
 std::vector<std::unique_ptr<instanciator_base<Game, sf::RenderWindow&>>> init_game_list();
 

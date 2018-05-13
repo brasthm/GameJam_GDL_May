@@ -120,6 +120,11 @@ void Sprite::applyTexture()
 	sprite_.setTexture(textures_.back());
 }
 
+void Sprite::applyTexture(size_t n)
+{
+	if(n <nb_textures_) sprite_.setTexture(textures_[n]);
+}
+
 orientation_t Sprite::update()
 {
 	sf::Time elapsed = clock_.getElapsedTime();
@@ -136,6 +141,8 @@ orientation_t Sprite::update()
 
 	if (auto_)
 	{
+		iaReady_ = false;
+
 		elapsed = clockMoveAnim_.getElapsedTime();
 		float ratio = elapsed.asSeconds() / moveAnimDelay_.asSeconds();
 		if (ratio < 1)
@@ -146,6 +153,7 @@ orientation_t Sprite::update()
 		}
 	
 		elapsed = clockMove_.getElapsedTime();
+		
 		if (elapsed > moveDelay_)
 		{
 			if (direction_ == nextDirection_)
@@ -153,8 +161,12 @@ orientation_t Sprite::update()
 				prevPosition_ = nextPosition_;
 				setNextPosition();
 
-				if(!map_->isBlank(nextPosition_.x, nextPosition_.y))
+				if (!map_->isBlank(nextPosition_.x, nextPosition_.y))
+				{
+					iaReady_ = true;
 					nextPosition_ = prevPosition_;
+				}
+					
 			}
 			else
 			{
@@ -162,6 +174,7 @@ orientation_t Sprite::update()
 				direction_ = nextDirection_;
 				prevPosition_ = nextPosition_;
 				setNextPosition();
+				iaReady_ = true;
 
 				if (!map_->isBlank(nextPosition_.x, nextPosition_.y))
 				{
@@ -179,6 +192,29 @@ orientation_t Sprite::update()
 	}
 
 	return direction_;
+}
+
+sf::Vector2i Sprite::getBackTile(float x, float y)
+{
+	sf::Vector2i pos = map_->getTile(x, y);
+
+	switch (direction_)
+	{
+		case UP:
+			pos.y++;
+			break;
+		case DOWN:
+			pos.y--;
+			break;
+		case RIGHT:
+			pos.x--;
+			break;
+		case LEFT:
+			pos.x++;
+			break;
+	}
+
+	return pos;
 }
 
 const bool Sprite::isOOB()
