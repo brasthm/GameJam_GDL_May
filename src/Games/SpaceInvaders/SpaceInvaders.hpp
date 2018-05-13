@@ -1,4 +1,4 @@
-#ifndef SPACE_INVADER_HPP
+﻿#ifndef SPACE_INVADER_HPP
 #define SPACE_INVADER_HPP
 
 #include "../Game.hpp"
@@ -18,40 +18,66 @@ public:
 	explicit Entity(sf::RenderTarget* window, const sf::Texture& texture)
 		: window_{ window }
 	{
-		sprite_.setTexture(texture);
+		sf::Sprite sprite;
+		sprite.setTexture(texture);
+		sprites_.push_back(sprite);
 	}
-	void operator=(Entity entity) { sprite_ = entity.sprite_; window_ = entity.window_; }
 
-	sf::Sprite getSprite() { return sprite_; }
-	Team getTeam() { return team_; }
+	void addSprite(const sf::Texture& texture)
+	{
+		sf::Sprite sprite;
+		sprite.setTexture(texture);
+		sprites_.push_back(sprite);
+	}
+
+	void operator=(Entity entity) { sprites_ = entity.sprites_; window_ = entity.window_; }
+
+	std::vector<sf::Sprite> getSprites() const { return sprites_; }
+	Team getTeam() const { return team_; }
+	sf::FloatRect getGlobalBounds() const { return sprites_.front().getGlobalBounds(); }
+	sf::Vector2f getPosition() const { return sprites_.front().getPosition(); }
+
 	bool isAlive() { return alive_; }
 	void setTeam(Team team) { team_ = team; }
 	void setAlive(bool alive) { alive_ = alive; }
 
+	void rotate(float angle)
+	{
+		for (auto& sprite : sprites_)
+			sprite.rotate(angle);
+	}
+	
 	void display() const
 	{
-		if (alive_) window_->draw(sprite_);
+		if (alive_) window_->draw(sprites_.front());
 	}
 
-	void display(sf::Vector2f pos)
+	void display(size_t spriteCount) const
 	{
-		sprite_.setPosition(pos);
-		window_->draw(sprite_);
+		if (alive_) window_->draw(sprites_[spriteCount]);
 	}
+
+	//void display(sf::Vector2f pos)
+	//{
+	//	sprite_.setPosition(pos);
+	//	window_->draw(sprite_);
+	//}
 
 	virtual void move(const sf::Vector2f & delta)
 	{
-		sprite_.move(delta.x, delta.y);
+		for(auto& sprite : sprites_)
+			sprite.move(delta.x, delta.y);
 	}
 
 	virtual void setPosition(const sf::Vector2f & pos)
 	{
-		move(pos - sprite_.getPosition());
+		for (auto& sprite : sprites_)
+			sprite.move(pos - sprite.getPosition());
 	}
 
 	virtual bool collision(sf::Sprite& sprite)
 	{
-		if (alive_ && sprite.getGlobalBounds().intersects(sprite_.getGlobalBounds()))
+		if (alive_ && sprite.getGlobalBounds().intersects(sprites_.front().getGlobalBounds()))
 		{
 			alive_ = false;
 			return true;
@@ -60,10 +86,10 @@ public:
 	}
 
 private:
-	//�cran
+	//écran
 	sf::RenderTarget* window_;
-	//sprite
-	sf::Sprite sprite_;
+	//sprites
+	std::vector<sf::Sprite> sprites_;
 	//jeu
 	bool alive_ = true;
 	Team team_ = SI_NEUTRAL;
@@ -117,9 +143,9 @@ public:
 	void addInvader(Entity invader)
 	{
 		//largeur
-		if (invader.getSprite().getGlobalBounds().width > width_) width_ = invader.getSprite().getGlobalBounds().width;
+		if (invader.getGlobalBounds().width > width_) width_ = invader.getGlobalBounds().width;
 		//hauteur
-		height_ += invader.getSprite().getGlobalBounds().height;
+		height_ += invader.getGlobalBounds().height;
 		if (!pillar_.empty()) height_ += spaceBetweenLines_;
 
 		pillar_.push_back(invader);
@@ -133,7 +159,7 @@ public:
 		for (auto& invader : pillar_)
 		{
 			invader.setPosition({ x,y });
-			y += spaceBetweenLines_ + invader.getSprite().getGlobalBounds().height;
+			y += spaceBetweenLines_ + invader.getGlobalBounds().height;
 		}
 	}
 
@@ -143,10 +169,10 @@ public:
 			invader.move(delta);
 	}
 
-	void display() const
+	void display(size_t spriteCount) const
 	{
 		for (auto& invader : pillar_)
-			invader.display();
+			invader.display(spriteCount);
 	}
 
 	bool collision(sf::Sprite sprite)
@@ -164,17 +190,17 @@ public:
 		sf::Vector2f pos = { 0,0 };
 		for (auto& invader : pillar_)
 		{
-			if (invader.getSprite().getPosition().y > pos.y) 
+			if (invader.getPosition().y > pos.y) 
 			{ 
-				pos.y = invader.getSprite().getPosition().y + invader.getSprite().getGlobalBounds().height;
-				pos.x = invader.getSprite().getPosition().x + invader.getSprite().getGlobalBounds().width / 2.f;
+				pos.y = invader.getPosition().y + invader.getGlobalBounds().height;
+				pos.x = invader.getPosition().x + invader.getGlobalBounds().width / 2.f;
 			}
 		}
 
 		return pos;
 	}
 
-	sf::Vector2f getPosition() { return pillar_.front().getSprite().getPosition(); }
+	sf::Vector2f getPosition() const { return pillar_.front().getPosition(); }
 
 	void setSpaceBetweenLine(float f) { spaceBetweenLines_ = f; }
 
@@ -234,10 +260,10 @@ public:
 			pillar.move(delta);
 	}
 
-	void display() const
+	void display(size_t spriteCount) const
 	{
 		for (auto& pillar : grid_)
-			pillar.display();
+			pillar.display(spriteCount);
 	}
 
 	bool collision(sf::Sprite sprite)
@@ -252,12 +278,14 @@ public:
 
 	void setSpaceBetweenColumns(float f) { spaceBetweenColumns_ = f; }
 	void setDirection(Direction direction) { direction_ = direction; }
+	void setSpriteCount(size_t count) { spriteCount_ = count; }
 
-	std::vector<Pillar> getGrid() { return grid_; }
-	Direction getDirection() { return direction_; }
-	float getWidth() { return width_; }
-	float getHeight() { return height_; }
-	sf::Vector2f getPosition() { return grid_.front().getPosition(); }
+	std::vector<Pillar> getGrid() const { return grid_; }
+	Direction getDirection() const { return direction_; }
+	float getWidth() const { return width_; }
+	float getHeight() const { return height_; }
+	sf::Vector2f getPosition() const { return grid_.front().getPosition(); }
+	size_t getSpriteCount() const { return spriteCount_; }
 
 	//HACK
 	void setWidth(float f) { width_ = f; }
@@ -265,6 +293,8 @@ public:
 private:
 	std::vector<Pillar> grid_;
 	float spaceBetweenColumns_ = 0; //espace entre les colonnes
+
+	size_t spriteCount_ = 0; //détermine quelle sprite afficher
 
 	//taille
 	float width_ = 0;
@@ -297,10 +327,9 @@ private:
 	//textures 
 	std::vector<sf::Texture> textures_;
 
-	//Grids (chaque grid correspond à une sprite de l'animation pour chaque ennemi)
+	//Grid d'ennemi
 	std::vector<Grid> grids_;
-	const float gridSpeed_ = 75;
-	size_t gridCount_ = 0; //détermine quelle grid afficher
+	float gridSpeed_ = 100;
 		//détermine le temps de clignotement
 	const sf::Time gridBlinkTime_ = sf::milliseconds(750);
 	sf::Time gridBlinkAge_;
@@ -311,10 +340,10 @@ private:
 
 	//vaisseau
 	Entity ship_;
-	float shipSpeed_ = 400;
+	float shipSpeed_ = 800;
 
 	//tirs
-	float shootSpeed_ = 500;
+	float shootSpeed_ = 1000;
 		//détermine le temps de clignotement
 	const sf::Time shootBlinkTime_ = sf::milliseconds(1000); //TODO marche pas
 	sf::Time shootBlinkAge_;
@@ -325,9 +354,6 @@ private:
 	Entity shoot_; 
 	bool playerShootDoesExist_ = false;
 };
-
-
-
 
 
 #endif // !SPACE_INVADER_HPP
