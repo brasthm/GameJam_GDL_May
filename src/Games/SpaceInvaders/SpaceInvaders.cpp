@@ -234,6 +234,7 @@ void SpaceInvaders::manageShoot(const sf::Time & elapsedTime)
 				shoot.setAlive(false);
 				playerShootDoesExist_ = false;
 				SI_score_ += 100;
+				Dj_.getAllTrack()[5].getSound().play();
 			}
 			if (shoot.getPosition().y < 0)
 			{

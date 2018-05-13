@@ -20,9 +20,9 @@ class DJ
 {
 private : 
 	std::vector<Track> AllTrack_;
-
+	sf::Music& music_;
 public :
-	DJ();
+	DJ(sf::Music& m);
 	std::vector<Track>& getAllTrack(){ return AllTrack_; }
 
 	void play(size_t n, bool forced = false)

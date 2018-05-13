@@ -58,6 +58,7 @@ void Pacman::collision(int &score)
 	if (fruitAlive_ && map_.getTile(pacman_.getPosition().x + 20, pacman_.getPosition().y + 20) == (map_.getTile(fruit_.getPosition().x + 20, fruit_.getPosition().y + 20)))
 	{
 		fruitAlive_ = false;
+		Dj_.getAllTrack()[5].getSound().play();
 		score += 300;
 	}
 
