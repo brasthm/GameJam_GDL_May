@@ -2,7 +2,7 @@
 #include <cmath>
 #include <random>
 
-SpaceInvaders::SpaceInvaders(sf::RenderWindow& window) : Game{ window }
+SpaceInvaders::SpaceInvaders(sf::RenderTarget& window) : Game{ window }
 {
 	textures_.resize(17);
 
@@ -24,7 +24,7 @@ SpaceInvaders::SpaceInvaders(sf::RenderWindow& window) : Game{ window }
 	textures_[5].loadFromFile("../../img/SpaceInvaders/invaderDownA.png");
 	textures_[6].loadFromFile("../../img/SpaceInvaders/invaderDownB.png");
 	//invader Boss
-	//TODO PG ‡ augmenter x8 depuis le dossier Original
+	//TODO PG ÔøΩ augmenter x8 depuis le dossier Original
 	//textures_[7].loadFromFile("../../img/SpaceInvaders/invaderDownB.png");
 
 	//TEXTURES des protections
@@ -32,7 +32,7 @@ SpaceInvaders::SpaceInvaders(sf::RenderWindow& window) : Game{ window }
 	textures_[9].loadFromFile("../../img/SpaceInvaders/prot1.png");
 	textures_[10].loadFromFile("../../img/SpaceInvaders/prot2.png");
 	textures_[11].loadFromFile("../../img/SpaceInvaders/prot3.png");
-	//TODO PG ‡ augmenter x8 depuis le dossier Original
+	//TODO PG ÔøΩ augmenter x8 depuis le dossier Original
 	//textures_[12].loadFromFile("../../img/SpaceInvaders/protHalf.png");
 	//textures_[13].loadFromFile("../../img/SpaceInvaders/protHalf1.png");
 	//textures_[14].loadFromFile("../../img/SpaceInvaders/protHalf2.png");
@@ -41,10 +41,10 @@ SpaceInvaders::SpaceInvaders(sf::RenderWindow& window) : Game{ window }
 	//TEXTURE du tir
 	textures_[16].loadFromFile("../../img/SpaceInvaders/shootA.png");
 
-	//CrÈation du tir
+	//Cr√©ation du tir
 	shoot_ = Entity(&window, textures_[16]);
 
-	//CrÈation de la Grid A
+	//Cr√©ation de la Grid A
 	Grid gridA;
 		//pillar 1
 		Pillar pillarA1;
@@ -83,7 +83,7 @@ SpaceInvaders::SpaceInvaders(sf::RenderWindow& window) : Game{ window }
 
 	downLimit_ = pillarA1.getPillarBottomPos().y + SPACE_BETWEEN_LINES;
 
-	//CrÈation de la Grid B
+	//Cr√©ation de la Grid B
 	Grid gridB;
 		//pillar 1
 		Pillar pillarB1;
@@ -165,25 +165,25 @@ void SpaceInvaders::manageGrids(const sf::Time & elapsedTime)
 	}
 	gridBlinkAge_ += elapsedTime;
 
-	//mouvement : crÈation du delta de mouvement
+	//mouvement : cr√©ation du delta de mouvement
 	sf::Vector2f delta = { gridSpeed_*elapsedTime.asSeconds()*(float)(grids_[0].getDirection() == DIR_RIGHT) - gridSpeed_ * elapsedTime.asSeconds()*(float)(grids_[0].getDirection() == DIR_LEFT)
 						  ,gridSpeed_*elapsedTime.asSeconds()*(float)(grids_[0].getDirection() == DIR_DOWN ) - gridSpeed_ * elapsedTime.asSeconds()*(float)(grids_[0].getDirection() == DIR_UP  )};
 	sf::Vector2f taille = { grids_[0].getWidth(),grids_[0].getHeight() };
 	sf::Vector2f pos = grids_[0].getPosition();
 
-	if ((pos.x + taille.x + delta.x) > ECRAN_X) //trop ‡ droite
+	if ((pos.x + taille.x + delta.x) > ECRAN_X) //trop √† droite
 	{
 		delta.x = ECRAN_X - pos.x - taille.x;
 		grids_[0].setDirection(DIR_DOWN);
 	}
-	else if (pos.x + delta.x < 0) //trop ‡ gauche
+	else if (pos.x + delta.x < 0) //trop √† gauche
 	{
 		delta.x = -pos.x;
 		grids_[0].setDirection(DIR_DOWN);
 	}
 
 	const float MGK = 60;
-		//la magick constant correspond ‡ la taille entre le bas de l'Ècran et le haut des abris (vaisseau + abri + espace entre les 2)
+		//la magick constant correspond √† la taille entre le bas de l'√©cran et le haut des abris (vaisseau + abri + espace entre les 2)
 		// 8*8 + 16*8 = 192
 
 	if(downLimit_ > (ECRAN_Y - MGK)) downLimit_ = (ECRAN_Y - MGK);
@@ -191,12 +191,12 @@ void SpaceInvaders::manageGrids(const sf::Time & elapsedTime)
 	if ((pos.y + taille.y + delta.y) >= downLimit_ ) //trop en bas
 	{
 		delta.y = downLimit_ - pos.y - taille.y - 1;
-		if (lastTranslation_) //si avant on allait ‡ droite
+		if (lastTranslation_) //si avant on allait √† droite
 		{
 			grids_[0].setDirection(DIR_LEFT);
 			lastTranslation_ = false;
 		}
-		else //si avant on allait ‡ gauche
+		else //si avant on allait √† gauche
 		{
 			grids_[0].setDirection(DIR_RIGHT);
 			lastTranslation_ = true;
@@ -210,7 +210,7 @@ void SpaceInvaders::manageGrids(const sf::Time & elapsedTime)
 		grids_[0].setDirection(DIR_DOWN);
 	}
 
-	for (auto& grid : grids_) //m‡j des positions
+	for (auto& grid : grids_) //m√†j des positions
 	{
 		grid.move(delta);
 	}
@@ -282,7 +282,7 @@ void SpaceInvaders::manageShoot(const sf::Time & elapsedTime)
 }
 
 
-void SpaceInvaders::computeFrame(const sf::Time & elapsedTime)
+bool SpaceInvaders::computeFrame(const sf::Time & elapsedTime, int& score)
 {
 	manageShip(elapsedTime);
 	manageGrids(elapsedTime);

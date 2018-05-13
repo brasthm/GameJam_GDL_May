@@ -7,14 +7,14 @@
 class Game
 {
     public:
-        explicit Game(sf::RenderWindow& window) : window_{window} {}
+        explicit Game(sf::RenderTarget& window) : window_{window} {}
         virtual ~Game() = default;
         
-        virtual void computeFrame(const sf::Time& elapsedTime) = 0;
+        virtual bool computeFrame(const sf::Time& elapsedTime, int& score) = 0;
         virtual void drawState() const = 0;
     
     protected:
-        sf::RenderWindow& window_;
+        sf::RenderTarget& window_;
 };
 
 #endif //GAME_HPP

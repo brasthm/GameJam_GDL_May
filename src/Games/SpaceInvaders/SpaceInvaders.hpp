@@ -15,7 +15,7 @@ class Entity
 {
 public:
 	explicit Entity() = default;
-	explicit Entity(sf::RenderWindow* window, const sf::Texture& texture)
+	explicit Entity(sf::RenderTarget* window, const sf::Texture& texture)
 		: window_{ window }
 	{
 		sprite_.setTexture(texture);
@@ -60,8 +60,8 @@ public:
 	}
 
 private:
-	//écran
-	sf::RenderWindow* window_;
+	//ï¿½cran
+	sf::RenderTarget* window_;
 	//sprite
 	sf::Sprite sprite_;
 	//jeu
@@ -277,8 +277,8 @@ private:
 class SpaceInvaders : public Game
 {
 public:
-	explicit SpaceInvaders(sf::RenderWindow& window);
-	void computeFrame(const sf::Time& elapsedTime) override;
+	explicit SpaceInvaders(sf::RenderTarget& window);
+	bool computeFrame(const sf::Time& elapsedTime, int& score) override;
 	void drawState() const override;
 
 	void manageShip(const sf::Time& elapsedTime);
@@ -289,7 +289,7 @@ private:
 	//constantes 
 	const float ECRAN_X = 800;
 	const float ECRAN_Y = 600;
-	float borderSpace_ = 0; //espace sur le côté
+	float borderSpace_ = 0; //espace sur le cÃ´tÃ©
 
 	//varaibles de jeu
 	sf::Time age_;
@@ -297,16 +297,16 @@ private:
 	//textures 
 	std::vector<sf::Texture> textures_;
 
-	//Grids (chaque grid correspond à une sprite de l'animation pour chaque ennemi)
+	//Grids (chaque grid correspond Ã  une sprite de l'animation pour chaque ennemi)
 	std::vector<Grid> grids_;
 	const float gridSpeed_ = 75;
-	size_t gridCount_ = 0; //détermine quelle grid afficher
-		//détermine le temps de clignotement
+	size_t gridCount_ = 0; //dÃ©termine quelle grid afficher
+		//dÃ©termine le temps de clignotement
 	const sf::Time gridBlinkTime_ = sf::milliseconds(750);
 	sf::Time gridBlinkAge_;
-		//détermine la limite de déplacement vers le bas
+		//dÃ©termine la limite de dÃ©placement vers le bas
 	float downLimit_ = 0;
-		//détermine le sens de dernière translation (true : droite)
+		//dÃ©termine le sens de derniÃ¨re translation (true : droite)
 	bool lastTranslation_ = true;
 
 	//vaisseau
@@ -315,7 +315,7 @@ private:
 
 	//tirs
 	float shootSpeed_ = 500;
-		//détermine le temps de clignotement
+		//dÃ©termine le temps de clignotement
 	const sf::Time shootBlinkTime_ = sf::milliseconds(1000); //TODO marche pas
 	sf::Time shootBlinkAge_;
 		//conteneur de tirs

@@ -5,13 +5,13 @@
 #include <iostream>
 
 
-Snake::Snake(sf::RenderWindow& window) : Game{window}
+Snake::Snake(sf::RenderTarget& window) : Game{window}
 {
     snake_.emplace_back(BodyPart::HEAD, sf::Vector2f{400, 280}, RIGHT);
     snake_.emplace_back(BodyPart::BODY, sf::Vector2f{360, 280}, RIGHT);
     snake_.emplace_back(BodyPart::TAIL, sf::Vector2f{320, 280}, RIGHT);
     
-    textures_.resize(11);
+    textures_.resize(12);
     textures_[0].loadFromFile("../../img/snake/bodyH.png");
     sprites_[BodyPart::BODY][RIGHT].setTexture(textures_[0]);
     sprites_[BodyPart::BODY][LEFT].setTexture(textures_[0]);
@@ -38,6 +38,9 @@ Snake::Snake(sf::RenderWindow& window) : Game{window}
     textures_[10].loadFromFile("../../img/snake/apple.png");
     appleSprite_.setTexture(textures_[10]);
     
+    textures_[11].loadFromFile("../../img/snake/background.png");
+    bg_.setTexture(textures_[11]);
+    
     randomSnake(3, 50);
     savedOrientation_ = currentOrientation_ = snake_.front().orientation();
 
@@ -45,8 +48,11 @@ Snake::Snake(sf::RenderWindow& window) : Game{window}
 }
 
 
-void Snake::computeFrame(const sf::Time& elapsedTime)
+bool Snake::computeFrame(const sf::Time& elapsedTime, int& score)
 {
+    if(lose)
+        return false;
+    
     cycleProgression_ += elapsedTime;
 
     for(auto& part : snake_)
@@ -62,7 +68,7 @@ void Snake::computeFrame(const sf::Time& elapsedTime)
             auto rit = snake_.rbegin()+1;
             snake_.insert(rit.base(), *rit);
             randomApple();
-            // TODO Pomme mangée, augmentation de score
+            score += 20 * snake_.size(); // TODO Pomme mangée, augmentation de score
         }
         for(auto it = snake_.rbegin() + (appleAte?2:0); it+1 != snake_.rend(); ++it)
         {
@@ -93,27 +99,23 @@ void Snake::computeFrame(const sf::Time& elapsedTime)
     for(auto it = snake_.begin()+1; it != snake_.end(); ++it)
         if(snake_.front().nextPosition() == it->nextPosition())
             lose = true;
+    
+    return true;
 }
 
 void Snake::drawState() const
 {
-    auto size = window_.getSize();
-    sf::RectangleShape rect(window_.mapPixelToCoords({(int)size.x, (int)size.y}));
-    rect.setFillColor(lose ? sf::Color::Red : sf::Color::Blue);
-    window_.draw(rect);
+    window_.draw(bg_);
     
     auto appleSprite = appleSprite_;
     appleSprite.setPosition(applePos_);
     window_.draw(appleSprite);
     
-    if(!lose)
+    for(auto it = snake_.rbegin(); it != snake_.rend(); ++it)
     {
-        for(auto it = snake_.rbegin(); it != snake_.rend(); ++it)
-        {
-            auto sprite = sprites_[it->type()][it->orientation()];
-            sprite.setPosition(it->position());
-            window_.draw(sprite);
-        }
+        auto sprite = sprites_[it->type()][it->orientation()];
+        sprite.setPosition(it->position());
+        window_.draw(sprite);
     }
 }
 
@@ -189,7 +191,7 @@ void Snake::randomSnake(size_t bodyPartMin, size_t bodyPartMax)
                 valid = false;
             
         }
-        for(int i = 1; i < 5 && valid; i++)
+        for(int i = 1; i < 8 && valid; i++)
         {
             auto ori = snake_.front().orientation();
             auto pos = snake_.front().position() + sf::Vector2f{(ori%2) * (2-ori) * 40.f, ((ori+1)%2) * (ori-1) * 40.f} * (float)i;

@@ -10,9 +10,9 @@
 class Snake : public Game
 {
     public:
-        explicit Snake(sf::RenderWindow& window);
+        explicit Snake(sf::RenderTarget& window);
 
-        void computeFrame(const sf::Time& elapsedTime) override;
+        bool computeFrame(const sf::Time& elapsedTime, int& score) override;
         void drawState() const override;
         
         void randomApple();
@@ -26,6 +26,7 @@ class Snake : public Game
         sf::Sprite appleSprite_;
         std::vector<sf::Texture> textures_;
         sf::Time cycleProgression_;
+        sf::Sprite bg_;
         
         const sf::Time cycleTime = sf::milliseconds(100);
         
