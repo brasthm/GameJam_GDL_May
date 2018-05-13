@@ -128,6 +128,13 @@ void Sprite::applyTexture(size_t n)
 	if(n <nb_textures_) sprite_.setTexture(textures_[n]);
 }
 
+void Sprite::updateClock(sf::Time elapsed)
+{
+	clock_ += elapsed;
+	clockMoveAnim_ += elapsed;
+	clockMove_ += elapsed;
+}
+
 orientation_t Sprite::update(sf::Time elapsed)
 {
 	clock_ +=elapsed;
@@ -174,7 +181,6 @@ orientation_t Sprite::update(sf::Time elapsed)
 			{
 				orientation_t temp = direction_;
 				direction_ = nextDirection_;
-				std::cerr << clockMove_.asMilliseconds() << " " << elapsed.asMilliseconds() << std::endl;;
 				prevPosition_ = nextPosition_;
 				setNextPosition();
 				iaReady_ = true;
@@ -182,7 +188,6 @@ orientation_t Sprite::update(sf::Time elapsed)
 				if (!map_->isBlank(nextPosition_.x + 20, nextPosition_.y + 20))
 				{
 					direction_ = temp;
-					nextDirection_ = direction_;
 					nextPosition_ = prevPosition_;
 					setNextPosition();
 					if (!map_->isBlank(nextPosition_.x + 20, nextPosition_.y + 20))

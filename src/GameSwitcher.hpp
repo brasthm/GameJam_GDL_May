@@ -14,7 +14,7 @@ struct Step
 class GameSwitcher : public Screen
 {
     public:
-		explicit GameSwitcher(sf::RenderWindow& window);
+		explicit GameSwitcher(sf::RenderWindow& window, DJ& dj);
         std::unique_ptr<Screen> execute() override;
         std::unique_ptr<Game> randomGame();
         std::unique_ptr<Game> randomGame(const std::unique_ptr<Game>& previous);

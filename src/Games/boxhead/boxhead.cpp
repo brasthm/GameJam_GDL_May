@@ -35,7 +35,7 @@ void Bullet::move(float speed, const sf::Time& elapsedTime)
 	}
 }
 
-Boxhead::Boxhead(sf::RenderTarget& window) : Game{ window }
+Boxhead::Boxhead(sf::RenderTarget& window, DJ& dj) : Game{ window, dj}
 {
 	sf::Texture TplayerD;
 	TplayerD.loadFromFile("../../img/boxhead/playerDown.png");
@@ -256,6 +256,7 @@ void Boxhead::shoot(const sf::Time& elapsedTime, char sens)
 			}
 			shootProgression_ = sf::Time::Zero;
 			bulletVect_.push_back(bullet);
+			Dj_.getAllTrack()[8].getSound().play();
 		}
 }
 
@@ -307,6 +308,7 @@ void Boxhead::computeBullet(const sf::Time& elapsedTime, int& score)
 	if (colliBullet())
 	{
 		score += 500;
+		Dj_.getAllTrack()[3].getSound().play();
 	}
 		
 }
@@ -447,6 +449,7 @@ void Boxhead::moveZombie(const sf::Time& elapsedTime, int& score)
 
 		case 'C':
 			score -= 100;
+			Dj_.getAllTrack()[2].getSound().play();
 			lose_ = true;
 				break;
 		default:

@@ -1,7 +1,7 @@
 #include "Games.hpp"
 
 
-std::vector<std::unique_ptr<instanciator_base<Game, sf::RenderTarget&>>> init_game_list()
+std::vector<std::unique_ptr<instanciator_base<Game, sf::RenderTarget&, DJ& >>> init_game_list()
 {
     std::vector<std::unique_ptr<instanciator_base<Game, sf::RenderTarget&>>> gl;
     //gl.emplace_back(new instanciator<Game, BlueScreen, sf::RenderTarget&>);

@@ -2,7 +2,7 @@
 #include <cmath>
 #include <random>
 
-SpaceInvaders::SpaceInvaders(sf::RenderTarget& window) : Game{ window }
+SpaceInvaders::SpaceInvaders(sf::RenderTarget& window, DJ& dj) : Game{ window , dj}
 {
 	textures_.resize(17);
 

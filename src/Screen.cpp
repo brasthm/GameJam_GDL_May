@@ -1,6 +1,6 @@
 #include "Screen.hpp"
 
-Screen::Screen(sf::RenderWindow& window) :  window_{ window }
+Screen::Screen(sf::RenderWindow& window, DJ& dj) :  window_{ window }, dj_(dj)
 {}
 
 std::optional<std::unique_ptr<Screen>> Screen::gestionEvent(const sf::Event& event)

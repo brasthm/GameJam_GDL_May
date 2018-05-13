@@ -4,7 +4,7 @@
 #include "../../utilities.hpp"
 
 
-BananaHero::BananaHero(sf::RenderTarget& window) : Game(window)
+BananaHero::BananaHero(sf::RenderTarget& window, DJ& dj) : Game(window, dj)
 {
     textures_.resize(7);
     textures_[0].loadFromFile("../../img/bananaHero/banana.png");
@@ -62,21 +62,25 @@ bool BananaHero::computeFrame(const sf::Time& elapsedTime, int& score)
             {
                 case Banana::NORMAL:
                     monkey_.happy(true);
+					Dj_.getAllTrack()[5].getSound().play();
                     score += 100;// TODO Banane normale attrappée : des points en plus
                     break;
                 
                 case Banana::DOUBLE:
                     monkey_.happy(true);
+					Dj_.getAllTrack()[5].getSound().play();
                     score += 300;// TODO Banane double attrappée : plus de points en plus
                     break;
                 
                 case Banana::ROTTEN:
                     monkey_.happy(false);
+					Dj_.getAllTrack()[6].getSound().play();
                     score -= 100;// TODO Banane pourrie attrappée : des points en moins
                     break;
                 
                 case Banana::DOUBLEROTTEN:
                     monkey_.happy(false);
+					Dj_.getAllTrack()[6].getSound().play();
                     score -= 300;// TODO Banane double pourrie attrappée : plus de points en moins
                     break;
             }

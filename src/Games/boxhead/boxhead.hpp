@@ -58,7 +58,7 @@ private:
 	
 	bool lose_ = false;
 public:
-	explicit Boxhead(sf::RenderTarget& window);
+	explicit Boxhead(sf::RenderTarget& window, DJ& dj);
 	bool computeFrame(const sf::Time& elapsedTime, int& score) override;
 	void drawState(sf::Sprite &countdown) const override;
 	void movePlayer(const sf::Time& elapsedTime);

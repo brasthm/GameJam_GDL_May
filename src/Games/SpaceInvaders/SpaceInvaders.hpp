@@ -307,7 +307,7 @@ private:
 class SpaceInvaders : public Game
 {
 public:
-	explicit SpaceInvaders(sf::RenderTarget& window);
+	explicit SpaceInvaders(sf::RenderTarget& window, DJ& dj);
 	bool computeFrame(const sf::Time& elapsedTime, int& score) override;
 	void drawState(sf::Sprite &countdown) const override;
 

@@ -9,6 +9,7 @@
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include "DJ.hpp"
 
 
 void adapt_viewport(sf::RenderWindow& window);
@@ -16,7 +17,7 @@ void adapt_viewport(sf::RenderWindow& window);
 class Screen
 {
     public:
-        explicit Screen(sf::RenderWindow& window);
+        explicit Screen(sf::RenderWindow& window, DJ& dj);
         virtual ~Screen() = default;
 
         virtual std::unique_ptr<Screen> execute() = 0;
@@ -25,6 +26,7 @@ class Screen
 		int getScore() { return score_; }
     protected:
         sf::RenderWindow& window_;
+		DJ& dj_;
 		int score_;
 };
 

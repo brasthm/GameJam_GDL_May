@@ -72,17 +72,21 @@ void DirectionalSprite::changeDirection(orientation_t dir)
 void DirectionalSprite::update(sf::Time elapsed)
 {
 	current_ = sprites_[current_].update(elapsed);
-	std::cerr << sprites_[current_].getNextDirection() << std::endl;;
+
 	sf::Vector2f pos = sprites_[current_].getPosition();
 	sf::Vector2f prevPos = sprites_[current_].getPrevPosition();
 	sf::Vector2f nextPos = sprites_[current_].getNextPosition();
 	sf::Time clock = sprites_[current_].getClock();
+
 	orientation_t dir = sprites_[current_].getDirection();
 	orientation_t nDir = sprites_[current_].getNextDirection();
+	
 
 	for (size_t i = 0; i < sprites_.size(); i++)
 	{
 		sprites_[i].setDirection(dir, nDir);
+		if(i != current_)
+			sprites_[i].updateClock(elapsed);
 		sprites_[i].setClcok(clock);
 		sprites_[i].setPos(pos.x, pos.y);
 		sprites_[i].setNextPosition(nextPos.x, nextPos.y);
