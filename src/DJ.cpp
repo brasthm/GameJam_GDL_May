@@ -29,6 +29,7 @@ DJ::DJ(sf::Music& m) : music_(m)
 	AllTrack_[10].setTrack(location "sound/waka.wav", "waka");
 	AllTrack_[12].setTrack(location "sound/piou8bits.wav", "piou");
 	AllTrack_[11].setTrack(location "sound/Laser_Shoot.wav", "Laser");
+	AllTrack_[13].setTrack(location "sound/speed_up.wav", "Laser");
 
 	AllTrack_[10].getSound().setVolume(25);
 	AllTrack_[11].getSound().setVolume(50);
@@ -38,13 +39,11 @@ DJ::DJ(sf::Music& m) : music_(m)
 void DJ::playMusicForever(std::string path) 
 {
 	music_.openFromFile(path);
-	//HACK PG protection de mes oreilles
 	music_.play();
 	music_.setLoop(true);
 
-	//HACK PG moins fort !
 	sf::Listener listener;
-	listener.setGlobalVolume(20);
+	listener.setGlobalVolume(50);
 }
 
 void DJ::play(size_t n, bool forced)

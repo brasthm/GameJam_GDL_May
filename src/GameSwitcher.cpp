@@ -152,6 +152,8 @@ std::optional<std::unique_ptr<Screen>> GameSwitcher::transition(std::unique_ptr<
     sf::Time openTime = sf::milliseconds(250);
     sf::Time closeTime = sf::milliseconds(250);
 	sf::Time speedUpTime = isSpeedUp ? sf::milliseconds(500) : sf::milliseconds(0);
+
+	bool isSoundPlayed = false;
     
     sf::Clock frameClock;
     
@@ -191,6 +193,11 @@ std::optional<std::unique_ptr<Screen>> GameSwitcher::transition(std::unique_ptr<
         }
 		else if (progression < closeTime + speedUpTime)
 		{
+			if (!isSoundPlayed)
+			{
+				dj_.play(13);
+				isSoundPlayed = true;
+			}
 			sf::Sprite speedUp;
 			speedUp.setTexture(speedUp_);
 
