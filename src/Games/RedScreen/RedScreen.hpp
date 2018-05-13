@@ -6,9 +6,9 @@
 class RedScreen : public Game
 {
     public:
-        explicit RedScreen(sf::RenderWindow& window) : Game{window} {}
+        explicit RedScreen(sf::RenderTarget& window) : Game{window} {}
     
-        void computeFrame(const sf::Time& elapsedTime) override {};
+        bool computeFrame(const sf::Time& elapsedTime, int& score) override { return true; };
         void drawState() const override;
 };
 

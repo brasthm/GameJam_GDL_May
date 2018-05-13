@@ -28,6 +28,8 @@ class Pacman : public Game
 		sf::Keyboard keyboard_;
 		sf::Time invincible_;
 		bool isInvincible = false;
+		
+		bool dead_ = false;
 
 		void fillGum();
 		void collision();
@@ -36,9 +38,9 @@ class Pacman : public Game
 	public :
 		Map getMap() { return map_; };
 		
-		explicit Pacman(sf::RenderWindow& window);
+		explicit Pacman(sf::RenderTarget& window);
 
-		void computeFrame(const sf::Time& elapsedTime) override;
+		bool computeFrame(const sf::Time& elapsedTime, int& score) override;
 		void drawState() const override;
 };
 

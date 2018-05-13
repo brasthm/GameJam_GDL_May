@@ -55,9 +55,11 @@ private:
 	float speedX_ = 200, speedY_ = 200;
 	float speedZombieX_ = 100, speedZombieY_ = 100;
 	float speedWeapon_ = 600;
+	
+	bool lose_ = false;
 public:
-	explicit Boxhead(sf::RenderWindow& window);
-	void computeFrame(const sf::Time& elapsedTime) override;
+	explicit Boxhead(sf::RenderTarget& window);
+	bool computeFrame(const sf::Time& elapsedTime, int& score) override;
 	void drawState() const override;
 	void movePlayer(const sf::Time& elapsedTime);
 	bool colli(char, sf::Sprite&);

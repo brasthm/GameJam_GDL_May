@@ -22,7 +22,7 @@ class Map
 		void addTexture(std::string path);
 		void loadFromFile(std::string path);
 		void setTileSize(size_t width, size_t height);
-		void draw(sf::RenderWindow &window) const;
+		void draw(sf::RenderTarget &window) const;
 
 		const bool isBlank(float x, float y);
 		const int getValue(int i, int j) { return map_[j][i]; };
