@@ -73,7 +73,6 @@ Tetris::Tetris(sf::RenderWindow& window) : Game(window)
 	T_.assign(sf::Color(153, 0, 153, 255), "../../img/Tetris/T.png", 'T');
 
 	posx_ = 0;
-	//generer shape alea
 	selectShape();
 }
 
