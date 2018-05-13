@@ -2,8 +2,10 @@
 #include <random>
 
 
-GameSwitcher::GameSwitcher(sf::RenderWindow & window) : Screen{ window }, score_{ 0 } 
+GameSwitcher::GameSwitcher(sf::RenderWindow & window) : Screen{ window } 
 {
+	score_ = 0;
+
 	currentGame_ = randomGame();
 	renderT_.create(800, 600);
 

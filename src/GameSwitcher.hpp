@@ -18,7 +18,6 @@ class GameSwitcher : public Screen
 		void computeUI(sf::Time elapsed, sf::Time frame);
     private:
         std::unique_ptr<Game> currentGame_;
-        int score_;
         sf::RenderTexture renderT_;
 
 		sf::Font font_;
