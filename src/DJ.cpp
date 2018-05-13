@@ -11,6 +11,16 @@ void Track::setTrack(std::string filepath, std::string name)
 	name_ = name;
 }
 
+Music::Music() 
+{
+}
+
+void Music::setMusic(std::string filepath, std::string name) 
+{
+	music_.openFromFile(filepath);
+	name_ = name;
+}
+
 DJ::DJ() 
 {
 	AllTrack_.resize(11);
@@ -24,4 +34,7 @@ DJ::DJ()
 	AllTrack_[7].setTrack("../../sound/Powerup.wav", "Powerup");
 	AllTrack_[8].setTrack("../../sound/Shoot.wav", "Shoot");
 	AllTrack_[9].setTrack("../../sound/victory.wav", "victory");
+
+	AllMusic_.resize(3);
+
 }

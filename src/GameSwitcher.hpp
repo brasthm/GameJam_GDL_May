@@ -38,6 +38,7 @@ class GameSwitcher : public Screen
 
 		std::vector<Step> steps_;
 		int currentStep_ = 0;
+		int score_;
 };
 
 
