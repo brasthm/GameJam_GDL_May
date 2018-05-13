@@ -140,13 +140,13 @@ void SpaceInvaders::manageShip(const sf::Time& elapsedTime)
 
 void SpaceInvaders::manageGrids(const sf::Time & elapsedTime)
 {
-	if (500 <= (age_.asMilliseconds() % 1000) && (age_.asMilliseconds() % 1000) <= 1000)
-	{
-		gridCount_++;
-		if (gridCount_ >= grids_.size()) gridCount_ = 0;
-	}
+	//if (500 <= (age_.asMilliseconds() % 1000) && (age_.asMilliseconds() % 1000) <= 1000)
+	//{
+	//	gridCount_++;
+	//	if (gridCount_ >= grids_.size()) gridCount_ = 0;
+	//}
 
-	grids_[gridCount_].move({ gridSpeed_*elapsedTime.asSeconds(), 0 });
+	grids_[gridCount_].move({ gridSpeed_*elapsedTime.asSeconds()/10, 0 });
 
 	age_ += elapsedTime;
 }

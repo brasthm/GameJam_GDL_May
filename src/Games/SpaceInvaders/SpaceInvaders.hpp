@@ -71,8 +71,10 @@ public:
 			height_ += 2 * invader.getSprite().getGlobalBounds().height;
 		}
 
+
+		float offsetY = pillar_.empty() ? 0 : pillar_.back().getSprite().getGlobalBounds().height;
+		invader.setPosition({ 0,height_ + offsetY });
 		pillar_.push_back(invader);
-		invader.setPosition({ 0,height_ + pillar_.back().getSprite().getGlobalBounds().height });
 	}
 
 	void setPosition(const sf::Vector2f& pos)
@@ -122,8 +124,10 @@ public:
 		{
 			widht_ += 2 * pillar.getWidth();
 		}
-		grid_.push_back(pillar);
 
+		float offsetX = grid_.empty() ? 0 : grid_.back().getWidth();
+		pillar.setPosition({ widht_ + offsetX ,0 });
+		grid_.push_back(pillar);
 	}
 
 	void setPosition(const sf::Vector2f& pos)
