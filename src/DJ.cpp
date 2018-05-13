@@ -11,7 +11,7 @@ void Track::setTrack(std::string filepath, std::string name)
 	name_ = name;
 }
 
-DJ::DJ() 
+DJ::DJ(sf::Music& m) : music_(m)
 {
 	AllTrack_.resize(11);
 	AllTrack_[0].setTrack("../../sound/decompte1_2.wav", "decompte1_2");
@@ -24,4 +24,9 @@ DJ::DJ()
 	AllTrack_[7].setTrack("../../sound/Powerup.wav", "Powerup");
 	AllTrack_[8].setTrack("../../sound/Shoot.wav", "Shoot");
 	AllTrack_[9].setTrack("../../sound/victory.wav", "victory");
+	AllTrack_[10].setTrack("../../sound/Laser_Shoot.wav", "victory");
+
+	music_.openFromFile("../../music/Komiku_-_64_-_First_Dance.ogg");
+	music_.play();
+	music_.setLoop(true);
 }

@@ -6,11 +6,8 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(800, 600), "SFML works!");
 
-	DJ dj;
 	sf::Music music;
-	music.openFromFile("../../music/Komiku_-_64_-_First_Dance.ogg");
-	music.play();
-	music.setLoop(true);
+	DJ dj(music);
 
     std::unique_ptr<Screen> current_screen(new GameSwitcher(window, dj));
     while(current_screen)
