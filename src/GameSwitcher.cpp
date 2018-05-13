@@ -20,16 +20,47 @@ GameSwitcher::GameSwitcher(sf::RenderWindow & window, DJ& dj) : Screen{ window, 
 	countdownText_.emplace_back();
 	countdownText_.back().loadFromFile("../../img/ui/1.png");
 
+	speedUp_.loadFromFile("../../img/ui/speed_up.png");
+
 	progressBar_.setFillColor(sf::Color::White);
 	progressBar_.setPosition(0, 590);
 
-	gameDuration_ = 30.f;
+	steps_.emplace_back();
+	steps_.back().id = 0;
+	steps_.back().duration = sf::seconds(30.f);
+	steps_.back().gameDuration = sf::seconds(15.f);
+	steps_.back().timeMultiplier = 1.f;
+
+	steps_.emplace_back();
+	steps_.back().id = 1;
+	steps_.back().duration = sf::seconds(30.f);
+	steps_.back().gameDuration = sf::seconds(10.f);
+	steps_.back().timeMultiplier = 1.f;
+
+	steps_.emplace_back();
+	steps_.back().id = 2;
+	steps_.back().duration = sf::seconds(30.f);
+	steps_.back().gameDuration = sf::seconds(5.f);
+	steps_.back().timeMultiplier = 1.2f;
+
+	steps_.emplace_back();
+	steps_.back().id = 3;
+	steps_.back().duration = sf::seconds(15.f);
+	steps_.back().gameDuration = sf::seconds(3.f);
+	steps_.back().timeMultiplier = 1.5f;
+
+	steps_.emplace_back();
+	steps_.back().id = 4;
+	steps_.back().duration = sf::seconds(10.f);
+	steps_.back().gameDuration = sf::seconds(2.f);
+	steps_.back().timeMultiplier = 1.8f;
 }
 
 std::unique_ptr<Screen> GameSwitcher::execute()
 {
     sf::Clock frameClock;
     sf::Clock gameClock;
+	sf::Clock globalClock;
     
     bool continueGame = true;
     
@@ -45,10 +76,19 @@ std::unique_ptr<Screen> GameSwitcher::execute()
                 return std::move(*next);
         }
         
-        if(gameClock.getElapsedTime() > sf::seconds(gameDuration_) || !continueGame)
+        if(gameClock.getElapsedTime() > steps_[currentStep_].gameDuration || !continueGame)
         {
+			bool isSpeedUp = false;
+			if (globalClock.getElapsedTime() > steps_[currentStep_].duration)
+			{
+				currentStep_++;
+				if (currentStep_ >= steps_.size())
+					return std::unique_ptr<Screen>(nullptr);
+				globalClock.restart();
+				isSpeedUp = true;
+			}
 			//HACK désactivation temporaire
-            auto result = transition(randomGame(currentGame_));
+            auto result = transition(randomGame(currentGame_), isSpeedUp);
             if(result)
                 return std::move(*result);
             gameClock.restart();
@@ -65,7 +105,7 @@ std::unique_ptr<Screen> GameSwitcher::execute()
         {
             renderT_.clear();
 			computeUI(gameClock.getElapsedTime(), frameClock.getElapsedTime());
-            continueGame = currentGame_->computeFrame(frameClock.restart(), score_);
+            continueGame = currentGame_->computeFrame(frameClock.restart() * steps_[currentStep_].timeMultiplier, score_);
 			currentGame_->drawState(countdown_);
             renderT_.display();
             
@@ -103,11 +143,12 @@ std::unique_ptr<Game> GameSwitcher::randomGame(const std::unique_ptr<Game>& prev
     return ptr;
 }
 
-std::optional<std::unique_ptr<Screen>> GameSwitcher::transition(std::unique_ptr<Game> nextGame)
+std::optional<std::unique_ptr<Screen>> GameSwitcher::transition(std::unique_ptr<Game> nextGame, bool isSpeedUp)
 {
     sf::Time progression;
     sf::Time openTime = sf::milliseconds(250);
     sf::Time closeTime = sf::milliseconds(250);
+	sf::Time speedUpTime = isSpeedUp ? sf::milliseconds(500) : sf::milliseconds(0);
     
     sf::Clock frameClock;
     
@@ -145,8 +186,20 @@ std::optional<std::unique_ptr<Screen>> GameSwitcher::transition(std::unique_ptr<
             window_.draw(rectR);
             window_.display();
         }
-        else if(progression < closeTime+openTime) {
-            float ratio = (progression-closeTime).asSeconds() / openTime.asSeconds();
+		else if (progression < closeTime + speedUpTime)
+		{
+			sf::Sprite speedUp;
+			speedUp.setTexture(speedUp_);
+
+			speedUp.setOrigin(speedUp.getGlobalBounds().width / 2, speedUp.getGlobalBounds().height / 2);
+			speedUp.setPosition(400, 300);
+
+			window_.clear();
+			window_.draw(speedUp);
+			window_.display();
+		}
+        else if(progression < closeTime+openTime+speedUpTime) {
+            float ratio = (progression-closeTime- speedUpTime).asSeconds() / openTime.asSeconds();
             sf::Sprite lastGameScreen;
 			sf::Sprite blank;
             renderT_.clear();
@@ -185,28 +238,28 @@ void GameSwitcher::renderUI()
 
 void GameSwitcher::computeUI(sf::Time elapsed, sf::Time frame)
 {
-	if (animationTrigger_ == 1 && elapsed > sf::seconds(gameDuration_ - 1 * 0.5))
+	if (animationTrigger_ == 1 && elapsed > sf::seconds(steps_[currentStep_].gameDuration.asSeconds() - 1 * 0.5))
 	{
 		animationTrigger_ = 2;
 		countdown_.setTexture(countdownText_[2]);
 		countdown_.setColor({ 255, 255, 255, 255 });
 		countdown_.scale({ 1.f / countdown_.getScale().x, 1.f / countdown_.getScale().y });
 	}
-	else if (animationTrigger_ == 0 && elapsed > sf::seconds(gameDuration_ - 2 * 0.5))
+	else if (animationTrigger_ == 0 && elapsed > sf::seconds(steps_[currentStep_].gameDuration.asSeconds() - 2 * 0.5))
 	{
 		animationTrigger_ = 1;
 		countdown_.setTexture(countdownText_[1]);
 		countdown_.setColor({ 255, 255, 255, 255 });
 		countdown_.scale({ 1.f / countdown_.getScale().x, 1.f / countdown_.getScale().y });
 	}
-	else if (animationTrigger_ == -1 && elapsed > sf::seconds(gameDuration_ - 3 * 0.5))
+	else if (animationTrigger_ == -1 && elapsed > sf::seconds(steps_[currentStep_].gameDuration.asSeconds() - 3 * 0.5))
 	{
 		animationTrigger_ = 0;
 		countdown_.setTexture(countdownText_[0]);
 		countdown_.setColor({ 255, 255, 255, 255 });
 		countdown_.scale({ 1.f / countdown_.getScale().x, 1.f / countdown_.getScale().y });
 	}
-	else if (elapsed < sf::seconds(gameDuration_ - 3 * 0.5))
+	else if (elapsed < sf::seconds(steps_[currentStep_].gameDuration.asSeconds() - 3 * 0.5))
 	{
 		animationTrigger_ = -1;
 		countdown_.setColor({ 0, 0, 0, 0 });
@@ -219,7 +272,7 @@ void GameSwitcher::computeUI(sf::Time elapsed, sf::Time frame)
 		countdown_.setPosition((800 - countdown_.getGlobalBounds().width) / 2, (600 - countdown_.getGlobalBounds().height) / 2);
 	}
 
-	progressBar_.setSize({ 800.f * (1 - elapsed.asSeconds() / gameDuration_), 10 });
+	progressBar_.setSize({ 800.f * (1 - elapsed.asSeconds() / steps_[currentStep_].gameDuration.asSeconds()), 10 });
 	scoreUI_.setString("Score : " + std::to_string(score_));
 }
 

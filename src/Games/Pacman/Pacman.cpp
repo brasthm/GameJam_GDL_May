@@ -177,7 +177,7 @@ Pacman::Pacman(sf::RenderTarget & window, DJ& dj) : Game{ window , dj}
 	ghosts_.back().setTexture("../../img/pacman/red_ghost.png");
 	ghosts_.back().setTexture("../../img/pacman/rip_ghost.png");
 	ghosts_.back().updateMap(&map_);
-	ghosts_.back().setDelay(100000, 200, 200);
+	ghosts_.back().setDelay(100000, 400, 400);
 	ghosts_.back().setTileSize(40, 40);
 	ghosts_.back().setPosition(40 * gums_[n].x, 40 * gums_[n].y);
 
@@ -186,7 +186,7 @@ Pacman::Pacman(sf::RenderTarget & window, DJ& dj) : Game{ window , dj}
 	ghosts_.back().setTexture("../../img/pacman/orange_ghost.png");
 	ghosts_.back().setTexture("../../img/pacman/rip_ghost.png");
 	ghosts_.back().updateMap(&map_);
-	ghosts_.back().setDelay(100000, 200, 200);
+	ghosts_.back().setDelay(100000, 400, 400);
 	ghosts_.back().setTileSize(40, 40);
 	ghosts_.back().setPosition(40 * gums_[n].x, 40 * gums_[n].y);
 
@@ -195,7 +195,7 @@ Pacman::Pacman(sf::RenderTarget & window, DJ& dj) : Game{ window , dj}
 	ghosts_.back().setTexture("../../img/pacman/blue_ghost.png");
 	ghosts_.back().setTexture("../../img/pacman/rip_ghost.png");
 	ghosts_.back().updateMap(&map_);
-	ghosts_.back().setDelay(100000, 200, 200);
+	ghosts_.back().setDelay(100000, 400, 400);
 	ghosts_.back().setTileSize(40, 40);
 	ghosts_.back().setPosition(40 * gums_[n].x, 40 * gums_[n].y);
 
@@ -204,7 +204,7 @@ Pacman::Pacman(sf::RenderTarget & window, DJ& dj) : Game{ window , dj}
 	ghosts_.back().setTexture("../../img/pacman/pink_ghost.png");
 	ghosts_.back().setTexture("../../img/pacman/rip_ghost.png");
 	ghosts_.back().updateMap(&map_);
-	ghosts_.back().setDelay(100000, 200, 200);
+	ghosts_.back().setDelay(100000, 400, 400);
 	ghosts_.back().setTileSize(40, 40);
 	ghosts_.back().setPosition(40 * gums_[n].x, 40 * gums_[n].y);
 
@@ -277,11 +277,11 @@ bool Pacman::computeFrame(const sf::Time & elapsedTime, int& score)
 
 	ia();
 
-	pacman_.update();
+	pacman_.update(elapsedTime);
 
 	for (size_t i = 0; i < ghosts_.size(); i++)
 		if (ghostAlive_[i])
-			ghosts_[i].update();
+			ghosts_[i].update(elapsedTime);
 
 	if (pacman_.isOOB())
 	{

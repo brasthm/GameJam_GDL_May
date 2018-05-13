@@ -55,29 +55,38 @@ void DirectionalSprite::changeDirection(orientation_t dir)
 	sf::Vector2f pos = sprites_[current_].getPosition();
 	sf::Vector2f prevPos = sprites_[current_].getPrevPosition();
 	sf::Vector2f nextPos = sprites_[current_].getNextPosition();
-	sf::Clock clock = sprites_[current_].getClock();
+	sf::Time clock = sprites_[current_].getClock();
+
+	orientation_t direction = sprites_[current_].getDirection();
 
 	for (size_t i = 0; i < sprites_.size(); i++)
 	{
 		sprites_[i].setClcok(clock);
 		sprites_[i].setPos(pos.x, pos.y);
-		sprites_[i].changeDirection(dir);
+		sprites_[i].setDirection(direction, dir);
 		sprites_[i].setNextPosition(nextPos.x, nextPos.y);
 		sprites_[i].setPrevPosition(prevPos.x, prevPos.y);
 	}
 }
 
-void DirectionalSprite::update()
+void DirectionalSprite::update(sf::Time elapsed)
 {
-	current_ = sprites_[current_].update();
+	current_ = sprites_[current_].update(elapsed);
 
 	sf::Vector2f pos = sprites_[current_].getPosition();
 	sf::Vector2f prevPos = sprites_[current_].getPrevPosition();
 	sf::Vector2f nextPos = sprites_[current_].getNextPosition();
-	sf::Clock clock = sprites_[current_].getClock();
+	sf::Time clock = sprites_[current_].getClock();
+
+	orientation_t dir = sprites_[current_].getDirection();
+	orientation_t nDir = sprites_[current_].getNextDirection();
+	
 
 	for (size_t i = 0; i < sprites_.size(); i++)
 	{
+		sprites_[i].setDirection(dir, nDir);
+		if(i != current_)
+			sprites_[i].updateClock(elapsed);
 		sprites_[i].setClcok(clock);
 		sprites_[i].setPos(pos.x, pos.y);
 		sprites_[i].setNextPosition(nextPos.x, nextPos.y);
