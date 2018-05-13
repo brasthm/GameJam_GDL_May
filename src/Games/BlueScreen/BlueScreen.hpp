@@ -9,7 +9,7 @@ class BlueScreen : public Game
         explicit BlueScreen(sf::RenderTarget& window) : Game{window} {}
     
         bool computeFrame(const sf::Time& elapsedTime, int& score) override { return true; };
-        void drawState() const override;
+        void drawState(sf::Sprite &countdown) const;
 };
 
 

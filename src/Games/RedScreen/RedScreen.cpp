@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 
 
-void RedScreen::drawState() const
+void RedScreen::drawState(sf::Sprite &countdown) const
 {
     auto size = window_.getSize();
     sf::RectangleShape rect(window_.mapPixelToCoords({(int) size.x, (int)size.y}));

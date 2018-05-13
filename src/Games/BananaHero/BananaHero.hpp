@@ -11,7 +11,7 @@ class BananaHero : public Game
         explicit BananaHero(sf::RenderTarget& window);
     
         bool computeFrame(const sf::Time& elapsedTime, int& score) override;
-        void drawState() const override;
+        void drawState(sf::Sprite &countdown) const override;
         
         void generateBanana();
     

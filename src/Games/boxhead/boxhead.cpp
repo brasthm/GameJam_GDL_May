@@ -299,13 +299,15 @@ bool Boxhead::colliBullet()
 	return false;
 }
 
-void Boxhead::computeBullet(const sf::Time& elapsedTime)
+void Boxhead::computeBullet(const sf::Time& elapsedTime, int& score)
 {
 	for (size_t i = 0; i < bulletVect_.size(); i++)
 		bulletVect_[i].move(speedWeapon_, elapsedTime);
 
 	if (colliBullet())
-	{ }//mettre du score
+	{
+		score += 500;
+	}
 		
 }
 
@@ -341,7 +343,7 @@ char Boxhead::directZombie(sf::Sprite& zombie)
 	
 }
 
-void Boxhead::moveZombie(const sf::Time& elapsedTime)
+void Boxhead::moveZombie(const sf::Time& elapsedTime, int& score)
 {
 	sf::Vector2f delta;
 	static std::random_device rd;
@@ -444,7 +446,7 @@ void Boxhead::moveZombie(const sf::Time& elapsedTime)
 			break;
 
 		case 'C':
-			//player loose
+			score -= 100;
 			lose_ = true;
 				break;
 		default:
@@ -459,7 +461,7 @@ void Boxhead::moveZombie(const sf::Time& elapsedTime)
 void Boxhead::spawnZombie(const sf::Time& elapsedTime)
 {
 	spawnProgression_ += elapsedTime;
-	if (spawnProgression_ >= spawnRate_)
+	if ((spawnProgression_ >= spawnRate_)||(zombieVect_.size()==0))
 	{
 		genererZombie(5);
 		spawnProgression_ = sf::Time::Zero;
@@ -473,21 +475,22 @@ bool Boxhead::computeFrame(const sf::Time& elapsedTime, int& score)
     
 	movePlayer(elapsedTime);
 	shoot(elapsedTime, sens_);
-	computeBullet(elapsedTime);
-	moveZombie(elapsedTime);
+	computeBullet(elapsedTime, score);
+	moveZombie(elapsedTime, score);
 	spawnZombie(elapsedTime);
 	std::sort(zombieVect_.begin(), zombieVect_.end(), zombiecomparator());
 	
 	return true;
 }
 
-void Boxhead::drawState()const
+void Boxhead::drawState(sf::Sprite &countdown)const
 {
 	size_t i = 0;
 	auto size = window_.getSize();
 	sf::RectangleShape rect(window_.mapPixelToCoords({ (int)size.x, (int)size.y }));
 	rect.setFillColor(sf::Color(102,51,0,255));
 	window_.draw(rect);
+	window_.draw(countdown);
 	for (size_t i = 0; i < bloodVect_.size(); i++)
 		window_.draw(bloodVect_[i]);
 	for (size_t i = 0; i < 6; i++)

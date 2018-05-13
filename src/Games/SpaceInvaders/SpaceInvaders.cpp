@@ -287,13 +287,13 @@ bool SpaceInvaders::computeFrame(const sf::Time & elapsedTime, int& score)
 	manageShip(elapsedTime);
 	manageGrids(elapsedTime);
 	manageShoot(elapsedTime);
-
+	return true;
 	age_ += elapsedTime;
 
 	return true;
 }
 
-void SpaceInvaders::drawState() const
+void SpaceInvaders::drawState(sf::Sprite &countdown) const
 {
 	auto size = window_.getSize();
 	sf::RectangleShape rect(window_.mapPixelToCoords({ (int)size.x, (int)size.y }));

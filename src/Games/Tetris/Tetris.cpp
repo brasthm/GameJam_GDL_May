@@ -72,8 +72,6 @@ Tetris::Tetris(sf::RenderTarget& window) : Game(window)
 
 	T_.assign(sf::Color(153, 0, 153, 255), "../../img/tetris/T.png", 'T');
 
-	posx_ = 0;
-	//generer shape alea
 	selectShape();
 }
 
@@ -719,7 +717,7 @@ bool Tetris::computeFrame(const sf::Time& elapsedTime, int& score)
 	return true;
 }
 
-void Tetris::drawState()const
+void Tetris::drawState(sf::Sprite &countdown)const
 {
 	auto size = window_.getSize();
 	sf::RectangleShape rect(window_.mapPixelToCoords({ (int)size.x, (int)size.y }));

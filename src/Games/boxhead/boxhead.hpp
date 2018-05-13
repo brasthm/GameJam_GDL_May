@@ -39,7 +39,7 @@ private:
 	
 	sf::Time shootDelay_ = sf::milliseconds(200);
 	sf::Time shootProgression_;
-	sf::Time spawnRate_ = sf::seconds(10);
+	sf::Time spawnRate_ = sf::seconds(5);
 	sf::Time spawnProgression_;
 	sf::Time deltaRate_ = sf::milliseconds(100);
 	sf::Time delatProgression_;
@@ -60,13 +60,13 @@ private:
 public:
 	explicit Boxhead(sf::RenderTarget& window);
 	bool computeFrame(const sf::Time& elapsedTime, int& score) override;
-	void drawState() const override;
+	void drawState(sf::Sprite &countdown) const override;
 	void movePlayer(const sf::Time& elapsedTime);
 	bool colli(char, sf::Sprite&);
 	void shoot(const sf::Time& elapsedTime, char sens);
-	void computeBullet(const sf::Time& elapsedTime);
+	void computeBullet(const sf::Time& elapsedTime, int& score);
 	bool colliBullet();
-	void moveZombie(const sf::Time& elapsedTime);
+	void moveZombie(const sf::Time& elapsedTime, int& score);
 	char directZombie(sf::Sprite&);
 	void genererZombie(int);
 	void spawnZombie(const sf::Time& elapsedTime);
