@@ -28,9 +28,14 @@ DJ::DJ(sf::Music& m) : music_(m)
 	AllTrack_[12].setTrack("../../sound/piou8bits.wav", "piou");
 	AllTrack_[11].setTrack("../../sound/Laser_Shoot.wav", "victory");
 
-	AllTrack_[10].getSound().setVolume(25);
+	AllTrack_[10].getSound().setVolume(5);
 
 	music_.openFromFile("../../music/Komiku_-_64_-_First_Dance.ogg");
-	music_.play();
+	//HACK PG protection de mes oreilles
+	//music_.play();
 	music_.setLoop(true);
+
+	//HACK PG moins fort !
+	sf::Listener listener;
+	listener.setGlobalVolume(20);
 }
