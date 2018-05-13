@@ -31,12 +31,22 @@ DJ::DJ(sf::Music& m) : music_(m)
 	AllTrack_[10].getSound().setVolume(25);
 	AllTrack_[11].getSound().setVolume(50);
 
-	playForever();
+	playMusicForever();
 }
 
-void DJ::playForever() 
+void DJ::playMusicForever() 
 {
 	music_.openFromFile("../../music/Komiku_-_64_-_First_Dance.ogg");
 	music_.play();
 	music_.setLoop(true);
+}
+
+void DJ::play(size_t n, bool forced)
+{
+	if (forced)
+		AllTrack_[n].getSound().play();
+	else
+	{
+		if (AllTrack_[n].getSound().getStatus() != sf::Sound::Playing) AllTrack_[n].getSound().play();
+	}
 }
