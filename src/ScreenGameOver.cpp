@@ -77,7 +77,7 @@ std::unique_ptr<Screen> ScreenGameOver::execute()
 				emplacement->second = name;
 			}
 
-			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Return)
+			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Return && name.find_first_not_of(' ') != std::string::npos)
 				return std::unique_ptr<Screen>(new MainMenu(window_, dj_));
 		}
 
