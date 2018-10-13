@@ -59,6 +59,12 @@ void Sprite::setPosition(float deltaX, float deltaY)
 	nextPosition_ = position_;
 	setNextPosition();
 
+	if (auto_ && map_ != nullptr)
+	{
+		if (!map_->isBlank(nextPosition_.x + 20, nextPosition_.y + 20))
+			nextPosition_ = prevPosition_;
+	}
+
 	sprite_.setPosition(position_);
 }
 
