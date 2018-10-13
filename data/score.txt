@@ -1,4 +1,5 @@
 30000 aTom3333
 25000 brebis
 20000 Sganayon
-15000 Euphedias
+15000 Taupe
+10000 Euphedias
