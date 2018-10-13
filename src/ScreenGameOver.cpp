@@ -97,7 +97,7 @@ std::unique_ptr<Screen> ScreenGameOver::execute()
 		for (size_t i = 0; i < std::min((size_t)5,scores_.size()); i++)
 		{
 			playerName.setPosition(150, 380 + i * 40);
-			playerName.setString(std::to_string(i+1) + " - " + scores_[i].second);
+			playerName.setString(std::to_string(i + 1) + (i ? "" : " ") + " - " + scores_[i].second);
 			window_.draw(playerName);
 
 			playerName.setPosition(500, 380 + i * 40);
