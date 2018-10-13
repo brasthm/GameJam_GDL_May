@@ -2,6 +2,6 @@
 #define CONSTANTS_HPP
 
 // Path from the executable to the folder containing img/, font/, maps/ ...
-#define location "Ressources/"
+#define location "../../"
 
 #endif //CONSTANTS_HPP
