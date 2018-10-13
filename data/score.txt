@@ -1,6 +1,4 @@
-50000 aTom3333
+30000 aTom3333
 25000 brebis
-23770 hellow
-10000 sganayon
-5000 Taupe
-1000 Euphedias
+20000 Taupe
+15000 Euphedias
