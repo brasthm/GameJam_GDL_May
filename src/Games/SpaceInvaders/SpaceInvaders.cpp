@@ -5,7 +5,7 @@
 
 SpaceInvaders::SpaceInvaders(sf::RenderTarget& window, DJ& dj) : Game{ window , dj}
 {
-	textures_.resize(17);
+	textures_.resize(18);
 
 	//vaisseau
 	textures_[0].loadFromFile(location "img/SpaceInvaders/ship.png");
@@ -41,6 +41,8 @@ SpaceInvaders::SpaceInvaders(sf::RenderTarget& window, DJ& dj) : Game{ window , 
 
 	//TEXTURE du tir
 	textures_[16].loadFromFile(location "img/SpaceInvaders/shootA.png");
+
+	textures_[17].loadFromFile(location "img/SpaceInvaders/bg.png");
 
 	//Création du tir
 	shoot_ = Entity(&window, textures_[16]);
@@ -313,6 +315,10 @@ void SpaceInvaders::drawState(sf::Sprite &countdown) const
 	sf::RectangleShape rect(window_.mapPixelToCoords({ (int)size.x, (int)size.y }));
 	rect.setFillColor(sf::Color::Black);
 	window_.draw(rect);
+
+	sf::Sprite bg;
+	bg.setTexture(textures_[17]);
+	window_.draw(bg);
 
 	window_.draw(countdown);
 

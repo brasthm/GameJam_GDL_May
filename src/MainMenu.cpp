@@ -33,7 +33,8 @@ std::unique_ptr<Screen> MainMenu::execute()
 			if (next)
 				return std::move(*next);
 
-			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Return)
+			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Return ||
+				event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space)
 			{
 				if (isCredits_)
 				{

@@ -7,7 +7,12 @@ int score = 0;
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "10 seconds classsics");
+    sf::RenderWindow window(sf::VideoMode(800, 600), "10 seconds classics");
+	sf::Image icone;
+
+	icone.loadFromFile(location "img/pacman/apple.png");
+
+	window.setIcon(icone.getSize().x, icone.getSize().y, icone.getPixelsPtr());
 
 	sf::Music music;
 	DJ dj(music);

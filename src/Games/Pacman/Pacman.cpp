@@ -174,6 +174,7 @@ Pacman::Pacman(sf::RenderTarget & window, DJ& dj) : Game{ window , dj}
 
 	n = uniform(gen);
 	pacman_.setPosition(40 * gums_[n].x, 40 * gums_[n].y);
+	gums_.erase(gums_.begin() + n);
 
 	n = uniform(gen);
 	ghosts_.emplace_back();
