@@ -19,8 +19,11 @@ ScreenGameOver::ScreenGameOver(sf::RenderWindow& window, DJ& dj) : Screen{ windo
 	    std::string name;
 	    while(scoreFile >> s && std::getline(scoreFile, name))
         {
-			name = name.substr(name.find_first_not_of(' '));
-            scores_.emplace_back(s, name);
+			if (name.find_first_not_of(' ') != std::string::npos)
+			{
+				name = name.substr(name.find_first_not_of(' '));
+				scores_.emplace_back(s, name);
+			}
         }
 	}
 	
