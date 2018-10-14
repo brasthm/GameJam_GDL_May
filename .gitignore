@@ -270,5 +270,10 @@ cmake-build-debug
 CMakeLists.txt
 cmake_modules
 GDL_May/
+
+#visual de pierre
 visual/
 /GameJamGDL/GameJamGDL
+
+#les exe devraient être recompilées par chacun avant export
+*.exe
