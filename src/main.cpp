@@ -7,7 +7,7 @@ int score = 0;
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "10 seconds classics");
+    sf::RenderWindow window(sf::VideoMode(800, 600), "10 Seconds Classics");
 	sf::Image icone;
 
 	icone.loadFromFile(location "img/pacman/apple.png");
