@@ -2,6 +2,10 @@
 #define CONSTANTS_HPP
 
 // Path from the executable to the folder containing img/, font/, maps/ ...
-#define location "../../"
+#ifdef SFML_STATIC
+#define location "rc/"
+#else 
+#define location "../../rc/"
+#endif
 
 #endif //CONSTANTS_HPP
