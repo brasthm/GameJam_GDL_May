@@ -277,3 +277,5 @@ visual/
 
 #les exe devraient être recompilées par chacun avant export
 *.exe
+*.7z
+/rc/data/score - Copie.txt
