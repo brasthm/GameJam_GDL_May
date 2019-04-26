@@ -17,13 +17,6 @@ public:
 
     void addSprite(const sf::Texture& texture);
 
-    Entity& operator=(Entity const& entity)
-    {
-        sprites_ = entity.sprites_;
-        window_  = entity.window_;
-        return *this;
-    }
-
     std::vector<sf::Sprite> getSprites() const { return sprites_; }
     Team                    getTeam() const { return team_; }
     sf::FloatRect           getGlobalBounds() const { return sprites_.front().getGlobalBounds(); }
